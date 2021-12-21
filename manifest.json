@@ -1,0 +1,25 @@
+{
+  "name": "currency-selector",
+  "vendor": "vtex",
+  "version": "0.0.1",
+  "title": "Currency Selector",
+  "description": "Currency selector",
+  "credentialType": "absolute",
+  "mustUpdateAt": "2025-08-24",
+  "builders": {
+    "admin": "0.x",
+    "docs": "0.x",
+    "messages": "1.x",
+    "node": "6.x",
+    "react": "3.x",
+    "store": "0.x"
+  },
+  "billingOptions": {
+    "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
+    "support": {
+      "url": "https://support.vtex.com/hc/requests"
+    },
+    "type": "free",
+    "availableCountries": ["*"]
+  }
+}
