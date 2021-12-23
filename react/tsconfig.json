@@ -2,6 +2,8 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "node",
-    "target": "es2017"
+    "target": "es2017",
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true
   }
 }
