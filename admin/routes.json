@@ -1,0 +1,6 @@
+{
+  "admin.app.currency-selector": {
+    "component": "AdminPanel",
+    "path": "/admin/app/currency-selector"
+  }
+}
