@@ -1,43 +1,18 @@
 export const Category = {
-  locale: (
-    _root: ResolvedPromise<CategoryTranslationResponse>,
-    _args: unknown,
-    ctx: Context
-  ) => {
-    return ctx.state.locale
-  },
-  name: (root: ResolvedPromise<CategoryTranslationResponse>) =>
-    root.data.category.name,
-  title: (root: ResolvedPromise<CategoryTranslationResponse>) =>
-    root.data.category.title,
-  description: (root: ResolvedPromise<CategoryTranslationResponse>) =>
-    root.data.category.description,
-  id: (root: ResolvedPromise<CategoryTranslationResponse>) =>
-    root.data.category.id,
-  linkId: (root: ResolvedPromise<CategoryTranslationResponse>) =>
-    root.data.category.linkId,
+  id: (root: CategorySalesChannelResponse) => root.Id,
+  name: (root: CategorySalesChannelResponse) => root.Name,
+  currencyCode: (root: CategorySalesChannelResponse) => root.CurrencyCode,
+  currencySymbol: (root: CategorySalesChannelResponse) => root.CurrencySymbol,
 }
 
-const salesChannel = async (
-  _root: unknown,
-  args: { locale: string; active?: boolean },
-  ctx: Context
-) => {
+const salesChannel = async (_root: unknown, _: unknown, ctx: Context) => {
   const {
-    clients: { catalogGQL },
+    clients: { Catalog },
   } = ctx
 
-  // const salesChannel =
-  await catalogGQL.getSalesChannel(ctx)
+  const salesChannelResponse = await Catalog.getSalesChannel()
 
-  // console.log(`catalogGQL`,salesChannel)
-  const { active, locale } = args
-
-  if (active && locale) {
-    // console.log(` active, locale`, active, locale)
-  }
-
-  return []
+  return salesChannelResponse
 }
 
 export const queries = {

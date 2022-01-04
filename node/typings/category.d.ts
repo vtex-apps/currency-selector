@@ -7,14 +7,11 @@ interface CategoryResponse {
   }
 }
 
-interface CategoryTranslationResponse {
-  category: {
-    id: string
-    name: string
-    title: string
-    description: string
-    linkId: string
-  }
+interface CategorySalesChannelResponse {
+  Id: string
+  Name: string
+  CurrencyCode: string
+  CurrencySymbol: string
 }
 
 interface ResolvedPromise<Response> {

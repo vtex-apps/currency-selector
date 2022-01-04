@@ -1,9 +1,9 @@
 import { IOClients } from '@vtex/api'
 
-import { CatalogGQL } from './catalogGQL'
+import { Catalog } from './catalog'
 
 export class Clients extends IOClients {
-  public get catalogGQL() {
-    return this.getOrSet('Catalog', CatalogGQL)
+  public get Catalog() {
+    return this.getOrSet('Catalog', Catalog)
   }
 }

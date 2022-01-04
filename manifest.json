@@ -1,17 +1,13 @@
 {
-  "name": "admin-catalog-translation",
+  "name": "currency-selector",
   "vendor": "vtex",
-  "version": "1.3.1",
-  "title": "Catalog Translation",
-  "description": "",
-  "mustUpdateAt": "2022-08-28",
+  "version": "0.0.3",
+  "title": "Currency Selector",
+  "description": "Currency selector",
+  "credentialType": "absolute",
+  "mustUpdateAt": "2025-08-24",
   "scripts": {
     "postreleasy": "vtex publish"
-  },
-  "dependencies": {
-    "vtex.styleguide": "9.x",
-    "vtex.tenant-graphql": "0.x",
-    "vtex.catalog-graphql": "1.x"
   },
   "builders": {
     "docs": "0.x",
@@ -25,7 +21,7 @@
       "name": "outbound-access",
       "attrs": {
         "host": "portal.vtexcommercestable.com.br",
-        "path": "/api/*"
+        "path": "/api/catalog_system/pvt/saleschannel/list"
       }
     },
     {

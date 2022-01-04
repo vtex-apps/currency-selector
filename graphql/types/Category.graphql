@@ -1,10 +1,8 @@
 type Category {
-  id: String
+  id: String!
   name: String
-  title: String
-  description: String
-  linkId: String
-  locale: String
+  currencyCode: String
+  currencySymbol: String
 }
 
 type CategoryName {
