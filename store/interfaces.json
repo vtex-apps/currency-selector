@@ -1,0 +1,5 @@
+{
+  "currency-selector": {
+    "component": "CurrencySelectorBlock"
+  }
+}
