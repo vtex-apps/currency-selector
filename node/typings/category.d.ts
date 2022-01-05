@@ -3,4 +3,5 @@ interface SalesChannelResponse {
   Name: string
   CurrencyCode: string
   CurrencySymbol: string
+  IsActive: boolean
 }

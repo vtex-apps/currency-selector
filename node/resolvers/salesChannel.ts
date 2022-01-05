@@ -3,6 +3,7 @@ export const SalesChannel = {
   name: (root: SalesChannelResponse) => root.Name,
   currencyCode: (root: SalesChannelResponse) => root.CurrencyCode,
   currencySymbol: (root: SalesChannelResponse) => root.CurrencySymbol,
+  isActive: (root: SalesChannelResponse) => root.IsActive,
 }
 
 const salesChannel = async (_root: unknown, _: unknown, ctx: Context) => {
