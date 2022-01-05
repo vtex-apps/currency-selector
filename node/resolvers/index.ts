@@ -1,11 +1,11 @@
-import { Category, queries as categoryQueries } from './category'
+import { SalesChannel, queries as salesChannelQueries } from './salesChannel'
 
 export const queries = {
-  ...categoryQueries,
+  ...salesChannelQueries,
 }
 
 export const resolvers = {
-  Category,
+  SalesChannel,
 }
 
 export const mutations = {}

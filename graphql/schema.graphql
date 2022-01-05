@@ -1,5 +1,5 @@
 type Query {
-  salesChannel: [Category]
+  salesChannel: [SalesChannel]
   DoNotCall: Boolean
 }
 

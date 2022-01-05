@@ -1,11 +1,6 @@
-type Category {
+type SalesChannel {
   id: String!
   name: String
   currencyCode: String
   currencySymbol: String
-}
-
-type CategoryName {
-  id: String
-  name: String
 }

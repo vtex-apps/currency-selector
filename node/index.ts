@@ -7,9 +7,7 @@ import { resolvers, queries } from './resolvers'
 declare global {
   type Context = ServiceContext<Clients, State>
 
-  interface State extends RecorderState {
-    locale: string
-  }
+  type State = RecorderState
 }
 
 export default new Service<Clients, State, ParamsContext>({
@@ -28,9 +26,6 @@ export default new Service<Clients, State, ParamsContext>({
       Query: {
         ...queries,
       },
-      // Mutation: {
-      //   ...mutations,
-      // },
     },
   },
 })
