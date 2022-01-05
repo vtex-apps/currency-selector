@@ -4,6 +4,10 @@
     "moduleResolution": "node",
     "target": "es2017",
     "jsx": "preserve",
-    "allowSyntheticDefaultImports": true
-  }
+    "allowSyntheticDefaultImports": true,
+    "lib": ["es2017", "dom"],
+    "strict": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"]
 }

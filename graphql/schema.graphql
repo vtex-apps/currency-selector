@@ -1,0 +1,7 @@
+type Query {
+  DoNotCall: Boolean
+}
+
+type Mutation {
+  DoNotCall: Boolean
+}

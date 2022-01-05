@@ -1,7 +1,7 @@
 {
   "name": "currency-selector",
   "vendor": "vtex",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "title": "Currency Selector",
   "description": "Currency selector",
   "credentialType": "absolute",
@@ -11,7 +11,9 @@
     "docs": "0.x",
     "messages": "1.x",
     "react": "3.x",
-    "store": "0.x"
+    "store": "0.x",
+    "node": "6.x",
+    "graphql": "1.x"
   },
   "billingOptions": {
     "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
