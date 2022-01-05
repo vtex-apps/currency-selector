@@ -1,5 +1,8 @@
 {
   "currency-selector": {
-    "component": "CurrencySelectorBlock"
+    "component": "CurrencySelectorBlock",
+    "content": {
+      "$ref": "app:vtex.currency-selector#/definitions/CurrencySelectorBlock"
+    }
   }
 }

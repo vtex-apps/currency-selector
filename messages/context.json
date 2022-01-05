@@ -1,3 +1,5 @@
 {
-  "admin.currencySelector.title": "Currency Selector"
+  "admin/currency-selector.title": "Currency Selector",
+  "store/currency-selector.label-format.default": "{CurrencySymbol}",
+  "store/currency-selector.label-format.description": "Values available for interpolation: '{CurrencySymbol}, {CurrencyCode}, {customLabel}'"
 }

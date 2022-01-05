@@ -1,5 +1,5 @@
 {
   "section": "marketplace",
-  "titleId": "admin.currencySelector.title",
+  "titleId": "admin/currency-selector.title",
   "path": "/admim/currency-selector"
 }
