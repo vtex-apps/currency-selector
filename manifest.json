@@ -11,9 +11,10 @@
   },
   "builders": {
     "docs": "0.x",
-    "node": "6.x",
+    "messages": "1.x",
     "react": "3.x",
     "store": "0.x",
+    "node": "6.x",
     "graphql": "1.x"
   },
   "policies": [
@@ -28,5 +29,16 @@
       "name": "ADMIN_DS"
     }
   ],
+  "billingOptions": {
+    "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
+    "support": {
+      "url": "https://support.vtex.com/hc/requests"
+    },
+    "type": "free",
+    "availableCountries": ["*"]
+  },
+  "dependencies": {
+    "vtex.styleguide": "9.x"
+  },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }
