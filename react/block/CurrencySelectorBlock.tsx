@@ -1,8 +1,8 @@
 import React from 'react'
-import { IOMessageWithMarkers } from 'vtex.native-types'
 import { defineMessages } from 'react-intl'
 
 import { useCurrencySelector } from './hooks/useCurrencySelector'
+import CurrencySelectorDropdown from '../views/CurrencySelectorDropdown'
 
 const messages = defineMessages({
   title: { id: 'admin/currency-selector.title' },
@@ -23,28 +23,16 @@ const CurrencySelectorBlock = ({
 }: Props) => {
   const { currentSalesChannel, salesChannelList } = useCurrencySelector()
 
-  // eslint-disable-next-line no-console
-  console.log({ currentSalesChannel, salesChannelList, labelFormat })
-
   if (!currentSalesChannel) {
     return null
   }
 
-  const { CurrencyCode, CurrencySymbol, customLabel } = currentSalesChannel
-
   return (
-    <span>
-      <IOMessageWithMarkers
-        message={labelFormat}
-        markers={[]}
-        handleBase="currency-label"
-        values={{
-          CurrencySymbol: <span key="CurrencySymbol">{CurrencySymbol}</span>,
-          CurrencyCode: <span key="CurrencyCode">{CurrencyCode}</span>,
-          customLabel: <span key="customLabel">{customLabel}</span>,
-        }}
-      />
-    </span>
+    <CurrencySelectorDropdown
+      currentSalesChannel={currentSalesChannel}
+      labelFormat={labelFormat}
+      salesChannelList={salesChannelList}
+    />
   )
 }
 
