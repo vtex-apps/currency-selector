@@ -1,0 +1,3 @@
+interface EditSalesChannelInterface {
+  id?: number
+}

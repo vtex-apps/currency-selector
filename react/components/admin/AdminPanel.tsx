@@ -7,7 +7,7 @@ import { tenantInfo } from './tenants'
 
 const AdminPanel: FC = () => {
   const [tenant] = useState(tenantInfo)
-  const [settings, setSettings] = useState([])
+  const [settings, setSettings] = useState<any[]>([])
   const [isBindingBounded, setIsBindingBounded] = useState(true)
 
   const handleChangeBindingBounded = () => {
