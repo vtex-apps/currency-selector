@@ -11,11 +11,8 @@ export class Channel extends JanusClient {
     })
   }
 
-  public getSalesChannel = async () => {
-    const res = await this.http.get<SalesChannelResponse>(
+  public getSalesChannel = async () =>
+    this.http.get<SalesChannelResponse>(
       '/api/catalog_system/pvt/saleschannel/list'
     )
-
-    return res
-  }
 }
