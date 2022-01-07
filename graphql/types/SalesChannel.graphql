@@ -1,0 +1,7 @@
+type SalesChannel {
+  id: String!
+  name: String
+  currencyCode: String
+  currencySymbol: String
+  isActive: Boolean
+}
