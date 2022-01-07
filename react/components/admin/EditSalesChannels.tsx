@@ -5,7 +5,7 @@ import { Button, Divider, Input, Dropdown } from 'vtex.styleguide'
 import { salesChannelList } from './salesChannelList'
 
 interface Options {
-  value: number
+  value: string
   label: string
 }
 
@@ -20,14 +20,14 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({ id }) => {
       .map(({ Id, Name, CurrencyCode, CurrencySymbol }) => {
         if (id === Number(Id)) {
           return {
-            value: Id,
-            label: `${Name} ${CurrencyCode} ${CurrencySymbol} (default)`,
+            value: String(Id),
+            label: `${Name} - ${CurrencyCode} - ${CurrencySymbol} - (default)`,
           }
         }
 
         return {
-          value: Id,
-          label: `${Name} ${CurrencyCode} ${CurrencySymbol}`,
+          value: String(Id),
+          label: `${Name} - ${CurrencyCode} - ${CurrencySymbol}`,
         }
       })
 
@@ -62,9 +62,13 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({ id }) => {
       { Id, Name, CurrencyCode, CurrencySymbol },
     ])
 
-    const removeOption = options.filter(el => el.value !== Number(selected))
+    const removeOption = options.filter(
+      el => Number(el.value) !== Number(selected)
+    )
 
     setOptions(removeOption)
+
+    setSelected('')
   }
 
   return (
@@ -72,9 +76,10 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({ id }) => {
       <div className="mb5 flex items-center">
         <div className="mr5 w-80">
           <Dropdown
-            placeholder={selected || 'Add a sales channel'}
+            placeholder={'Add a sales channel'}
             options={options}
             onChange={handleSelected}
+            value={selected}
           />
         </div>
         <div className="w-20">
@@ -97,11 +102,6 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({ id }) => {
               <div className="w-60 flex items-end">
                 <div className="w-60 mr5">
                   <Input label="Custom label" />
-                </div>
-                <div className="w-20">
-                  <Button className="w-60" block>
-                    Add
-                  </Button>
                 </div>
               </div>
             </div>
