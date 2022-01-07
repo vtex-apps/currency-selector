@@ -1,9 +1,16 @@
 import type { FC } from 'react'
 import { useState, Fragment } from 'react'
-import { Button, Collapsible, Divider, Input, Modal } from 'vtex.styleguide'
+import {
+  Button,
+  Collapsible,
+  Divider,
+  Input,
+  ModalDialog,
+} from 'vtex.styleguide'
 
 import { EditSalesChannel } from './EditSalesChannels'
 import { salesChannelList } from './salesChannelList'
+import { createDropdownList } from './utils/createDropdownList'
 
 const BindingInfo: FC<BindingInformation> = ({
   bindingId,
@@ -12,10 +19,12 @@ const BindingInfo: FC<BindingInformation> = ({
 }) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [salesChannelAdded, setSalesChannelAdded] = useState<SalesChannel[]>([])
+
   const [{ salesChannel }] = salesChannelInfo
   const [{ customLabel }] = salesChannelInfo
 
-  const { CurrencySymbol, CurrencyCode, Id } =
+  const { CurrencySymbol, CurrencyCode } =
     salesChannelList.find(
       item => item.Id === salesChannelInfo[0].salesChannel
     ) ?? {}
@@ -23,6 +32,20 @@ const BindingInfo: FC<BindingInformation> = ({
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen)
   }
+
+  const handleAddSalesChannel = (selectedSalesChanel: SalesChannel) => {
+    setSalesChannelAdded([...salesChannelAdded, selectedSalesChanel])
+  }
+
+  // const handleSave = (salesChannelState: SalesChannel[]): void => {
+  //   console.log({ salesChannelState })
+  // }
+
+  const dropdownOptions = createDropdownList(
+    salesChannelList,
+    salesChannelAdded,
+    salesChannel
+  )
 
   return (
     <Fragment>
@@ -73,10 +96,21 @@ const BindingInfo: FC<BindingInformation> = ({
           </Collapsible>
         </div>
       </div>
-      <Modal centered isOpen={isModalOpen} onClose={handleModalToggle}>
+      <ModalDialog
+        centered
+        isOpen={isModalOpen}
+        onClose={handleModalToggle}
+        // eslint-disable-next-line no-console
+        confirmation={{ label: 'Save', onClick: () => console.log('save') }}
+        cancelation={{ label: 'Cancel', onClick: handleModalToggle }}
+      >
         <h2>Available Sales Channels</h2>
-        <EditSalesChannel id={Id} />
-      </Modal>
+        <EditSalesChannel
+          dropdownOptions={dropdownOptions}
+          onSalesChannelAdded={handleAddSalesChannel}
+          addedSalesChannel={salesChannelAdded}
+        />
+      </ModalDialog>
     </Fragment>
   )
 }

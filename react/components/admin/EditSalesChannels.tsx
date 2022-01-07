@@ -1,44 +1,21 @@
 import type { FC } from 'react'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Button, Divider, Input, Dropdown } from 'vtex.styleguide'
 
 import { salesChannelList } from './salesChannelList'
 
-interface Options {
-  value: string
-  label: string
+interface EditSalesChannelInterface {
+  dropdownOptions: DropdownOptions[]
+  onSalesChannelAdded: (salesChannel: SalesChannel) => void
+  addedSalesChannel: SalesChannel[]
 }
 
-const EditSalesChannel: FC<EditSalesChannelInterface> = ({ id }) => {
-  const [options, setOptions] = useState<Options[]>([])
+const EditSalesChannel: FC<EditSalesChannelInterface> = ({
+  dropdownOptions,
+  onSalesChannelAdded,
+  addedSalesChannel,
+}) => {
   const [selected, setSelected] = useState<string>('')
-  const [salesChannels, setSalesChannels] = useState<SalesChannel[]>([])
-
-  useEffect(() => {
-    const activesSalesChannel = salesChannelList
-      .filter(salesChannel => salesChannel.IsActive)
-      .map(({ Id, Name, CurrencyCode, CurrencySymbol }) => {
-        if (id === Number(Id)) {
-          return {
-            value: String(Id),
-            label: `${Name} - ${CurrencyCode} - ${CurrencySymbol} - (default)`,
-          }
-        }
-
-        return {
-          value: String(Id),
-          label: `${Name} - ${CurrencyCode} - ${CurrencySymbol}`,
-        }
-      })
-
-    const sortedByDefault = activesSalesChannel.sort(obj1 => {
-      const isDefault = obj1.label.includes('default')
-
-      return isDefault ? -1 : 1
-    })
-
-    setOptions(sortedByDefault)
-  }, [])
 
   const handleSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget
@@ -55,18 +32,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({ id }) => {
       return
     }
 
-    const { Id, Name, CurrencyCode, CurrencySymbol } = salesChannelSelected
-
-    setSalesChannels([
-      ...salesChannels,
-      { Id, Name, CurrencyCode, CurrencySymbol },
-    ])
-
-    const removeOption = options.filter(
-      el => Number(el.value) !== Number(selected)
-    )
-
-    setOptions(removeOption)
+    onSalesChannelAdded(salesChannelSelected)
 
     setSelected('')
   }
@@ -77,7 +43,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({ id }) => {
         <div className="mr5 w-80">
           <Dropdown
             placeholder={'Add a sales channel'}
-            options={options}
+            options={dropdownOptions}
             onChange={handleSelected}
             value={selected}
           />
@@ -88,7 +54,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({ id }) => {
           </Button>
         </div>
       </div>
-      {salesChannels.map(({ Id, Name, CurrencyCode, CurrencySymbol }) => {
+      {addedSalesChannel.map(({ Id, Name, CurrencyCode, CurrencySymbol }) => {
         return (
           <Fragment>
             <Divider />
