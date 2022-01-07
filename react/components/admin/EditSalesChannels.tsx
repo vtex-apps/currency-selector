@@ -6,14 +6,16 @@ import { salesChannelList } from './salesChannelList'
 
 interface EditSalesChannelInterface {
   dropdownOptions: DropdownOptions[]
-  onSalesChannelAdded: (salesChannel: SalesChannel) => void
-  addedSalesChannel: SalesChannel[]
+  onSalesChannelAdded: (salesChannel: SalesChannelBlock) => void
+  addedSalesChannel: SalesChannelBlock[]
+  onLabelChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const EditSalesChannel: FC<EditSalesChannelInterface> = ({
   dropdownOptions,
   onSalesChannelAdded,
   addedSalesChannel,
+  onLabelChange,
 }) => {
   const [selected, setSelected] = useState<string>('')
 
@@ -54,26 +56,33 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
           </Button>
         </div>
       </div>
-      {addedSalesChannel.map(({ Id, Name, CurrencyCode, CurrencySymbol }) => {
-        return (
-          <Fragment>
-            <Divider />
-            <div className="flex items-center">
-              <div className="w-40 mr5">
-                <p>Sales Channel: {Id}</p>
-                <p>Name: {Name}</p>
-                <p>Currency Code: {CurrencyCode}</p>
-                <p>Currency Symbol: {CurrencySymbol}</p>
-              </div>
-              <div className="w-60 flex items-end">
-                <div className="w-60 mr5">
-                  <Input label="Custom label" />
+      {addedSalesChannel.map(
+        ({ Id, Name, CurrencyCode, CurrencySymbol, customLabel }) => {
+          return (
+            <Fragment key={Id}>
+              <Divider />
+              <div className="flex items-center">
+                <div className="w-40 mr5">
+                  <p>Sales Channel: {Id}</p>
+                  <p>Name: {Name}</p>
+                  <p>Currency Code: {CurrencyCode}</p>
+                  <p>Currency Symbol: {CurrencySymbol}</p>
+                </div>
+                <div className="w-60 flex items-end">
+                  <div className="w-60 mr5">
+                    <Input
+                      label="Custom label"
+                      value={customLabel ?? ''}
+                      onChange={onLabelChange}
+                      name={Id}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </Fragment>
-        )
-      })}
+            </Fragment>
+          )
+        }
+      )}
     </div>
   )
 }

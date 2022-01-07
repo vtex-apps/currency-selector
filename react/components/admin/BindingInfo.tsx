@@ -4,7 +4,7 @@ import {
   Button,
   Collapsible,
   Divider,
-  Input,
+  // Input,
   ModalDialog,
 } from 'vtex.styleguide'
 
@@ -19,12 +19,14 @@ const BindingInfo: FC<BindingInformation> = ({
 }) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [salesChannelAdded, setSalesChannelAdded] = useState<SalesChannel[]>([])
+  const [salesChannelAdded, setSalesChannelAdded] = useState<
+    SalesChannelBlock[]
+  >([])
 
   const [{ salesChannel }] = salesChannelInfo
-  const [{ customLabel }] = salesChannelInfo
+  // const [{ customLabel }] = salesChannelInfo
 
-  const { CurrencySymbol, CurrencyCode } =
+  const { CurrencySymbol /** CurrencyCode */ } =
     salesChannelList.find(
       item => item.Id === salesChannelInfo[0].salesChannel
     ) ?? {}
@@ -33,13 +35,43 @@ const BindingInfo: FC<BindingInformation> = ({
     setIsModalOpen(!isModalOpen)
   }
 
-  const handleAddSalesChannel = (selectedSalesChanel: SalesChannel) => {
+  const handleAddSalesChannel = (selectedSalesChanel: SalesChannelBlock) => {
     setSalesChannelAdded([...salesChannelAdded, selectedSalesChanel])
   }
 
-  // const handleSave = (salesChannelState: SalesChannel[]): void => {
-  //   console.log({ salesChannelState })
-  // }
+  const handleSave = (): void => {
+    const salesChannelAdmin = salesChannelAdded.map(({ Id, customLabel }) => ({
+      salesChannel: Id,
+      customLabel,
+    }))
+
+    // eslint-disable-next-line no-console
+    console.log({
+      bindingId,
+      salesChannel: salesChannelAdmin,
+    })
+  }
+
+  const handleCustomLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value, name } = e.currentTarget
+    const salesChannelToChange = salesChannelAdded.find(
+      ({ Id }) => Id.toString() === name
+    )
+
+    if (!salesChannelToChange) {
+      return
+    }
+
+    const salesChannelNewCustomLabel = {
+      ...salesChannelToChange,
+      customLabel: value,
+    }
+
+    setSalesChannelAdded([
+      ...salesChannelAdded.filter(({ Id }) => Id.toString() !== name),
+      salesChannelNewCustomLabel,
+    ])
+  }
 
   const dropdownOptions = createDropdownList(
     salesChannelList,
@@ -72,7 +104,7 @@ const BindingInfo: FC<BindingInformation> = ({
             isOpen={isCollapsibleOpen}
             caretColor="primary"
           >
-            {!salesChannelInfo.length ? (
+            {/* {!salesChannelInfo.length ? (
               <div className="flex mv5">
                 <div className="w-30 mr5">
                   <Input label="Sales channel" value={salesChannel} />
@@ -84,7 +116,7 @@ const BindingInfo: FC<BindingInformation> = ({
                   <Input label="Custom label" value={customLabel} />
                 </div>
               </div>
-            ) : null}
+            ) : null} */}
             <Button
               variation="tertiary"
               size="small"
@@ -101,7 +133,7 @@ const BindingInfo: FC<BindingInformation> = ({
         isOpen={isModalOpen}
         onClose={handleModalToggle}
         // eslint-disable-next-line no-console
-        confirmation={{ label: 'Save', onClick: () => console.log('save') }}
+        confirmation={{ label: 'Save', onClick: handleSave }}
         cancelation={{ label: 'Cancel', onClick: handleModalToggle }}
       >
         <h2>Available Sales Channels</h2>
@@ -109,6 +141,7 @@ const BindingInfo: FC<BindingInformation> = ({
           dropdownOptions={dropdownOptions}
           onSalesChannelAdded={handleAddSalesChannel}
           addedSalesChannel={salesChannelAdded}
+          onLabelChange={handleCustomLabel}
         />
       </ModalDialog>
     </Fragment>
