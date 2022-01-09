@@ -4,6 +4,7 @@ interface BindingInformation {
   bindingId: string
   canonicalBaseAddress: string
   salesChannelInfo: SalesChannelInfo[]
+  salesChannelList: SalesChannel[]
 }
 
 interface SalesChannelInfo {

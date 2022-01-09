@@ -2,13 +2,14 @@ import type { FC } from 'react'
 import { Fragment, useState } from 'react'
 import { Button, Divider, Input, Dropdown } from 'vtex.styleguide'
 
-import { salesChannelList } from './salesChannelList'
+// import { salesChannelList } from './salesChannelList'
 
 interface EditSalesChannelInterface {
   dropdownOptions: DropdownOptions[]
   onSalesChannelAdded: (salesChannel: SalesChannelBlock) => void
   addedSalesChannel: SalesChannelBlock[]
   onLabelChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  salesChannelList: SalesChannel[]
 }
 
 const EditSalesChannel: FC<EditSalesChannelInterface> = ({
@@ -16,6 +17,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
   onSalesChannelAdded,
   addedSalesChannel,
   onLabelChange,
+  salesChannelList,
 }) => {
   const [selected, setSelected] = useState<string>('')
 
@@ -27,7 +29,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
 
   const addSelectedChannel = (): void => {
     const salesChannelSelected = salesChannelList.find(
-      obj => obj.Id === Number(selected)
+      obj => Number(obj.id) === Number(selected)
     )
 
     if (!salesChannelSelected) {
@@ -57,16 +59,16 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
         </div>
       </div>
       {addedSalesChannel.map(
-        ({ Id, Name, CurrencyCode, CurrencySymbol, customLabel }) => {
+        ({ id, name, currencyCode, currencySymbol, customLabel }) => {
           return (
-            <Fragment key={Id}>
+            <Fragment key={id}>
               <Divider />
               <div className="flex items-center">
                 <div className="w-40 mr5">
-                  <p>Sales Channel: {Id}</p>
-                  <p>Name: {Name}</p>
-                  <p>Currency Code: {CurrencyCode}</p>
-                  <p>Currency Symbol: {CurrencySymbol}</p>
+                  <p>Sales Channel: {id}</p>
+                  <p>Name: {name}</p>
+                  <p>Currency Code: {currencyCode}</p>
+                  <p>Currency Symbol: {currencySymbol}</p>
                 </div>
                 <div className="w-60 flex items-end">
                   <div className="w-60 mr5">
@@ -74,7 +76,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
                       label="Custom label"
                       value={customLabel ?? ''}
                       onChange={onLabelChange}
-                      name={Id}
+                      name={id}
                     />
                   </div>
                 </div>

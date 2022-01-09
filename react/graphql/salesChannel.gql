@@ -1,0 +1,9 @@
+query salesChannel {
+  salesChannel {
+    id
+    name
+    currencyCode
+    currencySymbol
+    isActive
+  }
+}

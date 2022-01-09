@@ -19,19 +19,19 @@ export const createDropdownList = (
   defaultSalesChannel: number
 ): DropdownOptions[] => {
   const activeSalesChannel = availableSalesChannel.filter(
-    salesChannel => salesChannel.IsActive
+    salesChannel => salesChannel.isActive
   )
 
   const salesChannelNotSelected = activeSalesChannel.filter(
-    ({ Id }) =>
-      !selectedSalesChannel.some(({ Id: selectedId }) => selectedId === Id)
+    ({ id }) =>
+      !selectedSalesChannel.some(({ id: selectedId }) => selectedId === id)
   )
 
   const dropdownOptions = salesChannelNotSelected.map(
-    ({ Id, Name, CurrencyCode, CurrencySymbol }) => ({
-      value: Id.toString(),
-      label: `${Name} - ${CurrencyCode} - ${CurrencySymbol}${
-        Id === defaultSalesChannel ? ' - Default' : ''
+    ({ id, name, currencyCode, currencySymbol }) => ({
+      value: id.toString(),
+      label: `${name} - ${currencyCode} - ${currencySymbol}${
+        id === defaultSalesChannel ? ' - Default' : ''
       }`,
     })
   )

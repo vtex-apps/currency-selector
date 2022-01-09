@@ -9,13 +9,14 @@ import {
 } from 'vtex.styleguide'
 
 import { EditSalesChannel } from './EditSalesChannels'
-import { salesChannelList } from './salesChannelList'
+// import { salesChannelList } from './salesChannelList'
 import { createDropdownList } from './utils/createDropdownList'
 
 const BindingInfo: FC<BindingInformation> = ({
   bindingId,
   canonicalBaseAddress,
   salesChannelInfo,
+  salesChannelList,
 }) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -26,9 +27,9 @@ const BindingInfo: FC<BindingInformation> = ({
   const [{ salesChannel }] = salesChannelInfo
   // const [{ customLabel }] = salesChannelInfo
 
-  const { CurrencySymbol /** CurrencyCode */ } =
+  const { currencySymbol /** currencyCode */ } =
     salesChannelList.find(
-      item => item.Id === salesChannelInfo[0].salesChannel
+      item => item.id === salesChannelInfo[0].salesChannel
     ) ?? {}
 
   const handleModalToggle = () => {
@@ -36,12 +37,14 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const handleAddSalesChannel = (selectedSalesChanel: SalesChannelBlock) => {
-    setSalesChannelAdded([...salesChannelAdded, selectedSalesChanel])
+    setSalesChannelAdded(
+      [...salesChannelAdded, selectedSalesChanel].sort((a, b) => a.id - b.id)
+    )
   }
 
   const handleSave = (): void => {
-    const salesChannelAdmin = salesChannelAdded.map(({ Id, customLabel }) => ({
-      salesChannel: Id,
+    const salesChannelAdmin = salesChannelAdded.map(({ id, customLabel }) => ({
+      salesChannel: id,
       customLabel,
     }))
 
@@ -55,7 +58,7 @@ const BindingInfo: FC<BindingInformation> = ({
   const handleCustomLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = e.currentTarget
     const salesChannelToChange = salesChannelAdded.find(
-      ({ Id }) => Id.toString() === name
+      ({ id }) => id.toString() === name
     )
 
     if (!salesChannelToChange) {
@@ -67,10 +70,12 @@ const BindingInfo: FC<BindingInformation> = ({
       customLabel: value,
     }
 
-    setSalesChannelAdded([
-      ...salesChannelAdded.filter(({ Id }) => Id.toString() !== name),
-      salesChannelNewCustomLabel,
-    ])
+    setSalesChannelAdded(
+      [
+        ...salesChannelAdded.filter(({ id }) => id.toString() !== name),
+        salesChannelNewCustomLabel,
+      ].sort((a, b) => a.id - b.id)
+    )
   }
 
   const dropdownOptions = createDropdownList(
@@ -85,7 +90,7 @@ const BindingInfo: FC<BindingInformation> = ({
       <div className="flex flex-column mv2">
         <div className="flex items-center mv2">
           <div className="w-10 c-muted-1 pa4 mr6 ba br2 b--light-gray tc">
-            {CurrencySymbol}
+            {currencySymbol}
           </div>
           <div className="w-90">
             <p>
@@ -142,6 +147,7 @@ const BindingInfo: FC<BindingInformation> = ({
           onSalesChannelAdded={handleAddSalesChannel}
           addedSalesChannel={salesChannelAdded}
           onLabelChange={handleCustomLabel}
+          salesChannelList={salesChannelList}
         />
       </ModalDialog>
     </Fragment>
