@@ -4,7 +4,7 @@ export const salesChannelInfo = () => ({
       Id: 1,
       Name: 'España B2C',
       IsActive: true,
-      CurrencyCode: 'EUR',
+      CurrencyCode: 'EUR - ESP',
       CurrencySymbol: '€',
     },
     {
@@ -18,7 +18,7 @@ export const salesChannelInfo = () => ({
       Id: 3,
       Name: 'Global',
       IsActive: true,
-      CurrencyCode: 'EUR',
+      CurrencyCode: 'EUR - GB',
       CurrencySymbol: '€',
     },
     {
@@ -32,7 +32,7 @@ export const salesChannelInfo = () => ({
       Id: 5,
       Name: 'Portugal',
       IsActive: true,
-      CurrencyCode: 'EUR',
+      CurrencyCode: 'EUR - PT',
       CurrencySymbol: '€',
     },
     {
@@ -65,6 +65,12 @@ export const currencySelectorAdmin = () => ({
       bindingId: '7cf38d3b-efa0-4d47-8201-d8b58cd4d3fd',
       salesChannelInfo: [
         {
+          salesChannel: 1,
+        },
+        {
+          salesChannel: 3,
+        },
+        {
           salesChannel: 5,
         },
       ],
@@ -93,6 +99,9 @@ export const currencySelectorAdmin = () => ({
         },
         {
           salesChannel: 3,
+        },
+        {
+          salesChannel: 5,
         },
       ],
     },

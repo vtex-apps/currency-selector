@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useCssHandles } from 'vtex.css-handles'
 
 import CustomLabel from '../block/CustomLabel'
+import Spinner from '../block/Spinner'
 
 const CSS_HANDLES = [
   'list',
@@ -16,12 +17,16 @@ interface Props {
   currentSalesChannel: SalesChannelBlock
   labelFormat: string
   salesChannelList: SalesChannelBlock[]
+  onSalesChannelSelection: (salesChannel: string, callBack?: () => void) => void
+  isLoading: boolean
 }
 
 const CurrencySelectorDropdown = ({
   currentSalesChannel,
   labelFormat,
   salesChannelList,
+  onSalesChannelSelection,
+  isLoading,
 }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const { handles, withModifiers } = useCssHandles(CSS_HANDLES)
@@ -46,9 +51,9 @@ const CurrencySelectorDropdown = ({
   }
 
   const handleSelection = (salesChannel: SalesChannelBlock) => {
-    // eslint-disable-next-line no-console
-    console.log(salesChannel)
-    setIsOpen(false)
+    const closeModal = () => setIsOpen(false)
+
+    onSalesChannelSelection(salesChannel.Id.toString(), closeModal)
   }
 
   const containerClasses = withModifiers('container', [isOpen ? 'active' : ''])
@@ -61,42 +66,52 @@ const CurrencySelectorDropdown = ({
         ref={relativeContainerRef}
         className={`${handles.relativeContainer}`}
       >
-        <>
-          <button
-            type="button"
-            className={`link bg-transparent bn pointer c-on-base ${handles.button}`}
-            onClick={handleClick}
-          >
-            <span className={`${handles.buttonText}`}>
-              <CustomLabel {...currentSalesChannel} labelFormat={labelFormat} />
-            </span>
-          </button>
-          <ul
-            hidden={!isOpen}
-            className={`absolute z-9999 list ph0 w-100 ${handles.list}`}
-          >
-            {salesChannelList
-              .filter(
-                salesChannel => salesChannel.Id !== currentSalesChannel.Id
-              )
-              .map(salesChannel => (
-                <li
-                  key={salesChannel.Id}
-                  className={`t-action--small pointer hover-bg-muted-5 tc ${handles.listElement}`}
-                >
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    onMouseDown={e => e.preventDefault()}
-                    onClick={() => handleSelection(salesChannel)}
-                    onKeyDown={() => handleSelection(salesChannel)}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            <button
+              type="button"
+              className={`link bg-transparent bn pointer c-on-base ${handles.button}`}
+              onClick={handleClick}
+            >
+              <span className={`${handles.buttonText}`}>
+                <CustomLabel
+                  {...currentSalesChannel}
+                  labelFormat={labelFormat}
+                />
+              </span>
+            </button>
+            <ul
+              hidden={!isOpen}
+              className={`absolute z-9999 list ph0 w-100 ${handles.list}`}
+            >
+              {salesChannelList
+                .filter(
+                  salesChannel => salesChannel.Id !== currentSalesChannel.Id
+                )
+                .map(salesChannel => (
+                  <li
+                    key={salesChannel.Id}
+                    className={`t-action--small pointer hover-bg-muted-5 tc ${handles.listElement}`}
                   >
-                    <CustomLabel {...salesChannel} labelFormat={labelFormat} />
-                  </div>
-                </li>
-              ))}
-          </ul>
-        </>
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onMouseDown={e => e.preventDefault()}
+                      onClick={() => handleSelection(salesChannel)}
+                      onKeyDown={() => handleSelection(salesChannel)}
+                    >
+                      <CustomLabel
+                        {...salesChannel}
+                        labelFormat={labelFormat}
+                      />
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          </>
+        )}
       </div>
     </div>
   )
