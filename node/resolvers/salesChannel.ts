@@ -27,9 +27,22 @@ const updateSalesChannelInfo = async (
   const args = { bindingId, salesChannelInfo }
   const { vbase } = clients
 
-  await vbase.saveJSON(BUCKET, CONFIG_PATH, {
-    ...args,
-  })
+  const getSalesChannelInfo = await vbase.getJSON<
+    CurrencySelectorConfig[] | null
+  >(BUCKET, CONFIG_PATH, true)
+
+  if (!getSalesChannelInfo) {
+    await vbase.saveJSON(BUCKET, CONFIG_PATH, [{ ...args }])
+
+    return args
+  }
+
+  await vbase.saveJSON(BUCKET, CONFIG_PATH, [
+    ...getSalesChannelInfo,
+    {
+      ...args,
+    },
+  ])
 
   return args
 }
@@ -42,12 +55,11 @@ const SCSwitcherConfiguration = async (
   const { clients } = ctx
   const { vbase } = clients
 
-  const savedSalesChannelInfo =
-    await vbase.getJSON<CurrencySelectorConfig | null>(
-      BUCKET,
-      CONFIG_PATH,
-      true
-    )
+  const savedSalesChannelInfo = await vbase.getJSON<
+    CurrencySelectorConfig[] | null
+  >(BUCKET, CONFIG_PATH, true)
+
+  if (!savedSalesChannelInfo) return []
 
   return savedSalesChannelInfo
 }
