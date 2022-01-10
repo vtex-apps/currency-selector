@@ -129,7 +129,7 @@ const BindingInfo: FC<BindingInformation> = ({
                           disabled
                         />
                       </div>
-                      <div className="w-30 mr5">
+                      <div className="w-30 mr8">
                         <Input label="Custom label" value="customLabel" />
                       </div>
                       <div className="w-10 flex items-end mb2">
