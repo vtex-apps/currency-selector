@@ -20,6 +20,7 @@ const BindingInfo: FC<BindingInformation> = ({
 }) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [salesChannelAdded, setSalesChannelAdded] = useState<
     SalesChannelBlock[]
   >([])
@@ -27,7 +28,7 @@ const BindingInfo: FC<BindingInformation> = ({
   const [{ salesChannel }] = salesChannelInfo
   // const [{ customLabel }] = salesChannelInfo
 
-  const { currencySymbol, currencyCode } =
+  const { currencySymbol } =
     salesChannelList.find(item => {
       return Number(item.id) === salesChannelInfo[0].salesChannel
     }) ?? {}
@@ -85,6 +86,10 @@ const BindingInfo: FC<BindingInformation> = ({
     salesChannel
   )
 
+  const handleDeleteModal = () => {
+    setIsDeleteModalOpen(!isDeleteModalOpen)
+  }
+
   return (
     <Fragment>
       <Divider />
@@ -128,7 +133,12 @@ const BindingInfo: FC<BindingInformation> = ({
                         <Input label="Custom label" value="customLabel" />
                       </div>
                       <div className="w-10 flex items-end mb2">
-                        <Button variation="danger" size="small" block>
+                        <Button
+                          variation="danger"
+                          size="small"
+                          block
+                          onClick={handleDeleteModal}
+                        >
                           Delete
                         </Button>
                       </div>
@@ -163,6 +173,25 @@ const BindingInfo: FC<BindingInformation> = ({
           onLabelChange={handleCustomLabel}
           salesChannelList={salesChannelList}
         />
+      </ModalDialog>
+      <ModalDialog
+        centered
+        isOpen={isDeleteModalOpen}
+        onClose={handleDeleteModal}
+        confirmation={{
+          label: 'Yes',
+          // eslint-disable-next-line no-console
+          onClick: console.log('confirmation'),
+          isDangerous: true,
+        }}
+        // eslint-disable-next-line no-console
+        cancelation={{ label: 'Cancel', onClick: console.log('cancelation') }}
+      >
+        <div>
+          <p className="f3 fw3 f3-ns">
+            Are you sure you want to delete this information?
+          </p>
+        </div>
       </ModalDialog>
     </Fragment>
   )
