@@ -48,6 +48,7 @@ const BindingInfo: FC<BindingInformation> = ({
       customLabel,
     }))
 
+    handleModalToggle()
     // eslint-disable-next-line no-console
     console.log({
       bindingId,
