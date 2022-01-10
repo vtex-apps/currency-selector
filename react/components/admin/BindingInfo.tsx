@@ -21,6 +21,7 @@ const BindingInfo: FC<BindingInformation> = ({
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [salesChannelIdToDelete, setSalesChannelIdToDelete] = useState('')
   const [salesChannelAdded, setSalesChannelAdded] = useState<
     SalesChannelBlock[]
   >([])
@@ -86,7 +87,20 @@ const BindingInfo: FC<BindingInformation> = ({
     salesChannel
   )
 
-  const handleDeleteModal = () => {
+  const handleDeleteModal = (id: number) => {
+    const idString = String(id)
+
+    setSalesChannelIdToDelete(idString)
+    setIsDeleteModalOpen(!isDeleteModalOpen)
+  }
+
+  const deleteSalesChannelBinding = () => {
+    const salesChannelToChange = salesChannelList.filter(
+      ({ id }) => String(id) !== salesChannelIdToDelete
+    )
+
+    // eslint-disable-next-line no-console
+    console.log(salesChannelToChange, 'after deleted sales channel')
     setIsDeleteModalOpen(!isDeleteModalOpen)
   }
 
@@ -116,18 +130,14 @@ const BindingInfo: FC<BindingInformation> = ({
             caretColor="primary"
           >
             {salesChannelList.length
-              ? salesChannelList.map(item => {
+              ? salesChannelList.map(({ id, currencyCode }) => {
                   return (
                     <div className="flex mv6">
                       <div className="w-30 mr5">
-                        <Input label="Sales channel" value={item.id} disabled />
+                        <Input label="Sales channel" value={id} disabled />
                       </div>
                       <div className="w-30 mr5">
-                        <Input
-                          label="Currency"
-                          value={item.currencyCode}
-                          disabled
-                        />
+                        <Input label="Currency" value={currencyCode} disabled />
                       </div>
                       <div className="w-30 mr8">
                         <Input
@@ -141,7 +151,7 @@ const BindingInfo: FC<BindingInformation> = ({
                           variation="danger"
                           size="small"
                           block
-                          onClick={handleDeleteModal}
+                          onClick={() => handleDeleteModal(id)}
                         >
                           Delete
                         </Button>
@@ -185,17 +195,15 @@ const BindingInfo: FC<BindingInformation> = ({
         confirmation={{
           label: 'Yes',
           // eslint-disable-next-line no-console
-          onClick: console.log('confirmation'),
+          onClick: deleteSalesChannelBinding,
           isDangerous: true,
         }}
         // eslint-disable-next-line no-console
-        cancelation={{ label: 'Cancel', onClick: console.log('cancelation') }}
+        cancelation={{ label: 'Cancel', onClick: handleDeleteModal }}
       >
-        <div>
-          <p className="f3 fw3 f3-ns">
-            Are you sure you want to delete this information?
-          </p>
-        </div>
+        <p className="f3 fw3 f3-ns">
+          Are you sure you want to delete this information?
+        </p>
       </ModalDialog>
     </Fragment>
   )
