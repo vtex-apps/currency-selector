@@ -9,7 +9,7 @@ import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
 
 const AdminPanel: FC = () => {
-  const [settings, setSettings] = useState<any[]>([])
+  const [settings, setSettings] = useState<Settings[]>([])
   const [salesChannelList, setSalesChannelList] = useState<SalesChannel[]>([])
   const [isBindingBounded, setIsBindingBounded] = useState(true)
 
