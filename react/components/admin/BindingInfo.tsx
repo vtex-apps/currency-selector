@@ -110,19 +110,32 @@ const BindingInfo: FC<BindingInformation> = ({
             isOpen={isCollapsibleOpen}
             caretColor="primary"
           >
-            {salesChannelList.length ? (
-              <div className="flex mv5">
-                <div className="w-30 mr5">
-                  <Input label="Sales channel" value={salesChannel} disabled />
-                </div>
-                <div className="w-30 mr5">
-                  <Input label="Currency" value={currencyCode} disabled />
-                </div>
-                <div className="w-40 mr5">
-                  {/* <Input label="Custom label" value={customLabel} /> */}
-                </div>
-              </div>
-            ) : null}
+            {salesChannelList.length
+              ? salesChannelList.map(item => {
+                  return (
+                    <div className="flex mv5">
+                      <div className="w-30 mr5">
+                        <Input label="Sales channel" value={item.id} disabled />
+                      </div>
+                      <div className="w-30 mr5">
+                        <Input
+                          label="Currency"
+                          value={item.currencyCode}
+                          disabled
+                        />
+                      </div>
+                      <div className="w-30 mr5">
+                        <Input label="Custom label" value="customLabel" />
+                      </div>
+                      <div className="w-10 flex items-end mb2">
+                        <Button variation="danger" size="small" block>
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  )
+                })
+              : null}
             <Button
               variation="tertiary"
               size="small"
