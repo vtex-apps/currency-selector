@@ -18,7 +18,7 @@ const salesChannel = async (_root: unknown, _: unknown, ctx: Context) => {
   return salesChannelResponse
 }
 
-const updateSalesChannelInfo = async (
+const updateSalesChannelCustom = async (
   _root: unknown,
   { bindingId, salesChannelInfo }: CurrencySelectorConfig,
   ctx: Context
@@ -47,7 +47,7 @@ const updateSalesChannelInfo = async (
   return args
 }
 
-const SCSwitcherConfiguration = async (
+const salesChannelCustomData = async (
   _root: unknown,
   _: unknown,
   ctx: Context
@@ -66,9 +66,9 @@ const SCSwitcherConfiguration = async (
 
 export const queries = {
   salesChannel,
-  SCSwitcherConfiguration,
+  salesChannelCustomData,
 }
 
 export const mutations = {
-  updateSalesChannelInfo,
+  updateSalesChannelCustom,
 }

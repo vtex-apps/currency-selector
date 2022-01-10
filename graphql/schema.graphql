@@ -1,12 +1,12 @@
 type Query {
   DoNotCall: Boolean
   salesChannel: [SalesChannel]
-  SCSwitcherConfiguration: [CurrencySelectorConfig]
+  salesChannelCustomData: [CurrencySelectorConfig]
 }
 
 type Mutation {
   DoNotCall: Boolean
-  updateSalesChannelInfo(
+  updateSalesChannelCustom(
     bindingId: String
     salesChannelInfo: SalesChannelInfo
   ): CurrencySelectorConfig
