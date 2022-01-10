@@ -118,7 +118,7 @@ const BindingInfo: FC<BindingInformation> = ({
             {salesChannelList.length
               ? salesChannelList.map(item => {
                   return (
-                    <div className="flex mv5">
+                    <div className="flex mv6">
                       <div className="w-30 mr5">
                         <Input label="Sales channel" value={item.id} disabled />
                       </div>
@@ -130,7 +130,11 @@ const BindingInfo: FC<BindingInformation> = ({
                         />
                       </div>
                       <div className="w-30 mr8">
-                        <Input label="Custom label" value="customLabel" />
+                        <Input
+                          label="Custom label"
+                          value="Custom Label"
+                          disabled
+                        />
                       </div>
                       <div className="w-10 flex items-end mb2">
                         <Button
