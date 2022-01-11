@@ -16,11 +16,11 @@ interface SalesChannelBlock extends SalesChannel {
  * @interface SalesChannel
  */
 interface SalesChannel {
-  Id: number
-  Name: string
-  IsActive: boolean
-  CurrencyCode: string
-  CurrencySymbol: string
+  id: number
+  name: string
+  isActive: boolean
+  currencyCode: string
+  currencySymbol: string
 }
 
 interface CurrencySelectorAdminConfig {

@@ -53,7 +53,7 @@ const CurrencySelectorDropdown = ({
   const handleSelection = (salesChannel: SalesChannelBlock) => {
     const closeModal = () => setIsOpen(false)
 
-    onSalesChannelSelection(salesChannel.Id.toString(), closeModal)
+    onSalesChannelSelection(salesChannel.id.toString(), closeModal)
   }
 
   const containerClasses = withModifiers('container', [isOpen ? 'active' : ''])
@@ -88,11 +88,11 @@ const CurrencySelectorDropdown = ({
             >
               {salesChannelList
                 .filter(
-                  salesChannel => salesChannel.Id !== currentSalesChannel.Id
+                  salesChannel => salesChannel.id !== currentSalesChannel.id
                 )
                 .map(salesChannel => (
                   <li
-                    key={salesChannel.Id}
+                    key={salesChannel.id}
                     className={`t-action--small pointer hover-bg-muted-5 tc f5 pa3 ${handles.listElement}`}
                   >
                     <div

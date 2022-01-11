@@ -14,7 +14,7 @@ const mergeSalesChannelInfo = ({
   const salesChannelsAvailable = salesChannelCustomInfo.filter(
     ({ salesChannel }) => {
       const isAvailable = salesChannelAPIInfoList.some(
-        ({ Id, IsActive }) => IsActive && Id === salesChannel
+        ({ id, isActive }) => isActive && id === salesChannel
       )
 
       // The sales channel might have been deleted from the API. The admin configuration for
@@ -32,7 +32,7 @@ const mergeSalesChannelInfo = ({
   return salesChannelsAvailable.map(info => {
     // We can safe enforce the type here because we are filtering out the unavailable sales channels above
     const salesChannelInfo = salesChannelAPIInfoList.find(
-      salesChannelAPIInfo => salesChannelAPIInfo.Id === info.salesChannel
+      salesChannelAPIInfo => salesChannelAPIInfo.id === info.salesChannel
     ) as SalesChannel
 
     return {
@@ -54,11 +54,11 @@ const sortSalesChannelBlockInfo = ({
   currentSalesChannel: string
 }): SalesChannelBlock[] => {
   const active = salesChannelBlock.find(
-    ({ Id }) => Id === Number(currentSalesChannel)
+    ({ id }) => id === Number(currentSalesChannel)
   ) as SalesChannelBlock
 
   const otherSalesChannels = salesChannelBlock.filter(
-    ({ Id }) => Id !== Number(currentSalesChannel)
+    ({ id }) => id !== Number(currentSalesChannel)
   )
 
   return [active, ...otherSalesChannels]

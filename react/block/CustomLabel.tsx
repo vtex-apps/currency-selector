@@ -2,15 +2,15 @@ import React from 'react'
 import { IOMessageWithMarkers } from 'vtex.native-types'
 
 interface Props {
-  CurrencySymbol: string
-  CurrencyCode: string
+  currencySymbol: string
+  currencyCode: string
   customLabel?: string
   labelFormat: string
 }
 
 const CustomLabel = ({
-  CurrencySymbol,
-  CurrencyCode,
+  currencySymbol,
+  currencyCode,
   customLabel,
   labelFormat,
 }: Props) => {
@@ -21,9 +21,9 @@ const CustomLabel = ({
         markers={[]}
         handleBase="currency-label"
         values={{
-          CurrencySymbol: <span key="CurrencySymbol">{CurrencySymbol}</span>,
-          CurrencyCode: <span key="CurrencyCode">{CurrencyCode}</span>,
-          customLabel: <span key="customLabel">{customLabel}</span>,
+          CurrencySymbol: <span key="CurrencySymbol">{currencySymbol}</span>,
+          CurrencyCode: <span key="CurrencyCode">{currencyCode}</span>,
+          CustomLabel: <span key="CustomLabel">{customLabel}</span>,
         }}
       />
     </span>
