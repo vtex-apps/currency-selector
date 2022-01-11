@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { defineMessages } from 'react-intl'
+import { useMutation } from 'react-apollo'
 
 import { useCurrencySelector } from './hooks/useCurrencySelector'
 import CurrencySelectorDropdown from '../views/CurrencySelectorDropdown'
 import { patchSalesChannelToSession } from './utils/patchSalesChannelToSession'
+import UPDATE_CART_SALES_CHANNEL from './graphql/updateCartSalesChannel.gql'
 
 const messages = defineMessages({
   title: { id: 'admin/currency-selector.title' },
@@ -23,7 +25,21 @@ const CurrencySelectorBlock = ({
   labelFormat = messages.default.id,
 }: Props) => {
   const [isRedirecting, setIsRedirecting] = useState(false)
-  const { currentSalesChannel, salesChannelList } = useCurrencySelector()
+  const {
+    currentSalesChannel,
+    salesChannelList,
+    isLoading: isLoadingHook,
+    hasError,
+    orderFormId,
+  } = useCurrencySelector()
+
+  const [updateCartSalesChannel] = useMutation<
+    unknown,
+    {
+      salesChannel: string
+      orderFormId: string
+    }
+  >(UPDATE_CART_SALES_CHANNEL)
 
   if (!currentSalesChannel) {
     return null
@@ -39,7 +55,16 @@ const CurrencySelectorBlock = ({
      * Hoewever, for some reason, when the pages reloads, the prices are not updated
      * to reflect the new sales channel in session.
      */
-    await patchSalesChannelToSession(salesChannel)
+
+    const updateSessionPromise = patchSalesChannelToSession(salesChannel)
+    const updateCartPromise = updateCartSalesChannel({
+      variables: {
+        orderFormId,
+        salesChannel,
+      },
+    })
+
+    await Promise.all([updateSessionPromise, updateCartPromise])
 
     if (callBack) {
       callBack()
@@ -48,9 +73,9 @@ const CurrencySelectorBlock = ({
     window.location.reload()
   }
 
-  const isLoading = isRedirecting
+  const isLoading = isRedirecting || isLoadingHook
 
-  return (
+  return hasError ? null : (
     <CurrencySelectorDropdown
       currentSalesChannel={currentSalesChannel}
       labelFormat={labelFormat}
