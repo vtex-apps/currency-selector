@@ -34,6 +34,11 @@ const CurrencySelectorBlock = ({
     callBack?: () => void
   ) => {
     setIsRedirecting(true)
+    /**
+     * Tried to use useUpdateSession from vtex.session-client.
+     * Hoewever, for some reason, when the pages reloads, the prices are not updated
+     * to reflect the new sales channel in session.
+     */
     await patchSalesChannelToSession(salesChannel)
 
     if (callBack) {
