@@ -27,7 +27,9 @@
     "vtex.styleguide": "9.x",
     "vtex.render-runtime": "7.x",
     "vtex.native-types": "0.x",
-    "vtex.css-handles": "1.x"
+    "vtex.css-handles": "1.x",
+    "vtex.order-manager": "0.x",
+    "vtex.session-client": "1.x"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

@@ -188,13 +188,25 @@ tslib@^2.1.0:
   version "1.0.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.css-handles@1.0.0/public/@types/vtex.css-handles#336b23ef3a9bcb2b809529ba736783acd405d081"
 
+"vtex.currency-selector@https://currencyselectordropdown--powerplanet.myvtex.com/_v/private/typings/linked/v1/vtex.currency-selector@0.0.3+build1641835557/public/@types/vtex.currency-selector":
+  version "0.0.3"
+  resolved "https://currencyselectordropdown--powerplanet.myvtex.com/_v/private/typings/linked/v1/vtex.currency-selector@0.0.3+build1641835557/public/@types/vtex.currency-selector#8987353907e92949986bdc2acb25ec77b7646642"
+
 "vtex.native-types@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.native-types@0.7.5/public/@types/vtex.native-types":
   version "0.7.5"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.native-types@0.7.5/public/@types/vtex.native-types#52d8c0b675fcdf2b6b1ca93f6a99a630519f618f"
 
+"vtex.order-manager@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.11.1/public/@types/vtex.order-manager":
+  version "0.11.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.order-manager@0.11.1/public/@types/vtex.order-manager#cc658148c5e054900c0d692a26d1ac7c872d9262"
+
 "vtex.render-runtime@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.132.3/public/@types/vtex.render-runtime":
   version "8.132.3"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.132.3/public/@types/vtex.render-runtime#c7dd142e384f38bd7a7c841543b73e9349fadc93"
+
+"vtex.session-client@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.session-client@1.0.2/public/@types/vtex.session-client":
+  version "1.0.2"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.session-client@1.0.2/public/@types/vtex.session-client#239ac9935a59699e62e1509f844de81544ed0877"
 
 "vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.145.2/public/@types/vtex.styleguide":
   version "9.145.2"
