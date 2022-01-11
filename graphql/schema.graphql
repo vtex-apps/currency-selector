@@ -7,7 +7,7 @@ type Query {
 type Mutation {
   DoNotCall: Boolean
   updateSalesChannelCustom(
-    bindingId: String
-    salesChannelInfo: [SalesChannelInfo]
+    bindingId: String!
+    salesChannelInfo: [SalesChannelInfo]!
   ): CurrencySelectorConfig
 }
