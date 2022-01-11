@@ -71,6 +71,14 @@ const CurrencySelectorBlock = ({
 
   const isLoading = isRedirecting || isLoadingHook
 
+  if (salesChannelList.length < 2) {
+    console.warn(
+      'There should be at least two sales channels for the current binding to show the CurrencySelectorBlock'
+    )
+
+    return null
+  }
+
   return hasError ? null : (
     <CurrencySelectorDropdown
       currentSalesChannel={currentSalesChannel}
