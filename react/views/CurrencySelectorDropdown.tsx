@@ -84,7 +84,7 @@ const CurrencySelectorDropdown = ({
             </button>
             <ul
               hidden={!isOpen}
-              className={`absolute z-9999 list ph0 w-100 ${handles.list}`}
+              className={`absolute z-9999 list ph0 w-100 bg-base ${handles.list}`}
             >
               {salesChannelList
                 .filter(
@@ -93,7 +93,7 @@ const CurrencySelectorDropdown = ({
                 .map(salesChannel => (
                   <li
                     key={salesChannel.Id}
-                    className={`t-action--small pointer hover-bg-muted-5 tc ${handles.listElement}`}
+                    className={`t-action--small pointer hover-bg-muted-5 tc f5 pa3 ${handles.listElement}`}
                   >
                     <div
                       role="button"
