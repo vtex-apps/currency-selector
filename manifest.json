@@ -6,8 +6,10 @@
   "description": "Currency selector",
   "credentialType": "absolute",
   "mustUpdateAt": "2025-08-24",
+  "scripts": {
+    "postreleasy": "vtex publish"
+  },
   "builders": {
-    "admin": "0.x",
     "docs": "0.x",
     "messages": "1.x",
     "react": "3.x",
@@ -15,6 +17,18 @@
     "node": "6.x",
     "graphql": "1.x"
   },
+  "policies": [
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/catalog_system/pvt/saleschannel/list"
+      }
+    },
+    {
+      "name": "ADMIN_DS"
+    }
+  ],
   "billingOptions": {
     "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
     "support": {
