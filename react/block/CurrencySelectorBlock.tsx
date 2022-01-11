@@ -41,10 +41,6 @@ const CurrencySelectorBlock = ({
     }
   >(UPDATE_CART_SALES_CHANNEL)
 
-  if (!currentSalesChannel) {
-    return null
-  }
-
   const handleSalesChannelSelection = async (
     salesChannel: string,
     callBack?: () => void

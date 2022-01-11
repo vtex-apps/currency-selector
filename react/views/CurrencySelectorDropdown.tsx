@@ -14,7 +14,7 @@ const CSS_HANDLES = [
 ] as const
 
 interface Props {
-  currentSalesChannel: SalesChannelBlock
+  currentSalesChannel?: SalesChannelBlock
   labelFormat: string
   salesChannelList: SalesChannelBlock[]
   onSalesChannelSelection: (salesChannel: string, callBack?: () => void) => void
@@ -68,7 +68,7 @@ const CurrencySelectorDropdown = ({
       >
         {isLoading ? (
           <Spinner />
-        ) : (
+        ) : !currentSalesChannel ? null : (
           <>
             <button
               type="button"

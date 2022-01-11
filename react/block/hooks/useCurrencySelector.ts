@@ -106,7 +106,7 @@ export const useCurrencySelector = () => {
     }
   }, [session])
 
-  const isLoading = loadingSession
+  const isLoading = loadingSession || !currentSalesChannel
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const hasError = sessionError || hasLocalError
 
