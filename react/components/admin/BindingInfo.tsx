@@ -39,9 +39,7 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const handleAddSalesChannel = (selectedSalesChanel: SalesChannelBlock) => {
-    setSalesChannelAdded(
-      [...salesChannelAdded, selectedSalesChanel].sort((a, b) => a.id - b.id)
-    )
+    setSalesChannelAdded([...salesChannelAdded, selectedSalesChanel])
   }
 
   const handleSave = (): void => {
@@ -60,25 +58,15 @@ const BindingInfo: FC<BindingInformation> = ({
 
   const handleCustomLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = e.currentTarget
-    const salesChannelToChange = salesChannelAdded.find(
-      ({ id }) => id.toString() === name
-    )
+    const updatedList = salesChannelAdded.map(item => {
+      if (String(item.id) === name) {
+        return { ...item, customLabel: value }
+      }
 
-    if (!salesChannelToChange) {
-      return
-    }
+      return item
+    })
 
-    const salesChannelNewCustomLabel = {
-      ...salesChannelToChange,
-      customLabel: value,
-    }
-
-    setSalesChannelAdded(
-      [
-        ...salesChannelAdded.filter(({ id }) => id.toString() !== name),
-        salesChannelNewCustomLabel,
-      ].sort((a, b) => a.id - b.id)
-    )
+    setSalesChannelAdded(updatedList)
   }
 
   const dropdownOptions = createDropdownList(
