@@ -8,6 +8,6 @@ type Mutation {
   DoNotCall: Boolean
   updateSalesChannelCustom(
     bindingId: String
-    salesChannelInfo: SalesChannelInfo
+    salesChannelInfo: [SalesChannelInfo]
   ): CurrencySelectorConfig
 }

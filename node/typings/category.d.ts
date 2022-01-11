@@ -8,7 +8,7 @@ interface SalesChannelResponse {
 
 interface CurrencySelectorConfig {
   bindingId: string
-  salesChannelInfo: SalesChannelCustomInfo
+  salesChannelInfo: SalesChannelCustomInfo[]
 }
 
 interface SalesChannelCustomInfo {

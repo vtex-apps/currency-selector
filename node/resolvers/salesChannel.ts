@@ -20,11 +20,11 @@ const salesChannel = async (_root: unknown, _: unknown, ctx: Context) => {
 
 const updateSalesChannelCustom = async (
   _root: unknown,
-  { bindingId, salesChannelInfo }: CurrencySelectorConfig,
+  args: CurrencySelectorConfig,
   ctx: Context
 ) => {
   const { clients } = ctx
-  const args = { bindingId, salesChannelInfo }
+  const { bindingId, salesChannelInfo } = args
   const { vbase } = clients
 
   const getSalesChannelInfo = await vbase.getJSON<
@@ -32,16 +32,14 @@ const updateSalesChannelCustom = async (
   >(BUCKET, CONFIG_PATH, true)
 
   if (!getSalesChannelInfo) {
-    await vbase.saveJSON(BUCKET, CONFIG_PATH, [{ ...args }])
+    await vbase.saveJSON(BUCKET, CONFIG_PATH, [{ bindingId, salesChannelInfo }])
 
     return args
   }
 
   await vbase.saveJSON(BUCKET, CONFIG_PATH, [
     ...getSalesChannelInfo,
-    {
-      ...args,
-    },
+    { bindingId, salesChannelInfo },
   ])
 
   return args
