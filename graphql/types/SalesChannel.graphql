@@ -8,7 +8,7 @@ type SalesChannel {
 
 input SalesChannelInfo {
   salesChannel: Int!
-  customLabel: String!
+  customLabel: String
 }
 
 type SalesChannelCustomInfo {
