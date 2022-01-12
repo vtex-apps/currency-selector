@@ -1,64 +1,3 @@
-export const salesChannelInfo = () => ({
-  salesChannel: [
-    {
-      id: 1,
-      name: 'España B2C',
-      isActive: true,
-      currencyCode: 'EUR - ESP',
-      currencySymbol: '€',
-    },
-    {
-      id: 2,
-      name: 'B2B',
-      isActive: true,
-      currencyCode: 'EUR',
-      currencySymbol: '€',
-    },
-    {
-      id: 3,
-      name: 'Global',
-      isActive: true,
-      currencyCode: 'EUR - GB',
-      currencySymbol: '€',
-    },
-    {
-      id: 4,
-      name: 'South Africa',
-      isActive: true,
-      currencyCode: 'ZAR',
-      currencySymbol: 'R',
-    },
-    {
-      id: 5,
-      name: 'Portugal',
-      isActive: true,
-      currencyCode: 'EUR - PT',
-      currencySymbol: '€',
-    },
-    {
-      id: 6,
-      name: 'canarias',
-      isActive: true,
-      currencyCode: 'EUR',
-      currencySymbol: '€',
-    },
-    {
-      id: 7,
-      name: 'Backup 1',
-      isActive: false,
-      currencyCode: 'BRL',
-      currencySymbol: 'R$',
-    },
-    {
-      id: 8,
-      name: 'Backup 2',
-      isActive: false,
-      currencyCode: 'EUR',
-      currencySymbol: '€',
-    },
-  ],
-})
-
 export const currencySelectorAdmin = () => ({
   currencySelectorAdminConfig: [
     {
@@ -66,12 +5,15 @@ export const currencySelectorAdmin = () => ({
       salesChannelInfo: [
         {
           salesChannel: 1,
+          customLabel: 'ES',
         },
         {
           salesChannel: 3,
+          customLabel: 'GB',
         },
         {
           salesChannel: 5,
+          customLabel: 'PT',
         },
       ],
     },
@@ -96,12 +38,15 @@ export const currencySelectorAdmin = () => ({
       salesChannelInfo: [
         {
           salesChannel: 1,
+          customLabel: 'ES',
         },
         {
           salesChannel: 3,
+          customLabel: 'GB',
         },
         {
           salesChannel: 5,
+          customLabel: 'PT',
         },
       ],
     },

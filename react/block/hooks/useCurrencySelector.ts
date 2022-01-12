@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'
 import { useRuntime } from 'vtex.render-runtime'
 import type { SessionSuccess } from 'vtex.session-client'
 import { useFullSession } from 'vtex.session-client'
+import { useQuery } from 'react-apollo'
 
-import { salesChannelInfo, currencySelectorAdmin } from '../mock/data'
+import { currencySelectorAdmin } from '../mock/data'
 import { createSalesChannelBlockInfo } from '../utils/setSalesChannelBlockInfo'
+import SALES_CHANNEL_INFO from '../graphql/salesChannelInfo.gql'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isSessionSuccess(session: any): session is SessionSuccess {
@@ -26,6 +28,12 @@ export const useCurrencySelector = () => {
   const [hasLocalError, setHasLocalError] = useState(false)
   const [orderFormId, setOrderFormId] = useState('')
 
+  const {
+    data: salesChannelData,
+    loading: loadingSalesChannel,
+    error: salesChannelError,
+  } = useQuery<{ salesChannel: SalesChannel[] }>(SALES_CHANNEL_INFO)
+
   const { binding } = useRuntime()
   const {
     data: dataSession,
@@ -42,7 +50,6 @@ export const useCurrencySelector = () => {
   const { id: currentBindingId } = binding ?? {}
 
   // mock data. Fetch it from GraphQL
-  const { salesChannel } = salesChannelInfo()
   const { currencySelectorAdminConfig } = currencySelectorAdmin()
 
   /**
@@ -64,14 +71,14 @@ export const useCurrencySelector = () => {
       return
     }
 
-    if (!currentBindingId || !currentBindingId || !salesChannel) return
+    if (!currentBindingId || !currentBindingId || !salesChannelData) return
 
     if (hasLoaded) return
 
     const salesChannelBlockInfo = createSalesChannelBlockInfo({
       currentBindingId,
       currentSalesChannel: String(channel),
-      salesChannelAPIInfoList: salesChannel,
+      salesChannelAPIInfoList: salesChannelData.salesChannel,
       currencySelectorAdminConfig,
     })
 
@@ -83,7 +90,7 @@ export const useCurrencySelector = () => {
   }, [
     currencySelectorAdminConfig,
     currentBindingId,
-    salesChannel,
+    salesChannelData,
     hasLoaded,
     session,
   ])
@@ -106,12 +113,15 @@ export const useCurrencySelector = () => {
     }
   }, [session])
 
-  const isLoading = loadingSession || !currentSalesChannel
+  const isLoading =
+    loadingSession || loadingSalesChannel || !currentSalesChannel
+
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const hasError = sessionError || hasLocalError
+  const hasError = sessionError || hasLocalError || salesChannelError
 
   if (hasError) {
     console.error(`There was a error loading the currency selector app.`)
+    console.error({ sessionError, hasLocalError, salesChannelError })
   }
 
   return {
