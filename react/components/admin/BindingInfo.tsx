@@ -6,11 +6,12 @@ import {
   Divider,
   Input,
   ModalDialog,
+  Table,
 } from 'vtex.styleguide'
 
 import { EditSalesChannel } from './EditSalesChannels'
-// import { salesChannelList } from './salesChannelList'
 import { createDropdownList } from './utils/createDropdownList'
+import { salesChannelWithLabel } from './salesChannelWithLabel'
 
 const BindingInfo: FC<BindingInformation> = ({
   bindingId,
@@ -33,6 +34,16 @@ const BindingInfo: FC<BindingInformation> = ({
     salesChannelList.find(item => {
       return Number(item.id) === salesChannelInfo[0].salesChannel
     }) ?? {}
+
+  const filteredChannelsPerBind =
+    salesChannelWithLabel
+      .filter(obj => obj.bindingId === bindingId)[0]
+      .salesChannelLabel.map(itm => ({
+        ...salesChannelList.find(
+          item => String(item.id) === itm.salesChannelId
+        ),
+        ...itm,
+      })) ?? []
 
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen)
@@ -75,10 +86,8 @@ const BindingInfo: FC<BindingInformation> = ({
     salesChannel
   )
 
-  const handleDeleteModal = (id: number) => {
-    const idString = String(id)
-
-    setSalesChannelIdToDelete(idString)
+  const handleDeleteModal = (id: string) => {
+    setSalesChannelIdToDelete(id)
     setIsDeleteModalOpen(!isDeleteModalOpen)
   }
 
@@ -91,6 +100,37 @@ const BindingInfo: FC<BindingInformation> = ({
     console.log(salesChannelToChange, 'after deleted sales channel')
     setIsDeleteModalOpen(!isDeleteModalOpen)
   }
+
+  // Import table content
+  const defaultSchema = {
+    properties: {
+      salesChannelId: {
+        title: 'Sales Channel',
+      },
+      customLabel: {
+        title: 'Custom label',
+      },
+      currencySymbol: {
+        title: 'Currency symbol',
+      },
+      currencyCode: {
+        title: 'Currency code',
+      },
+    },
+  }
+
+  const lineActions = [
+    {
+      label: () => 'Edit',
+      onClick: () => alert(`Executed action for`),
+    },
+    {
+      label: () => 'Delete',
+      isDangerous: true,
+      onClick: (rowData: SalesChannelCustomInfo) =>
+        handleDeleteModal(String(rowData.salesChannelId)),
+    },
+  ]
 
   return (
     <Fragment>
@@ -117,44 +157,23 @@ const BindingInfo: FC<BindingInformation> = ({
             isOpen={isCollapsibleOpen}
             caretColor="primary"
           >
-            {salesChannelList.length
-              ? salesChannelList.map(({ id, currencyCode }) => {
-                  return (
-                    <div className="flex mv6">
-                      <div className="w-30 mr5">
-                        <Input label="Sales channel" value={id} disabled />
-                      </div>
-                      <div className="w-30 mr5">
-                        <Input label="Currency" value={currencyCode} disabled />
-                      </div>
-                      <div className="w-30 mr8">
-                        <Input
-                          label="Custom label"
-                          value="Custom Label"
-                          disabled
-                        />
-                      </div>
-                      <div className="w-10 flex items-end mb2">
-                        <Button
-                          variation="danger"
-                          size="small"
-                          block
-                          onClick={() => handleDeleteModal(id)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </div>
-                  )
-                })
-              : null}
+            {salesChannelWithLabel && (
+              <div className="mb5">
+                <Table
+                  fullWidth
+                  schema={defaultSchema}
+                  items={filteredChannelsPerBind}
+                  lineActions={lineActions}
+                />
+              </div>
+            )}
             <Button
               variation="tertiary"
               size="small"
               block
               onClick={handleModalToggle}
             >
-              {salesChannelInfo.length ? 'Edit' : 'Add'}
+              Add
             </Button>
           </Collapsible>
         </div>

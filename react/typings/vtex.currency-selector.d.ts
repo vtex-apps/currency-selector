@@ -34,6 +34,8 @@ interface CurrencySelectorAdminConfig {
  * @interface SalesChannelCustomInfo
  */
 interface SalesChannelCustomInfo {
-  salesChannel: number
+  salesChannelId: number
   customLabel?: string
 }
+
+;[]

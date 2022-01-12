@@ -2,8 +2,6 @@ import type { FC } from 'react'
 import { Fragment, useState } from 'react'
 import { Button, Divider, Input, Dropdown } from 'vtex.styleguide'
 
-// import { salesChannelList } from './salesChannelList'
-
 interface EditSalesChannelInterface {
   dropdownOptions: DropdownOptions[]
   onSalesChannelAdded: (salesChannel: SalesChannelBlock) => void
