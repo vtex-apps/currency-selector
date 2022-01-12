@@ -5,3 +5,13 @@ interface SalesChannelResponse {
   CurrencySymbol: string
   IsActive: boolean
 }
+
+interface CurrencySelectorConfig {
+  bindingId: string
+  salesChannelInfo: SalesChannelCustomInfo[]
+}
+
+interface SalesChannelCustomInfo {
+  salesChannel: number
+  customLabel?: string
+}
