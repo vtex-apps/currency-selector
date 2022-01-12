@@ -4,7 +4,6 @@ import {
   Button,
   Collapsible,
   Divider,
-  Input,
   ModalDialog,
   Table,
 } from 'vtex.styleguide'
@@ -39,11 +38,21 @@ const BindingInfo: FC<BindingInformation> = ({
     salesChannelWithLabel
       .filter(obj => obj.bindingId === bindingId)[0]
       .salesChannelLabel.map(itm => ({
-        ...salesChannelList.find(
-          item => String(item.id) === itm.salesChannelId
-        ),
+        ...(salesChannelList.find(
+          (item: SalesChannel) => String(item.id) === itm.salesChannelId
+        ) as SalesChannel),
         ...itm,
       })) ?? []
+
+  const filterSalesChannelProps = filteredChannelsPerBind.map(
+    ({ customLabel, salesChannelId, ...keepAttrs }) => keepAttrs
+  )
+
+  const availableSalesChannels =
+    salesChannelList.filter(
+      ({ id: id1 }) =>
+        !filterSalesChannelProps.some(({ id: id2 }) => id2 === id1) ?? []
+    ) ?? []
 
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen)
@@ -81,7 +90,7 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const dropdownOptions = createDropdownList(
-    salesChannelList,
+    availableSalesChannels,
     salesChannelAdded,
     salesChannel
   )
@@ -141,9 +150,9 @@ const BindingInfo: FC<BindingInformation> = ({
             {currencySymbol}
           </div>
           <div className="w-90">
-            <p>
+            {/* <p>
               <span className="c-muted-2 mr3">BindingId:</span> {bindingId}
-            </p>
+            </p> */}
             <p>
               <span className="c-muted-2 mr3">Canonical address:</span>{' '}
               {canonicalBaseAddress}

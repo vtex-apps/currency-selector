@@ -37,5 +37,3 @@ interface SalesChannelCustomInfo {
   salesChannelId: number
   customLabel?: string
 }
-
-;[]
