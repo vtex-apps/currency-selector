@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { useState, Fragment } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import {
   Button,
   Collapsible,
@@ -26,6 +26,10 @@ const BindingInfo: FC<BindingInformation> = ({
     SalesChannelBlock[]
   >([])
 
+  const [salesChannelPerBinding, setSalesChannelPerBinding] = useState<any[]>(
+    []
+  )
+
   const [{ salesChannel }] = salesChannelInfo
   // const [{ customLabel }] = salesChannelInfo
 
@@ -34,17 +38,21 @@ const BindingInfo: FC<BindingInformation> = ({
       return Number(item.id) === salesChannelInfo[0].salesChannel
     }) ?? {}
 
-  const filteredChannelsPerBind =
-    salesChannelWithLabel
-      .filter(obj => obj.bindingId === bindingId)[0]
-      .salesChannelLabel.map(itm => ({
-        ...(salesChannelList.find(
-          (item: SalesChannel) => String(item.id) === itm.salesChannelId
-        ) as SalesChannel),
-        ...itm,
-      })) ?? []
+  useEffect(() => {
+    const filteredChannelsPerBind =
+      salesChannelWithLabel
+        .filter(obj => obj.bindingId === bindingId)[0]
+        .salesChannelLabel.map(itm => ({
+          ...(salesChannelList.find(
+            (item: SalesChannel) => String(item.id) === itm.salesChannelId
+          ) as SalesChannel),
+          ...itm,
+        })) ?? []
 
-  const filterSalesChannelProps = filteredChannelsPerBind.map(
+    setSalesChannelPerBinding(filteredChannelsPerBind)
+  }, [])
+
+  const filterSalesChannelProps = salesChannelPerBinding.map(
     ({ customLabel, salesChannelId, ...keepAttrs }) => keepAttrs
   )
 
@@ -101,10 +109,11 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const deleteSalesChannelBinding = () => {
-    const salesChannelToChange = salesChannelList.filter(
+    const salesChannelToChange = salesChannelPerBinding.filter(
       ({ id }) => String(id) !== salesChannelIdToDelete
     )
 
+    setSalesChannelPerBinding(salesChannelToChange)
     // eslint-disable-next-line no-console
     console.log(salesChannelToChange, 'after deleted sales channel')
     setIsDeleteModalOpen(!isDeleteModalOpen)
@@ -136,7 +145,7 @@ const BindingInfo: FC<BindingInformation> = ({
     {
       label: () => 'Delete',
       isDangerous: true,
-      onClick: (rowData: SalesChannelCustomInfo) =>
+      onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) =>
         handleDeleteModal(String(rowData.salesChannelId)),
     },
   ]
@@ -171,7 +180,7 @@ const BindingInfo: FC<BindingInformation> = ({
                 <Table
                   fullWidth
                   schema={defaultSchema}
-                  items={filteredChannelsPerBind}
+                  items={salesChannelPerBinding}
                   lineActions={lineActions}
                 />
               </div>
