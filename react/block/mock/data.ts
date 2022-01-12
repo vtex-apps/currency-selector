@@ -12,6 +12,10 @@ export const currencySelectorAdmin = () => ({
           customLabel: 'GB',
         },
         {
+          salesChannel: 4,
+          customLabel: 'SA',
+        },
+        {
           salesChannel: 5,
           customLabel: 'PT',
         },
@@ -21,7 +25,20 @@ export const currencySelectorAdmin = () => ({
       bindingId: 'e84d830f-8e31-4b38-97e4-87e2c3801929',
       salesChannelInfo: [
         {
+          salesChannel: 1,
+          customLabel: 'ES',
+        },
+        {
+          salesChannel: 3,
+          customLabel: 'GB',
+        },
+        {
           salesChannel: 4,
+          customLabel: 'SA',
+        },
+        {
+          salesChannel: 5,
+          customLabel: 'PT',
         },
       ],
     },
@@ -29,7 +46,20 @@ export const currencySelectorAdmin = () => ({
       bindingId: 'bb2b7747-30d9-466e-9abe-2f90caf7150f',
       salesChannelInfo: [
         {
+          salesChannel: 1,
+          customLabel: 'ES',
+        },
+        {
           salesChannel: 3,
+          customLabel: 'GB',
+        },
+        {
+          salesChannel: 4,
+          customLabel: 'SA',
+        },
+        {
+          salesChannel: 5,
+          customLabel: 'PT',
         },
       ],
     },
@@ -43,6 +73,10 @@ export const currencySelectorAdmin = () => ({
         {
           salesChannel: 3,
           customLabel: 'GB',
+        },
+        {
+          salesChannel: 4,
+          customLabel: 'SA',
         },
         {
           salesChannel: 5,
