@@ -78,6 +78,7 @@ const BindingInfo: FC<BindingInformation> = ({
       customLabel,
     }))
 
+    openAlert('success', 'sales channel was added')
     handleModalToggle()
     // eslint-disable-next-line no-console
     console.log({
