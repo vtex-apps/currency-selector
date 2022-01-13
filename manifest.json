@@ -27,7 +27,7 @@
       }
     },
     {
-      "name": "ADMIN_DS"
+      "name": "vbase-read-write"
     }
   ],
   "billingOptions": {

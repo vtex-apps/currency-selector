@@ -5,3 +5,18 @@ type SalesChannel {
   currencySymbol: String
   isActive: Boolean
 }
+
+input SalesChannelInfo {
+  salesChannel: Int!
+  customLabel: String
+}
+
+type SalesChannelCustomInfo {
+  salesChannel: Int
+  customLabel: String
+}
+
+type CurrencySelectorConfig {
+  bindingId: String
+  salesChannelInfo: [SalesChannelCustomInfo]
+}

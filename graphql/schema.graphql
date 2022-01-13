@@ -1,8 +1,13 @@
 type Query {
-  salesChannel: [SalesChannel]
   DoNotCall: Boolean
+  salesChannel: [SalesChannel]
+  salesChannelCustomData: [CurrencySelectorConfig]
 }
 
 type Mutation {
   DoNotCall: Boolean
+  updateSalesChannelCustom(
+    bindingId: String!
+    salesChannelInfo: [SalesChannelInfo]!
+  ): CurrencySelectorConfig
 }
