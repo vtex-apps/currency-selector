@@ -6,9 +6,9 @@ import {
   Divider,
   ModalDialog,
   Table,
-  Alert,
 } from 'vtex.styleguide'
 
+import { useAlert } from '../../providers/AlertProvider'
 import { EditSalesChannel } from './EditSalesChannels'
 import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
@@ -38,6 +38,7 @@ const BindingInfo: FC<BindingInformation> = ({
   >([])
 
   const [{ salesChannel }] = salesChannelInfo
+  const { openAlert } = useAlert()
 
   const { currencySymbol } =
     salesChannelList.find(item => {
@@ -45,6 +46,7 @@ const BindingInfo: FC<BindingInformation> = ({
     }) ?? {}
 
   useEffect(() => {
+    // Replace salesChannelWithLabel to query from backend
     const filteredChannelsPerBind =
       salesChannelWithLabel
         .filter(obj => obj.bindingId === bindingId)[0]
@@ -87,7 +89,7 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const handleEditLabelSave = (): void => {
-    setIsAlert(true)
+    openAlert('success', 'Custom Label was edited')
 
     setIsEditModalOpen(!isEditModalOpen)
   }
@@ -163,11 +165,11 @@ const BindingInfo: FC<BindingInformation> = ({
   return (
     <Fragment>
       <Divider />
-      {isAlert && (
+      {/* {isAlert && (
         <Alert type="success" onClose={() => setIsAlert(false)}>
           You changed your custom label with success.
         </Alert>
-      )}
+      )} */}
       <div className="flex flex-column mv2">
         <div className="flex items-center mv2">
           <div className="w-10 c-muted-1 pa4 mr6 ba br2 b--light-gray tc">

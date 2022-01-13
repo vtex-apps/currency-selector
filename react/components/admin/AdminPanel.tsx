@@ -4,6 +4,7 @@ import { Layout, PageBlock, PageHeader, Toggle } from 'vtex.styleguide'
 import { useQuery } from 'react-apollo'
 import type { Tenant } from 'vtex.tenant-graphql'
 
+import { AlertProvider } from '../../providers/AlertProvider'
 import { BindingInfo } from './BindingInfo'
 import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
@@ -76,32 +77,34 @@ const AdminPanel: FC = () => {
   }, [salesChannelsData])
 
   return (
-    <Layout pageHeader={<PageHeader title="Currency Selector"></PageHeader>}>
-      <PageBlock>
-        <div className="mb5">
-          <Toggle
-            label="Binding bounded"
-            helpText="Check to use different configuration per sales channel"
-            checked={isBindingBounded}
-            onChange={handleChangeBindingBounded}
-          />
-        </div>
-        {settings
-          ? settings.map(
-              ({ bindingId, canonicalBaseAddress, salesChannelInfo }) => {
-                return (
-                  <BindingInfo
-                    bindingId={bindingId}
-                    canonicalBaseAddress={canonicalBaseAddress}
-                    salesChannelInfo={salesChannelInfo}
-                    salesChannelList={salesChannelList}
-                  />
-                )
-              }
-            )
-          : null}
-      </PageBlock>
-    </Layout>
+    <AlertProvider>
+      <Layout pageHeader={<PageHeader title="Currency Selector"></PageHeader>}>
+        <PageBlock>
+          <div className="mb5">
+            <Toggle
+              label="Binding bounded"
+              helpText="Check to use different configuration per sales channel"
+              checked={isBindingBounded}
+              onChange={handleChangeBindingBounded}
+            />
+          </div>
+          {settings
+            ? settings.map(
+                ({ bindingId, canonicalBaseAddress, salesChannelInfo }) => {
+                  return (
+                    <BindingInfo
+                      bindingId={bindingId}
+                      canonicalBaseAddress={canonicalBaseAddress}
+                      salesChannelInfo={salesChannelInfo}
+                      salesChannelList={salesChannelList}
+                    />
+                  )
+                }
+              )
+            : null}
+        </PageBlock>
+      </Layout>
+    </AlertProvider>
   )
 }
 
