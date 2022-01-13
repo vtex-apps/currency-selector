@@ -37,7 +37,6 @@ const BindingInfo: FC<BindingInformation> = ({
   >([])
 
   const [{ salesChannel }] = salesChannelInfo
-  // const [{ customLabel }] = salesChannelInfo
 
   const { currencySymbol } =
     salesChannelList.find(item => {
@@ -57,10 +56,6 @@ const BindingInfo: FC<BindingInformation> = ({
 
     setSalesChannelPerBinding(filteredChannelsPerBind)
   }, [salesChannelList])
-
-  // const filterSalesChannelProps = salesChannelPerBinding.map(
-  //   ({ customLabel, salesChannelId, ...keepAttrs }) => keepAttrs
-  // )
 
   const availableSalesChannels =
     salesChannelList.filter(
@@ -91,19 +86,9 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const handleEditLabelSave = (): void => {
-    // const salesChannelAdmin = salesChannelPerBinding.map(
-    //   ({ id, customLabel }) => ({
-    //     salesChannel: id,
-    //     customLabel,
-    //   })
-    // )
-
     setIsAlert(true)
 
     setIsEditModalOpen(!isEditModalOpen)
-
-    // eslint-disable-next-line no-console
-    // setSalesChannelPerBinding(salesChannelAdmin)
   }
 
   const handleCustomLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -206,9 +191,6 @@ const BindingInfo: FC<BindingInformation> = ({
             {currencySymbol}
           </div>
           <div className="w-90">
-            {/* <p>
-              <span className="c-muted-2 mr3">BindingId:</span> {bindingId}
-            </p> */}
             <p>
               <span className="c-muted-2 mr3">Canonical address:</span>{' '}
               {canonicalBaseAddress}
@@ -247,7 +229,6 @@ const BindingInfo: FC<BindingInformation> = ({
         centered
         isOpen={isModalOpen}
         onClose={handleModalToggle}
-        // eslint-disable-next-line no-console
         confirmation={{ label: 'Save', onClick: handleSave }}
         cancelation={{ label: 'Cancel', onClick: handleModalToggle }}
       >
@@ -264,9 +245,7 @@ const BindingInfo: FC<BindingInformation> = ({
         centered
         isOpen={isEditModalOpen}
         onClose={handleEditModal}
-        // eslint-disable-next-line no-console
         confirmation={{ label: 'Save', onClick: handleEditLabelSave }}
-        // eslint-disable-next-line no-console
         cancelation={{ label: 'Cancel', onClick: handleEditModal }}
       >
         <h2>Edit Custom Label</h2>
@@ -282,11 +261,9 @@ const BindingInfo: FC<BindingInformation> = ({
         onClose={handleDeleteModal}
         confirmation={{
           label: 'Yes',
-          // eslint-disable-next-line no-console
           onClick: deleteSalesChannelBinding,
           isDangerous: true,
         }}
-        // eslint-disable-next-line no-console
         cancelation={{ label: 'Cancel', onClick: handleDeleteModal }}
       >
         <p className="f3 fw3 f3-ns">
