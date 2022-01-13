@@ -31,8 +31,6 @@ const BindingInfo: FC<BindingInformation> = ({
     SalesChannelBlock[]
   >([])
 
-  const [isAlert, setIsAlert] = useState(false)
-
   const [salesChannelPerBinding, setSalesChannelPerBinding] = useState<
     SalesChannelPerBinding[]
   >([])
@@ -165,11 +163,6 @@ const BindingInfo: FC<BindingInformation> = ({
   return (
     <Fragment>
       <Divider />
-      {/* {isAlert && (
-        <Alert type="success" onClose={() => setIsAlert(false)}>
-          You changed your custom label with success.
-        </Alert>
-      )} */}
       <div className="flex flex-column mv2">
         <div className="flex items-center mv2">
           <div className="w-10 c-muted-1 pa4 mr6 ba br2 b--light-gray tc">
