@@ -6,9 +6,11 @@ import {
   Divider,
   ModalDialog,
   Table,
+  Alert,
 } from 'vtex.styleguide'
 
 import { EditSalesChannel } from './EditSalesChannels'
+import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
 import { salesChannelWithLabel } from './salesChannelWithLabel'
 
@@ -21,10 +23,14 @@ const BindingInfo: FC<BindingInformation> = ({
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [salesChannelIdToDelete, setSalesChannelIdToDelete] = useState('')
+  const [salesChannelIdToEdit, setSalesChannelIdToEdit] = useState('')
   const [salesChannelAdded, setSalesChannelAdded] = useState<
     SalesChannelBlock[]
   >([])
+
+  const [isAlert, setIsAlert] = useState(false)
 
   const [salesChannelPerBinding, setSalesChannelPerBinding] = useState<any[]>(
     []
@@ -50,16 +56,16 @@ const BindingInfo: FC<BindingInformation> = ({
         })) ?? []
 
     setSalesChannelPerBinding(filteredChannelsPerBind)
-  }, [])
+  }, [salesChannelList])
 
-  const filterSalesChannelProps = salesChannelPerBinding.map(
-    ({ customLabel, salesChannelId, ...keepAttrs }) => keepAttrs
-  )
+  // const filterSalesChannelProps = salesChannelPerBinding.map(
+  //   ({ customLabel, salesChannelId, ...keepAttrs }) => keepAttrs
+  // )
 
   const availableSalesChannels =
     salesChannelList.filter(
       ({ id: id1 }) =>
-        !filterSalesChannelProps.some(({ id: id2 }) => id2 === id1) ?? []
+        !salesChannelPerBinding.some(({ id: id2 }) => id2 === id1) ?? []
     ) ?? []
 
   const handleModalToggle = () => {
@@ -84,8 +90,25 @@ const BindingInfo: FC<BindingInformation> = ({
     })
   }
 
+  const handleEditLabelSave = (): void => {
+    // const salesChannelAdmin = salesChannelPerBinding.map(
+    //   ({ id, customLabel }) => ({
+    //     salesChannel: id,
+    //     customLabel,
+    //   })
+    // )
+
+    setIsAlert(true)
+
+    setIsEditModalOpen(!isEditModalOpen)
+
+    // eslint-disable-next-line no-console
+    // setSalesChannelPerBinding(salesChannelAdmin)
+  }
+
   const handleCustomLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = e.currentTarget
+
     const updatedList = salesChannelAdded.map(item => {
       if (String(item.id) === name) {
         return { ...item, customLabel: value }
@@ -95,6 +118,20 @@ const BindingInfo: FC<BindingInformation> = ({
     })
 
     setSalesChannelAdded(updatedList)
+  }
+
+  const handleEditLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value, name } = e.currentTarget
+
+    const updatedList = salesChannelPerBinding.map(item => {
+      if (String(item.id) === name) {
+        return { ...item, customLabel: value }
+      }
+
+      return item
+    })
+
+    setSalesChannelPerBinding(updatedList)
   }
 
   const dropdownOptions = createDropdownList(
@@ -108,6 +145,11 @@ const BindingInfo: FC<BindingInformation> = ({
     setIsDeleteModalOpen(!isDeleteModalOpen)
   }
 
+  const handleEditModal = (id: string) => {
+    setSalesChannelIdToEdit(id)
+    setIsEditModalOpen(!isEditModalOpen)
+  }
+
   const deleteSalesChannelBinding = () => {
     const salesChannelToChange = salesChannelPerBinding.filter(
       ({ id }) => String(id) !== salesChannelIdToDelete
@@ -115,7 +157,6 @@ const BindingInfo: FC<BindingInformation> = ({
 
     setSalesChannelPerBinding(salesChannelToChange)
     // eslint-disable-next-line no-console
-    console.log(salesChannelToChange, 'after deleted sales channel')
     setIsDeleteModalOpen(!isDeleteModalOpen)
   }
 
@@ -140,7 +181,8 @@ const BindingInfo: FC<BindingInformation> = ({
   const lineActions = [
     {
       label: () => 'Edit',
-      onClick: () => alert(`Executed action for`),
+      onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) =>
+        handleEditModal(String(rowData.salesChannelId)),
     },
     {
       label: () => 'Delete',
@@ -153,6 +195,11 @@ const BindingInfo: FC<BindingInformation> = ({
   return (
     <Fragment>
       <Divider />
+      {isAlert ? (
+        <Alert type="success" onClose={() => setIsAlert(false)}>
+          Your new product was created with success.
+        </Alert>
+      ) : null}
       <div className="flex flex-column mv2">
         <div className="flex items-center mv2">
           <div className="w-10 c-muted-1 pa4 mr6 ba br2 b--light-gray tc">
@@ -211,6 +258,22 @@ const BindingInfo: FC<BindingInformation> = ({
           addedSalesChannel={salesChannelAdded}
           onLabelChange={handleCustomLabel}
           salesChannelList={salesChannelList}
+        />
+      </ModalDialog>
+      <ModalDialog
+        centered
+        isOpen={isEditModalOpen}
+        onClose={handleEditModal}
+        // eslint-disable-next-line no-console
+        confirmation={{ label: 'Save', onClick: handleEditLabelSave }}
+        // eslint-disable-next-line no-console
+        cancelation={{ label: 'Cancel', onClick: handleEditModal }}
+      >
+        <h2>Edit Custom Label</h2>
+        <EditCustomLabel
+          onLabelChange={handleEditLabel}
+          salesChannelPerBinding={salesChannelPerBinding}
+          salesChannelIdToEdit={salesChannelIdToEdit}
         />
       </ModalDialog>
       <ModalDialog
