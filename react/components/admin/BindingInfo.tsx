@@ -13,6 +13,7 @@ import { EditSalesChannel } from './EditSalesChannels'
 import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
 import { salesChannelWithLabel } from './salesChannelWithLabel'
+import { tableSchema } from './utils/tableSchema'
 
 const BindingInfo: FC<BindingInformation> = ({
   bindingId,
@@ -145,24 +146,6 @@ const BindingInfo: FC<BindingInformation> = ({
     setIsDeleteModalOpen(!isDeleteModalOpen)
   }
 
-  // Import table content
-  const defaultSchema = {
-    properties: {
-      salesChannelId: {
-        title: 'Sales Channel',
-      },
-      customLabel: {
-        title: 'Custom label',
-      },
-      currencySymbol: {
-        title: 'Currency symbol',
-      },
-      currencyCode: {
-        title: 'Currency code',
-      },
-    },
-  }
-
   const lineActions = [
     {
       label: () => 'Edit',
@@ -180,11 +163,11 @@ const BindingInfo: FC<BindingInformation> = ({
   return (
     <Fragment>
       <Divider />
-      {isAlert ? (
+      {isAlert && (
         <Alert type="success" onClose={() => setIsAlert(false)}>
           You changed your custom label with success.
         </Alert>
-      ) : null}
+      )}
       <div className="flex flex-column mv2">
         <div className="flex items-center mv2">
           <div className="w-10 c-muted-1 pa4 mr6 ba br2 b--light-gray tc">
@@ -208,7 +191,7 @@ const BindingInfo: FC<BindingInformation> = ({
               <div className="mb5">
                 <Table
                   fullWidth
-                  schema={defaultSchema}
+                  schema={tableSchema}
                   items={salesChannelPerBinding}
                   lineActions={lineActions}
                 />
