@@ -43,6 +43,7 @@ const CurrencySelectorBlock = ({
 
   const handleSalesChannelSelection = async (
     salesChannel: string,
+    cultureInfo: string,
     callBack?: () => void
   ) => {
     setIsRedirecting(true)
@@ -51,16 +52,14 @@ const CurrencySelectorBlock = ({
      * Hoewever, for some reason, when the pages reloads, the prices are not updated
      * to reflect the new sales channel in session.
      */
+    await patchSalesChannelToSession(salesChannel, cultureInfo)
 
-    const updateSessionPromise = patchSalesChannelToSession(salesChannel)
-    const updateCartPromise = updateCartSalesChannel({
+    await updateCartSalesChannel({
       variables: {
         orderFormId,
         salesChannel,
       },
     })
-
-    await Promise.all([updateSessionPromise, updateCartPromise])
 
     if (callBack) {
       callBack()

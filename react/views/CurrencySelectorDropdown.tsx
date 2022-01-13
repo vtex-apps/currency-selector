@@ -17,7 +17,11 @@ interface Props {
   currentSalesChannel?: SalesChannelBlock
   labelFormat: string
   salesChannelList: SalesChannelBlock[]
-  onSalesChannelSelection: (salesChannel: string, callBack?: () => void) => void
+  onSalesChannelSelection: (
+    salesChannel: string,
+    cultureInfo: string,
+    callBack?: () => void
+  ) => void
   isLoading: boolean
 }
 
@@ -53,7 +57,11 @@ const CurrencySelectorDropdown = ({
   const handleSelection = (salesChannel: SalesChannelBlock) => {
     const closeModal = () => setIsOpen(false)
 
-    onSalesChannelSelection(salesChannel.id.toString(), closeModal)
+    onSalesChannelSelection(
+      salesChannel.id.toString(),
+      salesChannel.cultureInfo,
+      closeModal
+    )
   }
 
   const containerClasses = withModifiers('container', [isOpen ? 'active' : ''])

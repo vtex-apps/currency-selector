@@ -1,4 +1,7 @@
-export const patchSalesChannelToSession = async (salesChannel: string) => {
+export const patchSalesChannelToSession = async (
+  salesChannel: string,
+  cultureInfo: string
+) => {
   const myHeaders = new Headers()
 
   myHeaders.append('Content-Type', 'application/json')
@@ -7,6 +10,15 @@ export const patchSalesChannelToSession = async (salesChannel: string) => {
     public: {
       sc: {
         value: salesChannel,
+      },
+      locale: {
+        value: cultureInfo,
+      },
+      cultureInfo: {
+        value: cultureInfo,
+      },
+      culture: {
+        value: cultureInfo,
       },
     },
   })

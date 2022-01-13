@@ -21,6 +21,7 @@ interface SalesChannel {
   isActive: boolean
   currencyCode: string
   currencySymbol: string
+  cultureInfo: string
 }
 
 interface CurrencySelectorAdminConfig {

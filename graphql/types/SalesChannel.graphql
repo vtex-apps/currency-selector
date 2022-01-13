@@ -4,4 +4,5 @@ type SalesChannel {
   currencyCode: String
   currencySymbol: String
   isActive: Boolean
+  cultureInfo: String
 }
