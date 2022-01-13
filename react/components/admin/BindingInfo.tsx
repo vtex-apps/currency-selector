@@ -197,7 +197,7 @@ const BindingInfo: FC<BindingInformation> = ({
       <Divider />
       {isAlert ? (
         <Alert type="success" onClose={() => setIsAlert(false)}>
-          Your new product was created with success.
+          You changed your custom label with success.
         </Alert>
       ) : null}
       <div className="flex flex-column mv2">
