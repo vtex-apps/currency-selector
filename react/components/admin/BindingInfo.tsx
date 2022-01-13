@@ -32,9 +32,9 @@ const BindingInfo: FC<BindingInformation> = ({
 
   const [isAlert, setIsAlert] = useState(false)
 
-  const [salesChannelPerBinding, setSalesChannelPerBinding] = useState<any[]>(
-    []
-  )
+  const [salesChannelPerBinding, setSalesChannelPerBinding] = useState<
+    SalesChannelPerBinding[]
+  >([])
 
   const [{ salesChannel }] = salesChannelInfo
   // const [{ customLabel }] = salesChannelInfo
