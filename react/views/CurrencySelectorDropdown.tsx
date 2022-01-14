@@ -83,9 +83,7 @@ const CurrencySelectorDropdown = ({
               className={`absolute z-9999 list ph0 w-100 bg-base ${handles.list}`}
             >
               {salesChannelList
-                .filter(
-                  salesChannel => salesChannel.id !== currentSalesChannel.id
-                )
+                .filter(salesChannel => !salesChannel.isCurrent)
                 .map(salesChannel => (
                   <li
                     key={salesChannel.id}

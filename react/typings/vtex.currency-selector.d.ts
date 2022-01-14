@@ -7,6 +7,7 @@
  */
 interface SalesChannelBlock extends SalesChannel {
   customLabel?: string
+  isCurrent?: boolean
 }
 
 /**

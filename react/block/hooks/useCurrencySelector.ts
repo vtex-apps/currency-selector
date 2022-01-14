@@ -85,7 +85,9 @@ export const useCurrencySelector = () => {
     if (!salesChannelBlockInfo) return
 
     setSalesChannelList(salesChannelBlockInfo)
-    setCurrentSalesChannel(salesChannelBlockInfo[0])
+    setCurrentSalesChannel(
+      salesChannelBlockInfo.find(({ isCurrent }) => isCurrent)
+    )
     setHasLoaded(true)
   }, [
     currencySelectorAdminConfig,

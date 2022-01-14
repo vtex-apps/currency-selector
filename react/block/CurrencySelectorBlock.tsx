@@ -84,7 +84,6 @@ const CurrencySelectorBlock = ({
   if (layout === 'list') {
     return hasError ? null : (
       <CurrencySelectorList
-        currentSalesChannel={currentSalesChannel}
         labelFormat={labelFormat}
         salesChannelList={salesChannelList}
         onSalesChannelSelection={handleSalesChannelSelection}

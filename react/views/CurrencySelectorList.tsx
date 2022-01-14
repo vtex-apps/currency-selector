@@ -8,7 +8,6 @@ import Spinner from '../block/Spinner'
 const CSS_HANDLES = ['listContainer'] as const
 
 const CurrencySelectorList = ({
-  currentSalesChannel,
   labelFormat,
   salesChannelList,
   onSalesChannelSelection,
@@ -18,13 +17,12 @@ const CurrencySelectorList = ({
   const [buttonLoading, setButtonLoading] = React.useState('')
 
   const mappedSalesChannelList = salesChannelList.map(salesChannel => {
-    const isCurrent = salesChannel.id === currentSalesChannel?.id
     const isNext = buttonLoading === salesChannel.id
 
     return (
       <Button
         key={salesChannel.id}
-        disabled={isCurrent}
+        disabled={salesChannel.isCurrent}
         onClick={() => {
           setButtonLoading(salesChannel.id)
           onSalesChannelSelection(salesChannel.id, salesChannel.cultureInfo)

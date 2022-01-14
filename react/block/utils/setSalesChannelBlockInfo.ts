@@ -44,26 +44,21 @@ const mergeSalesChannelInfo = ({
 }
 
 /**
- * Makes the current sales channel info the first one in the array
- *
+ * Set the current sales channel.
  */
-const sortSalesChannelBlockInfo = ({
+const setCurrentSalesChannelBlockInfo = ({
   salesChannelBlock,
   currentSalesChannel,
 }: {
   salesChannelBlock: SalesChannelBlock[]
   currentSalesChannel: string
-}): SalesChannelBlock[] => {
-  const active = salesChannelBlock.find(
-    ({ id }) => id === currentSalesChannel
-  ) as SalesChannelBlock
-
-  const otherSalesChannels = salesChannelBlock.filter(
-    ({ id }) => id !== currentSalesChannel
-  )
-
-  return [active, ...otherSalesChannels]
-}
+}): SalesChannelBlock[] =>
+  salesChannelBlock.map(salesChannel => {
+    return {
+      ...salesChannel,
+      isCurrent: salesChannel.id === currentSalesChannel,
+    }
+  })
 
 interface CreateSalesChannelBlockInfo {
   currentBindingId: string
@@ -118,7 +113,7 @@ export const createSalesChannelBlockInfo = ({
     salesChannelAPIInfoList,
   })
 
-  return sortSalesChannelBlockInfo({
+  return setCurrentSalesChannelBlockInfo({
     salesChannelBlock: mergedSalesChannelInfo,
     currentSalesChannel,
   })
