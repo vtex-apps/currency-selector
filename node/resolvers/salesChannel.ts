@@ -33,10 +33,10 @@ const updateSalesChannelCustom = async (
     salesChannelInfo.map(k => k.salesChannel)
   )
 
-  const isDuplicate: boolean =
+  const isSalesChannelDuplicated: boolean =
     salesChannelInfoSet.size < salesChannelInfo.length
 
-  if (isDuplicate) {
+  if (isSalesChannelDuplicated) {
     throw new UserInputError(
       'Response not successful: salesChannel keys Cannot be duplicated'
     )
