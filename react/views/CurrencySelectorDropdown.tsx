@@ -13,25 +13,13 @@ const CSS_HANDLES = [
   'buttonText',
 ] as const
 
-interface Props {
-  currentSalesChannel?: SalesChannelBlock
-  labelFormat: string
-  salesChannelList: SalesChannelBlock[]
-  onSalesChannelSelection: (
-    salesChannel: string,
-    cultureInfo: string,
-    callBack?: () => void
-  ) => void
-  isLoading: boolean
-}
-
 const CurrencySelectorDropdown = ({
   currentSalesChannel,
   labelFormat,
   salesChannelList,
   onSalesChannelSelection,
   isLoading,
-}: Props) => {
+}: ComponentViewProps) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const { handles, withModifiers } = useCssHandles(CSS_HANDLES)
   const relativeContainerRef = React.useRef<HTMLDivElement>(null)

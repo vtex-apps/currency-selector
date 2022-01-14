@@ -38,3 +38,15 @@ interface SalesChannelCustomInfo {
   salesChannel: number
   customLabel?: string
 }
+
+interface ComponentViewProps {
+  currentSalesChannel?: SalesChannelBlock
+  labelFormat: string
+  salesChannelList: SalesChannelBlock[]
+  onSalesChannelSelection: (
+    salesChannel: string,
+    cultureInfo: string,
+    callBack?: () => void
+  ) => void
+  isLoading: boolean
+}
