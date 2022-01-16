@@ -30,7 +30,9 @@ const updateSalesChannelCustom = async (
   const { vbase } = clients
 
   const salesChannelInfoSet: Set<number> = new Set(
-    salesChannelInfo.map(k => k.salesChannel)
+    salesChannelInfo.map(
+      ({ salesChannel: salesChannelValue }) => salesChannelValue
+    )
   )
 
   const isSalesChannelDuplicated: boolean =
@@ -52,7 +54,7 @@ const updateSalesChannelCustom = async (
     return args
   }
 
-  const duplicateIndexs: number[] = getSalesChannelInfo.reduce(
+  const duplicatedIndexes: number[] = getSalesChannelInfo.reduce(
     (accu: number[], element: CurrencySelectorConfig, index: number) => {
       if (element.bindingId === bindingId) {
         accu.push(index)
@@ -63,12 +65,12 @@ const updateSalesChannelCustom = async (
     []
   )
 
-  if (duplicateIndexs.length) {
+  if (duplicatedIndexes.length) {
     /**
      * @description: here we update duplicateIndexs with the new value that comes from args.
      * Then we save the updated values in vbase.
      */
-    duplicateIndexs.forEach(index => {
+    duplicatedIndexes.forEach((index: number) => {
       getSalesChannelInfo[index] = { bindingId, salesChannelInfo }
     })
     await vbase.saveJSON(BUCKET, CONFIG_PATH, getSalesChannelInfo)
@@ -113,9 +115,7 @@ const salesChannelCustom = async (
     CurrencySelectorConfig[] | null
   >(BUCKET, CONFIG_PATH, true)
 
-  if (!savedSalesChannelInfo) return {}
-
-  return savedSalesChannelInfo.find(
+  return savedSalesChannelInfo?.find(
     (e: CurrencySelectorConfig) => e.bindingId === bindingId
   )
 }
