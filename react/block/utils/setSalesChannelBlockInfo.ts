@@ -64,7 +64,7 @@ interface CreateSalesChannelBlockInfo {
   currentBindingId: string
   currentSalesChannel: string
   salesChannelAPIInfoList: SalesChannel[]
-  currencySelectorAdminConfig: CurrencySelectorAdminConfig[]
+  currentBindingAdminConfig: CurrencySelectorAdminConfig
 }
 
 /**
@@ -80,13 +80,12 @@ export const createSalesChannelBlockInfo = ({
   currentBindingId,
   currentSalesChannel,
   salesChannelAPIInfoList,
-  currencySelectorAdminConfig,
+  currentBindingAdminConfig,
 }: CreateSalesChannelBlockInfo): SalesChannelBlock[] | undefined => {
-  const currentBindingConfig = currencySelectorAdminConfig.find(
-    ({ bindingId }) => bindingId === currentBindingId
-  )
-
-  if (!currentBindingConfig || !currentBindingConfig.salesChannelInfo.length) {
+  if (
+    !currentBindingAdminConfig ||
+    !currentBindingAdminConfig.salesChannelInfo.length
+  ) {
     console.error(
       `There is no Sales Channel configuration for binding ${currentBindingId} in vtex.currency-selector admin.`
     )
@@ -94,7 +93,7 @@ export const createSalesChannelBlockInfo = ({
     return
   }
 
-  const { salesChannelInfo: salesChannelCustomInfo } = currentBindingConfig
+  const { salesChannelInfo: salesChannelCustomInfo } = currentBindingAdminConfig
 
   const hasConfigForCurrentSalesChannel = salesChannelCustomInfo.some(
     ({ salesChannel }) => salesChannel === Number(currentSalesChannel)
