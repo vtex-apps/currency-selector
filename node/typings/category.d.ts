@@ -6,3 +6,13 @@ interface SalesChannelResponse {
   IsActive: boolean
   CultureInfo: string
 }
+
+interface CurrencySelectorConfig {
+  bindingId: string
+  salesChannelInfo: SalesChannelCustomInfo[]
+}
+
+interface SalesChannelCustomInfo {
+  salesChannel: number
+  customLabel?: string
+}
