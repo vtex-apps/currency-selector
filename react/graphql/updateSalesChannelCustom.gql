@@ -1,0 +1,11 @@
+mutation updateSalesChannelCustom(
+  $bindingId: String!
+  $salesChannelInfo: [SalesChannelInfo]!
+) {
+  updateSalesChannelCustom(
+    bindingId: $bindingId
+    salesChannelInfo: $salesChannelInfo
+  ) {
+    bindingId
+  }
+}

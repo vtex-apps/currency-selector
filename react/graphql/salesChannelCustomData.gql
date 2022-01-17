@@ -1,0 +1,9 @@
+query salesChannelCustomData {
+  salesChannelCustomData {
+    bindingId
+    salesChannelInfo {
+      salesChannel
+      customLabel
+    }
+  }
+}

@@ -1,6 +1,6 @@
 export const tableSchema = {
   properties: {
-    salesChannelId: {
+    salesChannel: {
       title: 'Sales Channel',
     },
     customLabel: {

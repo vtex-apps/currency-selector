@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import { useState, useEffect, Fragment } from 'react'
+import { useQuery, useMutation } from 'react-apollo'
 import {
   Button,
   Collapsible,
@@ -8,6 +9,8 @@ import {
   Table,
 } from 'vtex.styleguide'
 
+import UPDATE_SALES_CHANNEL from '../../graphql/updateSalesChannelCustom.gql'
+import SALES_CHANNELS_CUSTOM from '../../graphql/salesChannelCustomData.gql'
 import { useAlert } from '../../providers/AlertProvider'
 import { EditSalesChannel } from './EditSalesChannels'
 import { EditCustomLabel } from './EditCustomLabel'
@@ -35,6 +38,20 @@ const BindingInfo: FC<BindingInformation> = ({
     SalesChannelPerBinding[]
   >([])
 
+  const [updateSalesChannelCustom, { loading, error }] =
+    useMutation<CurrencySelectorAdminConfig[]>(UPDATE_SALES_CHANNEL)
+
+  const {
+    data,
+    loading: l,
+    error: err,
+  } = useQuery<{ salesChannelCustomData: CurrencySelectorAdminConfig[] }>(
+    SALES_CHANNELS_CUSTOM
+  )
+
+  // eslint-disable-next-line no-console
+  console.log(err, l, loading, error)
+
   const [{ salesChannel }] = salesChannelInfo
   const { openAlert } = useAlert()
 
@@ -44,19 +61,22 @@ const BindingInfo: FC<BindingInformation> = ({
     }) ?? {}
 
   useEffect(() => {
-    // Replace salesChannelWithLabel to query from backend
-    const filteredChannelsPerBind =
-      salesChannelWithLabel
-        .filter(obj => obj.bindingId === bindingId)[0]
-        .salesChannelLabel.map(itm => ({
-          ...(salesChannelList.find(
-            (item: SalesChannel) => String(item.id) === itm.salesChannelId
-          ) as SalesChannel),
-          ...itm,
-        })) ?? []
+    if (data) {
+      const filteredChannelsPerBind =
+        data.salesChannelCustomData
+          .filter(obj => obj.bindingId === bindingId)
+          .flatMap(x => x.salesChannelInfo)
+          .map(itm => ({
+            ...(salesChannelList.find(
+              (item: SalesChannel) =>
+                Number(item.id) === Number(itm.salesChannel)
+            ) as SalesChannel),
+            ...itm,
+          })) ?? []
 
-    setSalesChannelPerBinding(filteredChannelsPerBind)
-  }, [salesChannelList])
+      setSalesChannelPerBinding(filteredChannelsPerBind)
+    }
+  }, [salesChannelList, data])
 
   const availableSalesChannels =
     salesChannelList.filter(
@@ -74,10 +94,16 @@ const BindingInfo: FC<BindingInformation> = ({
 
   const handleSave = (): void => {
     const salesChannelAdmin = salesChannelAdded.map(({ id, customLabel }) => ({
-      salesChannel: id,
+      salesChannel: Number(id),
       customLabel,
     }))
 
+    updateSalesChannelCustom({
+      variables: {
+        bindingId,
+        salesChannelInfo: salesChannelAdmin[0],
+      },
+    })
     openAlert('success', 'sales channel was added')
     handleModalToggle()
     // eslint-disable-next-line no-console
@@ -151,13 +177,13 @@ const BindingInfo: FC<BindingInformation> = ({
     {
       label: () => 'Edit',
       onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) =>
-        handleEditModal(String(rowData.salesChannelId)),
+        handleEditModal(String(rowData.salesChannel)),
     },
     {
       label: () => 'Delete',
       isDangerous: true,
       onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) =>
-        handleDeleteModal(String(rowData.salesChannelId)),
+        handleDeleteModal(String(rowData.salesChannel)),
     },
   ]
 
