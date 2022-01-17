@@ -7,6 +7,9 @@ import CurrencySelectorDropdown from '../views/CurrencySelectorDropdown'
 import { patchSalesChannelToSession } from './utils/patchSalesChannelToSession'
 import UPDATE_CART_SALES_CHANNEL from './graphql/updateCartSalesChannel.gql'
 import CurrencySelectorList from '../views/CurrencySelectorList'
+import CurrencySelectorSelect from '../views/CurrencySelectorSelect'
+
+import './styles.global.css'
 
 const messages = defineMessages({
   title: { id: 'admin/currency-selector.title' },
@@ -93,7 +96,14 @@ const CurrencySelectorBlock = ({
   }
 
   if (layout === 'select') {
-    return hasError ? null : <div>select TDB</div>
+    return hasError ? null : (
+      <CurrencySelectorSelect
+        labelFormat={labelFormat}
+        salesChannelList={salesChannelList}
+        onSalesChannelSelection={handleSalesChannelSelection}
+        isLoading={isLoading}
+      />
+    )
   }
 
   return hasError ? null : (
