@@ -38,7 +38,7 @@ const BindingInfo: FC<BindingInformation> = ({
     SalesChannelPerBinding[]
   >([])
 
-  const [updateSalesChannelCustom, { loading, error }] =
+  const [updateSalesChannelCustom, { data: d, loading, error }] =
     useMutation<CurrencySelectorAdminConfig[]>(UPDATE_SALES_CHANNEL)
 
   const {
@@ -76,7 +76,7 @@ const BindingInfo: FC<BindingInformation> = ({
 
       setSalesChannelPerBinding(filteredChannelsPerBind)
     }
-  }, [salesChannelList, data])
+  }, [salesChannelList, data, d])
 
   const availableSalesChannels =
     salesChannelList.filter(
@@ -114,8 +114,20 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const handleEditLabelSave = (): void => {
-    openAlert('success', 'Custom Label was edited')
+    const editedCustomLabel = salesChannelPerBinding
+      .filter(({ id }) => Number(id) === Number(salesChannelIdToEdit))
+      .map(({ id, customLabel }) => ({
+        salesChannel: Number(id),
+        customLabel,
+      }))
 
+    updateSalesChannelCustom({
+      variables: {
+        bindingId,
+        salesChannelInfo: editedCustomLabel[0],
+      },
+    })
+    openAlert('success', 'Custom Label was edited')
     setIsEditModalOpen(!isEditModalOpen)
   }
 
