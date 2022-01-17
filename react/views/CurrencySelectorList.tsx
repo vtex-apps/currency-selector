@@ -35,7 +35,9 @@ const CurrencySelectorList = ({
   })
 
   return (
-    <div className={handles.listContainer}>
+    <div
+      className={`flex items-center justify-center relative ${handles.listContainer}`}
+    >
       {isLoading && !buttonLoading ? (
         <Spinner />
       ) : (
