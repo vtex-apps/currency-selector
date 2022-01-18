@@ -15,6 +15,7 @@ import { useAlert } from '../../providers/AlertProvider'
 import { EditSalesChannel } from './EditSalesChannels'
 import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
+import { mergeCacheWithMutationResult } from './utils/mergeCacheWithMutationResult'
 import { salesChannelWithLabel } from './salesChannelWithLabel'
 import { tableSchema } from './utils/tableSchema'
 
@@ -38,8 +39,43 @@ const BindingInfo: FC<BindingInformation> = ({
     SalesChannelPerBinding[]
   >([])
 
-  const [updateSalesChannelCustom, { data: d, loading, error }] =
-    useMutation<CurrencySelectorAdminConfig[]>(UPDATE_SALES_CHANNEL)
+  const [updateSalesChannel] = useMutation<
+    {
+      updateSalesChannelCustom: CurrencySelectorAdminConfig
+    },
+    { bindingId: string; salesChannelInfo: SalesChannelCustomInfo[] }
+  >(UPDATE_SALES_CHANNEL, {
+    update(cache, { data: returnMutationData }) {
+      const cacheData = cache.readQuery<{
+        salesChannelCustomData: CurrencySelectorAdminConfig[]
+      }>({
+        query: SALES_CHANNELS_CUSTOM,
+      })
+
+      if (!returnMutationData || !cacheData) return
+      const { updateSalesChannelCustom } = returnMutationData
+
+      const hasBindingInfo = cacheData.salesChannelCustomData.some(
+        item => item.bindingId === updateSalesChannelCustom.bindingId
+      )
+
+      const a = hasBindingInfo
+        ? cacheData.salesChannelCustomData.map(salesChannelDetails =>
+            mergeCacheWithMutationResult(
+              salesChannelDetails,
+              updateSalesChannelCustom
+            )
+          )
+        : [updateSalesChannelCustom, ...cacheData.salesChannelCustomData]
+
+      cache.writeQuery({
+        query: SALES_CHANNELS_CUSTOM,
+        data: {
+          salesChannelCustomData: a,
+        },
+      })
+    },
+  })
 
   const {
     data,
@@ -50,7 +86,6 @@ const BindingInfo: FC<BindingInformation> = ({
   )
 
   // eslint-disable-next-line no-console
-  console.log(err, l, loading, error)
 
   const [{ salesChannel }] = salesChannelInfo
   const { openAlert } = useAlert()
@@ -76,7 +111,7 @@ const BindingInfo: FC<BindingInformation> = ({
 
       setSalesChannelPerBinding(filteredChannelsPerBind)
     }
-  }, [salesChannelList, data, d])
+  }, [salesChannelList, data])
 
   const availableSalesChannels =
     salesChannelList.filter(
@@ -98,19 +133,21 @@ const BindingInfo: FC<BindingInformation> = ({
       customLabel,
     }))
 
-    updateSalesChannelCustom({
+    const filterSalesChannelProps = salesChannelPerBinding.map(item => {
+      return {
+        salesChannel: item.salesChannel,
+        customLabel: item.customLabel,
+      }
+    })
+
+    updateSalesChannel({
       variables: {
         bindingId,
-        salesChannelInfo: salesChannelAdmin[0],
+        salesChannelInfo: [...filterSalesChannelProps, ...salesChannelAdmin],
       },
     })
     openAlert('success', 'sales channel was added')
     handleModalToggle()
-    // eslint-disable-next-line no-console
-    console.log({
-      bindingId,
-      salesChannel: salesChannelAdmin,
-    })
   }
 
   const handleEditLabelSave = (): void => {
@@ -121,12 +158,12 @@ const BindingInfo: FC<BindingInformation> = ({
         customLabel,
       }))
 
-    updateSalesChannelCustom({
-      variables: {
-        bindingId,
-        salesChannelInfo: editedCustomLabel[0],
-      },
-    })
+    // updateSalesChannel({
+    //   variables: {
+    //     bindingId,
+    //     salesChannelInfo: editedCustomLabel[0],
+    //   },
+    // })
     openAlert('success', 'Custom Label was edited')
     setIsEditModalOpen(!isEditModalOpen)
   }

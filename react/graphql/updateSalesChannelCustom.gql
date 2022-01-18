@@ -7,5 +7,9 @@ mutation updateSalesChannelCustom(
     salesChannelInfo: $salesChannelInfo
   ) {
     bindingId
+    salesChannelInfo {
+      customLabel
+      salesChannel
+    }
   }
 }
