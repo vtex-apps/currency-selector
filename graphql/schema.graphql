@@ -2,6 +2,7 @@ type Query {
   DoNotCall: Boolean
   salesChannel: [SalesChannel] @cacheControl(scope: PUBLIC, maxAge: LONG)
   salesChannelCustomData: [CurrencySelectorConfig]
+  salesChannelCustom(bindingId: String!): CurrencySelectorConfig
 }
 
 type Mutation {
