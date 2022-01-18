@@ -56,7 +56,7 @@ const AlertProvider: FC = ({ children }) => {
             )}
             {open === 'error' && (
               <Alert type="error" onClose={handleClose}>
-                {`Try again.`}
+                {`${entryType}`}
               </Alert>
             )}
           </div>

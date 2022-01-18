@@ -127,7 +127,7 @@ const BindingInfo: FC<BindingInformation> = ({
     setSalesChannelAdded([...salesChannelAdded, selectedSalesChanel])
   }
 
-  const handleSave = (): void => {
+  const handleSave = async () => {
     const salesChannelAdmin = salesChannelAdded.map(({ id, customLabel }) => ({
       salesChannel: Number(id),
       customLabel,
@@ -140,14 +140,26 @@ const BindingInfo: FC<BindingInformation> = ({
       }
     })
 
-    updateSalesChannel({
-      variables: {
-        bindingId,
-        salesChannelInfo: [...filterSalesChannelProps, ...salesChannelAdmin],
-      },
-    })
-    openAlert('success', 'sales channel was added')
-    handleModalToggle()
+    try {
+      const { errors } = await updateSalesChannel({
+        variables: {
+          bindingId,
+          salesChannelInfo: [...filterSalesChannelProps, ...salesChannelAdmin],
+        },
+      })
+
+      if (errors) {
+        throw errors
+      }
+
+      openAlert('success', 'sales channel was added')
+    } catch (error) {
+      console.error(error)
+      openAlert('error', 'there was an error saving the information')
+    } finally {
+      setSalesChannelAdded([])
+      handleModalToggle()
+    }
   }
 
   const handleEditLabelSave = (): void => {
