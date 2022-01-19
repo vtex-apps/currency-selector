@@ -1,6 +1,7 @@
 export const patchSalesChannelToSession = async (
   salesChannel: string,
-  cultureInfo: string
+  cultureInfo: string,
+  rootPath?: string
 ) => {
   const myHeaders = new Headers()
 
@@ -29,5 +30,5 @@ export const patchSalesChannelToSession = async (
     body: sessionBody,
   }
 
-  return fetch('/api/sessions', requestOptions)
+  return fetch(`${rootPath ?? ''}/api/sessions`, requestOptions)
 }

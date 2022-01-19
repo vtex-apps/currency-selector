@@ -409,10 +409,6 @@ tslib@^2.1.0, tslib@^2.3.0:
   version "1.0.0"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.css-handles@1.0.0/public/@types/vtex.css-handles#336b23ef3a9bcb2b809529ba736783acd405d081"
 
-"vtex.currency-selector@https://currencyselectordropdown--powerplanet.myvtex.com/_v/private/typings/linked/v1/vtex.currency-selector@0.0.3+build1641835557/public/@types/vtex.currency-selector":
-  version "0.0.3"
-  resolved "https://currencyselectordropdown--powerplanet.myvtex.com/_v/private/typings/linked/v1/vtex.currency-selector@0.0.3+build1641835557/public/@types/vtex.currency-selector#8987353907e92949986bdc2acb25ec77b7646642"
-
 "vtex.native-types@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.native-types@0.7.5/public/@types/vtex.native-types":
   version "0.7.5"
   resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.native-types@0.7.5/public/@types/vtex.native-types#52d8c0b675fcdf2b6b1ca93f6a99a630519f618f"

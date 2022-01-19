@@ -95,6 +95,9 @@ const CurrencySelectorDropdown = ({
                       onMouseDown={e => e.preventDefault()}
                       onClick={() => handleSelection(salesChannel)}
                       onKeyDown={() => handleSelection(salesChannel)}
+                      onTouchStartCapture={e => e.preventDefault()}
+                      onTouchStart={() => handleSelection(salesChannel)}
+                      onTouchMove={() => handleSelection(salesChannel)}
                     >
                       <CustomLabel
                         {...salesChannel}
