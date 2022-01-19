@@ -240,6 +240,18 @@ const BindingInfo: FC<BindingInformation> = ({
       ({ id }) => String(id) !== salesChannelIdToDelete
     )
 
+    const filterSalesChannelProps = salesChannelToChange.map(item => ({
+      salesChannel: item.salesChannel,
+      customLabel: item.customLabel,
+    }))
+
+    updateSalesChannel({
+      variables: {
+        bindingId,
+        salesChannelInfo: filterSalesChannelProps,
+      },
+    })
+
     setSalesChannelPerBinding(salesChannelToChange)
     // eslint-disable-next-line no-console
     setIsDeleteModalOpen(!isDeleteModalOpen)
