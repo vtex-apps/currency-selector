@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { EXPERIMENTAL_Select as Select } from 'vtex.styleguide'
 import { useCssHandles } from 'vtex.css-handles'
+import { canUseDOM } from 'vtex.render-runtime'
 
 import CustomLabel from '../block/CustomLabel'
 
@@ -54,18 +55,23 @@ const CurrencySelectorSelect = ({
     <div
       className={`flex items-center justify-center relative ${handles.selectContainer}`}
     >
-      <span className={`min-w-140 ${handles.relativeContainer}`}>
-        <Select
-          size="small"
-          options={selectionOptions}
-          value={currentSelected}
-          loading={!currentSelected || isLoading}
-          multi={false}
-          clearable={false}
-          searchable={false}
-          onChange={handleChange}
-        />
-      </span>
+      {/* Added canUseDom here since the Select component doesn't render nice on
+        server side. There is a blink with a broken style when loading from it.
+      */}
+      {canUseDOM ? (
+        <span className={`min-w-140 ${handles.relativeContainer}`}>
+          <Select
+            size="small"
+            options={selectionOptions}
+            value={currentSelected}
+            loading={!currentSelected || isLoading}
+            multi={false}
+            clearable={false}
+            searchable={false}
+            onChange={handleChange}
+          />
+        </span>
+      ) : null}
     </div>
   )
 }
