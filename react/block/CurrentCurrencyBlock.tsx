@@ -26,7 +26,7 @@ const CurrentCurrencyBlock = ({ labelFormat = messages.default.id }: Props) => {
 
   return hasError ? null : (
     <div
-      className={`flex items-center justify-center relative h-100 pointer ${handles.container}`}
+      className={`flex items-center justify-center relative h-100 pointer mh4 ${handles.container}`}
     >
       {isLoading || !currentSalesChannel ? (
         <Spinner />
