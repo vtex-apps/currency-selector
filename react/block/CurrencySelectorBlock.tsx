@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { defineMessages } from 'react-intl'
 import { useMutation } from 'react-apollo'
+import { useRuntime } from 'vtex.render-runtime'
 
 import { useCurrencySelector } from './hooks/useCurrencySelector'
 import CurrencySelectorDropdown from '../views/CurrencySelectorDropdown'
@@ -33,6 +34,8 @@ const CurrencySelectorBlock = ({
     orderFormId,
   } = useCurrencySelector()
 
+  const { rootPath } = useRuntime()
+
   const [updateCartSalesChannel] = useMutation<
     unknown,
     {
@@ -52,7 +55,7 @@ const CurrencySelectorBlock = ({
      * Hoewever, for some reason, when the pages reloads, the prices are not updated
      * to reflect the new sales channel in session.
      */
-    await patchSalesChannelToSession(salesChannel, cultureInfo)
+    await patchSalesChannelToSession(salesChannel, cultureInfo, rootPath)
 
     await updateCartSalesChannel({
       variables: {
