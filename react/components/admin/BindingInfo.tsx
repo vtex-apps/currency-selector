@@ -170,12 +170,23 @@ const BindingInfo: FC<BindingInformation> = ({
         customLabel,
       }))
 
-    // updateSalesChannel({
-    //   variables: {
-    //     bindingId,
-    //     salesChannelInfo: editedCustomLabel[0],
-    //   },
-    // })
+    const filterSalesChannelProps = salesChannelPerBinding.map(item => {
+      if (item.id === Number(salesChannelIdToEdit)) {
+        return editedCustomLabel[0]
+      }
+
+      return {
+        salesChannel: item.salesChannel,
+        customLabel: item.customLabel,
+      }
+    })
+
+    updateSalesChannel({
+      variables: {
+        bindingId,
+        salesChannelInfo: filterSalesChannelProps,
+      },
+    })
     openAlert('success', 'Custom Label was edited')
     setIsEditModalOpen(!isEditModalOpen)
   }
