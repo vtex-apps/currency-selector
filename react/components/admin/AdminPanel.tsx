@@ -8,6 +8,7 @@ import { AlertProvider } from '../../providers/AlertProvider'
 import { BindingInfo } from './BindingInfo'
 import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
+import SALES_CHANNELS_CUSTOM from '../../graphql/salesChannelCustomData.gql'
 
 const AdminPanel: FC = () => {
   const [settings, setSettings] = useState<Settings[]>([])
@@ -25,6 +26,14 @@ const AdminPanel: FC = () => {
     loading: loadingSalesChannelsData,
     error: errorSalesChannelsData,
   } = useQuery<{ salesChannel: SalesChannel[] }>(SALES_CHANNELS)
+
+  const {
+    data,
+    loading: l,
+    error: err,
+  } = useQuery<{ salesChannelCustomData: CurrencySelectorAdminConfig[] }>(
+    SALES_CHANNELS_CUSTOM
+  )
 
   // eslint-disable-next-line no-console
   console.log({

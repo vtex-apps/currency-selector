@@ -1,13 +1,14 @@
 import type { FC } from 'react'
-import { Fragment, useState } from 'react'
-import { Button, Divider, Input, Dropdown } from 'vtex.styleguide'
+import { useState } from 'react'
+import { Button, Input, Dropdown, Table } from 'vtex.styleguide'
 
 interface EditSalesChannelInterface {
   dropdownOptions: DropdownOptions[]
   onSalesChannelAdded: (salesChannel: SalesChannelBlock) => void
   addedSalesChannel: SalesChannelBlock[]
   onLabelChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  salesChannelList: SalesChannel[]
+  // salesChannelList: SalesChannel[]
+  availableSalesChannels: SalesChannelPerBinding[]
 }
 
 const EditSalesChannel: FC<EditSalesChannelInterface> = ({
@@ -15,9 +16,51 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
   onSalesChannelAdded,
   addedSalesChannel,
   onLabelChange,
-  salesChannelList,
+  // salesChannelList,
+  availableSalesChannels,
 }) => {
   const [selected, setSelected] = useState<string>('')
+  const [customLabelValue, setCustomLabelValue] = useState<
+    Record<string, string>
+  >({})
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target
+
+    onLabelChange(e)
+    setCustomLabelValue(prevState => {
+      return { ...prevState, [name]: value }
+    })
+  }
+
+  const tableSchema = {
+    properties: {
+      salesChannel: {
+        title: 'Sales Channel',
+      },
+      customLabel: {
+        title: 'Custom label',
+        cellRenderer: (cellData: any) => {
+          return (
+            <Input
+              onChange={handleChange}
+              name={cellData.rowData.id}
+              value={
+                customLabelValue[cellData.rowData.id] ??
+                cellData.rowData.customLabel
+              }
+            />
+          )
+        },
+      },
+      currencySymbol: {
+        title: 'Currency symbol',
+      },
+      currencyCode: {
+        title: 'Currency code',
+      },
+    },
+  }
 
   const handleSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.currentTarget
@@ -26,7 +69,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
   }
 
   const addSelectedChannel = (): void => {
-    const salesChannelSelected = salesChannelList.find(
+    const salesChannelSelected = availableSalesChannels.find(
       obj => Number(obj.id) === Number(selected)
     )
 
@@ -56,7 +99,14 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
           </Button>
         </div>
       </div>
-      {addedSalesChannel.map(
+      {addedSalesChannel.length ? (
+        <Table
+          schema={tableSchema}
+          items={addedSalesChannel}
+          indexColumnLabel="Index"
+        />
+      ) : null}
+      {/* {addedSalesChannel.map(
         ({ id, name, currencyCode, currencySymbol, customLabel }) => {
           return (
             <Fragment key={id}>
@@ -82,7 +132,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
             </Fragment>
           )
         }
-      )}
+      )} */}
     </div>
   )
 }

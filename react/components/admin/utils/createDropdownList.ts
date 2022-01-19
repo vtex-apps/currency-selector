@@ -14,8 +14,8 @@ const sortDropdownOptions = (
 }
 
 export const createDropdownList = (
-  availableSalesChannel: SalesChannel[],
-  selectedSalesChannel: SalesChannel[],
+  availableSalesChannel: SalesChannelPerBinding[],
+  selectedSalesChannel: SalesChannelBlock[],
   defaultSalesChannel: number
 ): DropdownOptions[] => {
   const activeSalesChannel = availableSalesChannel.filter(

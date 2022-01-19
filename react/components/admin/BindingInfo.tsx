@@ -114,10 +114,18 @@ const BindingInfo: FC<BindingInformation> = ({
   }, [salesChannelList, data])
 
   const availableSalesChannels =
-    salesChannelList.filter(
-      ({ id: id1 }) =>
-        !salesChannelPerBinding.some(({ id: id2 }) => id2 === id1) ?? []
-    ) ?? []
+    salesChannelList
+      .filter(
+        ({ id: id1 }) =>
+          !salesChannelPerBinding.some(({ id: id2 }) => id2 === id1) ?? []
+      )
+      .map(item => {
+        return {
+          ...item,
+          salesChannel: item.id,
+          customLabel: '',
+        }
+      }) ?? []
 
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen)
@@ -327,7 +335,8 @@ const BindingInfo: FC<BindingInformation> = ({
           onSalesChannelAdded={handleAddSalesChannel}
           addedSalesChannel={salesChannelAdded}
           onLabelChange={handleCustomLabel}
-          salesChannelList={salesChannelList}
+          // salesChannelList={salesChannelList}
+          availableSalesChannels={availableSalesChannels}
         />
       </ModalDialog>
       <ModalDialog
