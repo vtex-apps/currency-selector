@@ -7,7 +7,6 @@ interface EditSalesChannelInterface {
   onSalesChannelAdded: (salesChannel: SalesChannelBlock) => void
   addedSalesChannel: SalesChannelBlock[]
   onLabelChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  // salesChannelList: SalesChannel[]
   availableSalesChannels: SalesChannelPerBinding[]
 }
 
@@ -16,7 +15,6 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
   onSalesChannelAdded,
   addedSalesChannel,
   onLabelChange,
-  // salesChannelList,
   availableSalesChannels,
 }) => {
   const [selected, setSelected] = useState<string>('')
@@ -106,33 +104,6 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
           indexColumnLabel="Index"
         />
       ) : null}
-      {/* {addedSalesChannel.map(
-        ({ id, name, currencyCode, currencySymbol, customLabel }) => {
-          return (
-            <Fragment key={id}>
-              <Divider />
-              <div className="flex items-center">
-                <div className="w-40 mr5">
-                  <p>Sales Channel: {id}</p>
-                  <p>Name: {name}</p>
-                  <p>Currency Code: {currencyCode}</p>
-                  <p>Currency Symbol: {currencySymbol}</p>
-                </div>
-                <div className="w-60 flex items-end">
-                  <div className="w-60 mr5">
-                    <Input
-                      label="Custom label"
-                      value={customLabel ?? ''}
-                      onChange={onLabelChange}
-                      name={id}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Fragment>
-          )
-        }
-      )} */}
     </div>
   )
 }
