@@ -20,12 +20,11 @@ const AdminPanel: FC = () => {
   const [settings, setSettings] = useState<Settings[]>([])
   const [salesChannelList, setSalesChannelList] = useState<SalesChannel[]>([])
   const [isBindingBounded, setIsBindingBounded] = useState(true)
-  const [showErrorMsg, setShowErrorMsg] = useState(false)
 
   const {
     data: tenantData,
-    loading,
-    error,
+    loading: loadingTenant,
+    error: errorTenant,
   } = useQuery<{ tenantInfo: Tenant }>(TENANT_INFO)
 
   const {
@@ -34,14 +33,8 @@ const AdminPanel: FC = () => {
     error: errorSalesChannelsData,
   } = useQuery<{ salesChannel: SalesChannel[] }>(SALES_CHANNELS)
 
-  const isLoading = loading || loadingSalesChannelsData
-  const isError = error || errorSalesChannelsData
-
-  useEffect(() => {
-    if (isError) {
-      setShowErrorMsg(true)
-    }
-  }, [isError])
+  const isLoading = loadingTenant || loadingSalesChannelsData
+  const isError = !errorTenant || errorSalesChannelsData
 
   const handleChangeBindingBounded = () => {
     setIsBindingBounded(!isBindingBounded)
@@ -98,11 +91,7 @@ const AdminPanel: FC = () => {
             />
           </div>
           {isError ? (
-            <div style={{ display: showErrorMsg ? 'block' : 'none' }}>
-              <Alert type="error" onClose={() => setShowErrorMsg(false)}>
-                Something went wrong, Please try again.
-              </Alert>
-            </div>
+            <Alert type="error">Something went wrong, Please try again.</Alert>
           ) : isLoading ? (
             <Spinner />
           ) : settings ? (
