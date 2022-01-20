@@ -9,7 +9,7 @@ import React, {
 import { Alert } from 'vtex.styleguide'
 
 interface AlertContextInterface {
-  openAlert: (status: 'success' | 'error', entry: string) => void
+  openAlert: (status: 'success' | 'error', entryMessage: string) => void
 }
 
 const AlertContext = createContext<AlertContextInterface>(
@@ -17,7 +17,7 @@ const AlertContext = createContext<AlertContextInterface>(
 )
 
 const AlertProvider: FC = ({ children }) => {
-  const [entryType, setEntryTipe] = useState('')
+  const [message, setMessage] = useState('')
   const [open, setOpen] = useState<'success' | 'error' | ''>('')
 
   const handleClose = useCallback(() => {
@@ -26,8 +26,8 @@ const AlertProvider: FC = ({ children }) => {
     }
   }, [open])
 
-  const openAlert = (status: 'success' | 'error', entry: string) => {
-    setEntryTipe(entry)
+  const openAlert = (status: 'success' | 'error', entryMessage: string) => {
+    setMessage(entryMessage)
     setOpen(status)
   }
 
@@ -49,16 +49,9 @@ const AlertProvider: FC = ({ children }) => {
             className="mt7"
             style={{ maxWidth: '520px', margin: '2rem auto' }}
           >
-            {open === 'success' && (
-              <Alert type="success" onClose={handleClose}>
-                {`The ${entryType} successfully!`}
-              </Alert>
-            )}
-            {open === 'error' && (
-              <Alert type="error" onClose={handleClose}>
-                {`${entryType}`}
-              </Alert>
-            )}
+            <Alert type={open} onClose={handleClose}>
+              {message}
+            </Alert>
           </div>
         </div>
       ) : null}

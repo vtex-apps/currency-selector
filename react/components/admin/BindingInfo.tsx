@@ -151,7 +151,7 @@ const BindingInfo: FC<BindingInformation> = ({
         throw errors
       }
 
-      openAlert('success', 'Saled Channel has been added successfully')
+      openAlert('success', 'Sales Channel has been added successfully')
     } catch (error) {
       console.error(error)
       openAlert('error', 'Something went wrong. Please try again.')
