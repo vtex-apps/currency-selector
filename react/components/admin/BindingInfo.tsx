@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { useState, useEffect, Fragment } from 'react'
+import { useMemo, useState, useEffect, Fragment } from 'react'
 import { useQuery, useMutation } from 'react-apollo'
 import {
   Button,
@@ -18,6 +18,7 @@ import { createDropdownList } from './utils/createDropdownList'
 import { mergeCacheWithMutationResult } from './utils/mergeCacheWithMutationResult'
 import { salesChannelWithLabel } from './salesChannelWithLabel'
 import { tableSchema } from './utils/tableSchema'
+import { filterAvailableSalesChannels } from './utils/availableSalesChannels'
 
 const BindingInfo: FC<BindingInformation> = ({
   bindingId,
@@ -38,6 +39,9 @@ const BindingInfo: FC<BindingInformation> = ({
   const [salesChannelPerBinding, setSalesChannelPerBinding] = useState<
     SalesChannelPerBinding[]
   >([])
+
+  const { openAlert } = useAlert()
+  const [{ salesChannel }] = salesChannelInfo
 
   const [updateSalesChannel] = useMutation<
     {
@@ -85,11 +89,6 @@ const BindingInfo: FC<BindingInformation> = ({
     SALES_CHANNELS_CUSTOM
   )
 
-  // eslint-disable-next-line no-console
-
-  const [{ salesChannel }] = salesChannelInfo
-  const { openAlert } = useAlert()
-
   const { currencySymbol } =
     salesChannelList.find(item => {
       return Number(item.id) === salesChannelInfo[0].salesChannel
@@ -111,21 +110,13 @@ const BindingInfo: FC<BindingInformation> = ({
 
       setSalesChannelPerBinding(filteredChannelsPerBind)
     }
-  }, [salesChannelList, data])
+  }, [data])
 
-  const availableSalesChannels =
-    salesChannelList
-      .filter(
-        ({ id: id1 }) =>
-          !salesChannelPerBinding.some(({ id: id2 }) => id2 === id1) ?? []
-      )
-      .map(item => {
-        return {
-          ...item,
-          salesChannel: item.id,
-          customLabel: '',
-        }
-      }) ?? []
+  const availableSalesChannels = useMemo(
+    () =>
+      filterAvailableSalesChannels(salesChannelList, salesChannelPerBinding),
+    [salesChannelPerBinding]
+  )
 
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen)
@@ -346,7 +337,6 @@ const BindingInfo: FC<BindingInformation> = ({
           onSalesChannelAdded={handleAddSalesChannel}
           addedSalesChannel={salesChannelAdded}
           onLabelChange={handleCustomLabel}
-          // salesChannelList={salesChannelList}
           availableSalesChannels={availableSalesChannels}
         />
       </ModalDialog>

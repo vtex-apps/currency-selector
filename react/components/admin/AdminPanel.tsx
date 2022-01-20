@@ -1,6 +1,13 @@
 import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
-import { Layout, PageBlock, PageHeader, Toggle } from 'vtex.styleguide'
+import {
+  Layout,
+  PageBlock,
+  PageHeader,
+  Toggle,
+  Spinner,
+  Alert,
+} from 'vtex.styleguide'
 import { useQuery } from 'react-apollo'
 import type { Tenant } from 'vtex.tenant-graphql'
 
@@ -8,12 +15,12 @@ import { AlertProvider } from '../../providers/AlertProvider'
 import { BindingInfo } from './BindingInfo'
 import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
-import SALES_CHANNELS_CUSTOM from '../../graphql/salesChannelCustomData.gql'
 
 const AdminPanel: FC = () => {
   const [settings, setSettings] = useState<Settings[]>([])
   const [salesChannelList, setSalesChannelList] = useState<SalesChannel[]>([])
   const [isBindingBounded, setIsBindingBounded] = useState(true)
+  const [showErrorMsg, setShowErrorMsg] = useState(false)
 
   const {
     data: tenantData,
@@ -27,21 +34,14 @@ const AdminPanel: FC = () => {
     error: errorSalesChannelsData,
   } = useQuery<{ salesChannel: SalesChannel[] }>(SALES_CHANNELS)
 
-  const {
-    data,
-    loading: l,
-    error: err,
-  } = useQuery<{ salesChannelCustomData: CurrencySelectorAdminConfig[] }>(
-    SALES_CHANNELS_CUSTOM
-  )
+  const isLoading = loading || loadingSalesChannelsData
+  const isError = error || errorSalesChannelsData
 
-  // eslint-disable-next-line no-console
-  console.log({
-    loading,
-    error,
-    loadingSalesChannelsData,
-    errorSalesChannelsData,
-  })
+  useEffect(() => {
+    if (isError) {
+      setShowErrorMsg(true)
+    }
+  }, [isError])
 
   const handleChangeBindingBounded = () => {
     setIsBindingBounded(!isBindingBounded)
@@ -97,20 +97,28 @@ const AdminPanel: FC = () => {
               onChange={handleChangeBindingBounded}
             />
           </div>
-          {settings
-            ? settings.map(
-                ({ bindingId, canonicalBaseAddress, salesChannelInfo }) => {
-                  return (
-                    <BindingInfo
-                      bindingId={bindingId}
-                      canonicalBaseAddress={canonicalBaseAddress}
-                      salesChannelInfo={salesChannelInfo}
-                      salesChannelList={salesChannelList}
-                    />
-                  )
-                }
-              )
-            : null}
+          {isError ? (
+            <div style={{ display: showErrorMsg ? 'block' : 'none' }}>
+              <Alert type="error" onClose={() => setShowErrorMsg(false)}>
+                Something went wrong, Please try again.
+              </Alert>
+            </div>
+          ) : isLoading ? (
+            <Spinner />
+          ) : settings ? (
+            settings.map(
+              ({ bindingId, canonicalBaseAddress, salesChannelInfo }) => {
+                return (
+                  <BindingInfo
+                    bindingId={bindingId}
+                    canonicalBaseAddress={canonicalBaseAddress}
+                    salesChannelInfo={salesChannelInfo}
+                    salesChannelList={salesChannelList}
+                  />
+                )
+              }
+            )
+          ) : null}
         </PageBlock>
       </Layout>
     </AlertProvider>
