@@ -5,7 +5,7 @@ mutation updateSalesChannelCustom(
   updateSalesChannelCustom(
     bindingId: $bindingId
     salesChannelInfo: $salesChannelInfo
-  ) {
+  ) @context(provider: "vtex.currency-selector") {
     bindingId
     salesChannelInfo {
       customLabel
