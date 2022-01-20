@@ -25,25 +25,21 @@ const AdminPanel = () => {
   } = useQuery<{ salesChannel: SalesChannel[] }>(SALES_CHANNELS)
 
   const isLoading = loadingTenant || loadingSalesChannelsData
-  const isError = !errorTenant || errorSalesChannelsData
+  const isError = errorTenant || errorSalesChannelsData
 
   useEffect(() => {
     if (tenantData) {
-      const config = tenantData.tenantInfo.bindings
+      const appSettings = tenantData.tenantInfo.bindings
         .filter(binding => binding.targetProduct === 'vtex-storefront')
         .map(({ id, canonicalBaseAddress, extraContext }) => {
           return {
             bindingId: id,
             canonicalBaseAddress,
-            salesChannelInfo: [
-              {
-                salesChannel: extraContext?.portal?.salesChannel,
-              },
-            ],
+            defaultSalesChannel: Number(extraContext?.portal?.salesChannel),
           }
         })
 
-      setSettings(config)
+      setSettings(appSettings)
     }
   }, [tenantData])
 
@@ -73,20 +69,20 @@ const AdminPanel = () => {
             <Alert type="error">Something went wrong, Please try again.</Alert>
           ) : isLoading ? (
             <Spinner />
-          ) : settings ? (
+          ) : (
             settings.map(
-              ({ bindingId, canonicalBaseAddress, salesChannelInfo }) => {
+              ({ bindingId, canonicalBaseAddress, defaultSalesChannel }) => {
                 return (
                   <BindingInfo
                     bindingId={bindingId}
                     canonicalBaseAddress={canonicalBaseAddress}
-                    salesChannelInfo={salesChannelInfo}
+                    defaultSalesChannel={defaultSalesChannel}
                     salesChannelList={salesChannelList}
                   />
                 )
               }
             )
-          ) : null}
+          )}
         </PageBlock>
       </Layout>
     </AlertProvider>

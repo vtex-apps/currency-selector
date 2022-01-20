@@ -20,11 +20,15 @@ import { salesChannelWithLabel } from './salesChannelWithLabel'
 import { tableSchema } from './utils/tableSchema'
 import { filterAvailableSalesChannels } from './utils/availableSalesChannels'
 
-const BindingInfo: FC<BindingInformation> = ({
+interface BindingInfoProps extends Settings {
+  salesChannelList: SalesChannel[]
+}
+
+const BindingInfo: FC<BindingInfoProps> = ({
   bindingId,
   canonicalBaseAddress,
-  salesChannelInfo,
   salesChannelList,
+  defaultSalesChannel,
 }) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -41,7 +45,6 @@ const BindingInfo: FC<BindingInformation> = ({
   >([])
 
   const { openAlert } = useAlert()
-  const [{ salesChannel }] = salesChannelInfo
 
   const [updateSalesChannel] = useMutation<
     {
@@ -91,7 +94,7 @@ const BindingInfo: FC<BindingInformation> = ({
 
   const { currencySymbol } =
     salesChannelList.find(item => {
-      return Number(item.id) === salesChannelInfo[0].salesChannel
+      return Number(item.id) === defaultSalesChannel
     }) ?? {}
 
   useEffect(() => {
@@ -227,7 +230,7 @@ const BindingInfo: FC<BindingInformation> = ({
   const dropdownOptions = createDropdownList(
     availableSalesChannels,
     salesChannelAdded,
-    salesChannel
+    defaultSalesChannel
   )
 
   const handleDeleteModal = (id: string) => {

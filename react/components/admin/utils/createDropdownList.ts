@@ -1,13 +1,13 @@
 const sortDropdownOptions = (
   dropdownOptions: DropdownOptions[],
-  defaultSalesChannel: number
+  defaultSalesChannel?: number
 ): DropdownOptions[] => {
   const defaultOption = dropdownOptions.find(
-    ({ value }) => value === defaultSalesChannel.toString()
+    ({ value }) => value === defaultSalesChannel?.toString()
   )
 
   const otherOptions = dropdownOptions.filter(
-    ({ value }) => value !== defaultSalesChannel.toString()
+    ({ value }) => value !== defaultSalesChannel?.toString()
   )
 
   return defaultOption ? [defaultOption, ...otherOptions] : otherOptions
@@ -16,7 +16,7 @@ const sortDropdownOptions = (
 export const createDropdownList = (
   availableSalesChannel: SalesChannelPerBinding[],
   selectedSalesChannel: SalesChannelBlock[],
-  defaultSalesChannel: number
+  defaultSalesChannel?: number
 ): DropdownOptions[] => {
   const activeSalesChannel = availableSalesChannel.filter(
     salesChannel => salesChannel.isActive
