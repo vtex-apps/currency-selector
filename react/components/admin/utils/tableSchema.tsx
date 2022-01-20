@@ -3,14 +3,14 @@ export const tableSchema = {
     salesChannel: {
       title: 'Sales Channel',
     },
-    customLabel: {
-      title: 'Custom label',
-    },
     currencySymbol: {
       title: 'Currency symbol',
     },
     currencyCode: {
       title: 'Currency code',
+    },
+    customLabel: {
+      title: 'Custom label',
     },
   },
 }

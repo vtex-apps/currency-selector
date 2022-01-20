@@ -160,10 +160,10 @@ const BindingInfo: FC<BindingInformation> = ({
         throw errors
       }
 
-      openAlert('success', 'sales channel was added')
+      openAlert('success', 'Saled Channel has been added successfully')
     } catch (error) {
       console.error(error)
-      openAlert('error', 'there was an error saving the information')
+      openAlert('error', 'Something went wrong. Please try again.')
     } finally {
       setSalesChannelAdded([])
       handleModalToggle()
@@ -171,32 +171,38 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const handleEditLabelSave = (): void => {
-    const editedCustomLabel = salesChannelPerBinding
-      .filter(({ id }) => Number(id) === Number(salesChannelIdToEdit))
-      .map(({ id, customLabel }) => ({
-        salesChannel: Number(id),
-        customLabel,
-      }))
+    try {
+      const editedCustomLabel = salesChannelPerBinding
+        .filter(({ id }) => Number(id) === Number(salesChannelIdToEdit))
+        .map(({ id, customLabel }) => ({
+          salesChannel: Number(id),
+          customLabel,
+        }))
 
-    const filterSalesChannelProps = salesChannelPerBinding.map(item => {
-      if (item.id === Number(salesChannelIdToEdit)) {
-        return editedCustomLabel[0]
-      }
+      const filterSalesChannelProps = salesChannelPerBinding.map(item => {
+        if (item.id === Number(salesChannelIdToEdit)) {
+          return editedCustomLabel[0]
+        }
 
-      return {
-        salesChannel: item.salesChannel,
-        customLabel: item.customLabel,
-      }
-    })
+        return {
+          salesChannel: item.salesChannel,
+          customLabel: item.customLabel,
+        }
+      })
 
-    updateSalesChannel({
-      variables: {
-        bindingId,
-        salesChannelInfo: filterSalesChannelProps,
-      },
-    })
-    openAlert('success', 'Custom Label was edited')
-    setIsEditModalOpen(!isEditModalOpen)
+      updateSalesChannel({
+        variables: {
+          bindingId,
+          salesChannelInfo: filterSalesChannelProps,
+        },
+      })
+      openAlert('success', 'Custom Label has been edited successfully')
+    } catch (error) {
+      console.error(error)
+      openAlert('error', 'Something went wrong. Please try again.')
+    } finally {
+      setIsEditModalOpen(!isEditModalOpen)
+    }
   }
 
   const handleCustomLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -244,25 +250,30 @@ const BindingInfo: FC<BindingInformation> = ({
   }
 
   const deleteSalesChannelBinding = () => {
-    const salesChannelToChange = salesChannelPerBinding.filter(
-      ({ id }) => String(id) !== salesChannelIdToDelete
-    )
+    try {
+      const salesChannelToChange = salesChannelPerBinding.filter(
+        ({ id }) => String(id) !== salesChannelIdToDelete
+      )
 
-    const filterSalesChannelProps = salesChannelToChange.map(item => ({
-      salesChannel: item.salesChannel,
-      customLabel: item.customLabel,
-    }))
+      const filterSalesChannelProps = salesChannelToChange.map(item => ({
+        salesChannel: item.salesChannel,
+        customLabel: item.customLabel,
+      }))
 
-    updateSalesChannel({
-      variables: {
-        bindingId,
-        salesChannelInfo: filterSalesChannelProps,
-      },
-    })
-
-    setSalesChannelPerBinding(salesChannelToChange)
-    // eslint-disable-next-line no-console
-    setIsDeleteModalOpen(!isDeleteModalOpen)
+      updateSalesChannel({
+        variables: {
+          bindingId,
+          salesChannelInfo: filterSalesChannelProps,
+        },
+      })
+      setSalesChannelPerBinding(salesChannelToChange)
+      openAlert('success', 'Sales Channel has been deleted successfully')
+    } catch (error) {
+      console.error(error)
+      openAlert('error', 'Something went wrong. Please try again.')
+    } finally {
+      setIsDeleteModalOpen(!isDeleteModalOpen)
+    }
   }
 
   const lineActions = [

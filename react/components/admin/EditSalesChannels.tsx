@@ -36,6 +36,12 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
       salesChannel: {
         title: 'Sales Channel',
       },
+      currencySymbol: {
+        title: 'Currency symbol',
+      },
+      currencyCode: {
+        title: 'Currency code',
+      },
       customLabel: {
         title: 'Custom label',
         cellRenderer: (cellData: any) => {
@@ -50,12 +56,6 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
             />
           )
         },
-      },
-      currencySymbol: {
-        title: 'Currency symbol',
-      },
-      currencyCode: {
-        title: 'Currency code',
       },
     },
   }
@@ -99,6 +99,7 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
       </div>
       {addedSalesChannel.length ? (
         <Table
+          fullWidth
           schema={tableSchema}
           items={addedSalesChannel}
           indexColumnLabel="Index"
