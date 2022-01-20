@@ -1,13 +1,5 @@
-import type { FC } from 'react'
 import React, { useEffect, useState } from 'react'
-import {
-  Layout,
-  PageBlock,
-  PageHeader,
-  Toggle,
-  Spinner,
-  Alert,
-} from 'vtex.styleguide'
+import { Layout, PageBlock, PageHeader, Spinner, Alert } from 'vtex.styleguide'
 import { useQuery } from 'react-apollo'
 import type { Tenant } from 'vtex.tenant-graphql'
 
@@ -16,10 +8,9 @@ import { BindingInfo } from './BindingInfo'
 import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
 
-const AdminPanel: FC = () => {
+const AdminPanel = () => {
   const [settings, setSettings] = useState<Settings[]>([])
   const [salesChannelList, setSalesChannelList] = useState<SalesChannel[]>([])
-  const [isBindingBounded, setIsBindingBounded] = useState(true)
 
   const {
     data: tenantData,
@@ -35,10 +26,6 @@ const AdminPanel: FC = () => {
 
   const isLoading = loadingTenant || loadingSalesChannelsData
   const isError = !errorTenant || errorSalesChannelsData
-
-  const handleChangeBindingBounded = () => {
-    setIsBindingBounded(!isBindingBounded)
-  }
 
   useEffect(() => {
     if (tenantData) {
@@ -82,14 +69,6 @@ const AdminPanel: FC = () => {
     <AlertProvider>
       <Layout pageHeader={<PageHeader title="Currency Selector"></PageHeader>}>
         <PageBlock>
-          <div className="mb5">
-            <Toggle
-              label="Binding bounded"
-              helpText="Check to use different configuration per sales channel"
-              checked={isBindingBounded}
-              onChange={handleChangeBindingBounded}
-            />
-          </div>
           {isError ? (
             <Alert type="error">Something went wrong, Please try again.</Alert>
           ) : isLoading ? (
