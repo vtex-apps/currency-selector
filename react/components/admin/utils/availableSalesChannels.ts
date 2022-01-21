@@ -10,7 +10,7 @@ export const filterAvailableSalesChannels = (
     .map(item => {
       return {
         ...item,
-        salesChannel: item.id,
+        salesChannel: Number(item.id),
         customLabel: '',
       }
     }) ?? []

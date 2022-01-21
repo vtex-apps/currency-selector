@@ -111,14 +111,14 @@ const BindingInfo = ({
   const handleEditLabelSave = async () => {
     try {
       const editedCustomLabel = salesChannelPerBinding
-        .filter(({ id }) => Number(id) === Number(salesChannelIdToEdit))
+        .filter(({ id }) => id === salesChannelIdToEdit)
         .map(({ id, customLabel }) => ({
           salesChannel: Number(id),
           customLabel,
         }))
 
       const filterSalesChannelProps = salesChannelPerBinding.map(item => {
-        if (item.id === Number(salesChannelIdToEdit)) {
+        if (item.id === salesChannelIdToEdit) {
           return editedCustomLabel[0]
         }
 

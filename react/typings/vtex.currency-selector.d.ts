@@ -16,7 +16,7 @@ interface SalesChannelBlock extends SalesChannel {
  * @interface SalesChannel
  */
 interface SalesChannel {
-  id: number
+  id: string
   name: string
   isActive: boolean
   currencyCode: string

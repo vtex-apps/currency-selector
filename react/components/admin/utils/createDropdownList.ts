@@ -29,9 +29,9 @@ export const createDropdownList = (
 
   const dropdownOptions = salesChannelNotSelected.map(
     ({ id, name, currencyCode, currencySymbol }) => ({
-      value: id.toString(),
+      value: id,
       label: `${id} - ${name} - ${currencyCode} - ${currencySymbol}${
-        id === defaultSalesChannel ? ' - Default' : ''
+        id === defaultSalesChannel?.toString() ? ' - Default' : ''
       }`,
     })
   )
