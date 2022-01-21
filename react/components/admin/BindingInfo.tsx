@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect, Fragment } from 'react'
 import type { ExecutionResult } from 'react-apollo'
 import { Button, Collapsible, ModalDialog, Table } from 'vtex.styleguide'
-import { defineMessages, useIntl } from 'react-intl'
+import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 
 import { useAlert } from '../../providers/AlertProvider'
 import { EditSalesChannel } from './EditSalesChannels'
@@ -227,14 +227,14 @@ const BindingInfo = ({
 
   const lineActions = [
     {
-      label: () => 'Edit',
+      label: () => <FormattedMessage id="admin/currency-selector.edit" />,
       onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) => {
         setSalesChannelIdToEdit(String(rowData.salesChannel))
         setIsModalOpen('edit')
       },
     },
     {
-      label: () => 'Delete',
+      label: () => <FormattedMessage id="admin/currency-selector.delete" />,
       isDangerous: true,
       onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) => {
         setSalesChannelIdToDelete(String(rowData.salesChannel))
@@ -252,14 +252,18 @@ const BindingInfo = ({
           </div>
           <div className="w-90">
             <p>
-              <span className="c-muted-2 mr3">Canonical address:</span>{' '}
+              <span className="c-muted-2 mr3">
+                <FormattedMessage id="admin/currency-selector.canonical-address" />
+              </span>{' '}
               {canonicalBaseAddress}
             </p>
           </div>
         </div>
         <div className="mv4">
           <Collapsible
-            header={<span>Sales Channel</span>}
+            header={
+              <FormattedMessage id="admin/currency-selector.sales-channel" />
+            }
             onClick={() => setIsCollapsibleOpen(!isCollapsibleOpen)}
             isOpen={isCollapsibleOpen}
             caretColor="primary"
