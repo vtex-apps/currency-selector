@@ -7,15 +7,17 @@ import {
   Alert,
   Divider,
 } from 'vtex.styleguide'
-import { useQuery } from 'react-apollo'
+import { useQuery, useMutation } from 'react-apollo'
 import type { Tenant } from 'vtex.tenant-graphql'
 
-import { AlertProvider } from '../../providers/AlertProvider'
-import { BindingInfo } from './BindingInfo'
 import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
 import SALES_CHANNELS_CUSTOM from '../../graphql/salesChannelCustomData.gql'
+import UPDATE_SALES_CHANNEL from '../../graphql/updateSalesChannelCustom.gql'
+import { AlertProvider } from '../../providers/AlertProvider'
+import { BindingInfo } from './BindingInfo'
 import { mapSalesChannelPerBinding } from './utils/mapSalesChannelPerBinding'
+import { mergeCacheWithMutationResult } from './utils/mergeCacheWithMutationResult'
 
 const AdminPanel = () => {
   const [settings, setSettings] = useState<Settings[]>([])
@@ -40,6 +42,56 @@ const AdminPanel = () => {
   } = useQuery<{ salesChannelCustomData: CurrencySelectorAdminConfig[] }>(
     SALES_CHANNELS_CUSTOM
   )
+
+  const [updateSalesChannel] = useMutation<
+    {
+      updateSalesChannelCustom: CurrencySelectorAdminConfig
+    },
+    { bindingId: string; salesChannelInfo: SalesChannelCustomInfo[] }
+  >(UPDATE_SALES_CHANNEL, {
+    update(cache, { data: returnMutationData }) {
+      const cacheData = cache.readQuery<{
+        salesChannelCustomData: CurrencySelectorAdminConfig[]
+      }>({
+        query: SALES_CHANNELS_CUSTOM,
+      })
+
+      if (!returnMutationData || !cacheData) return
+      const { updateSalesChannelCustom } = returnMutationData
+
+      const hasBindingInfo = cacheData.salesChannelCustomData.some(
+        item => item.bindingId === updateSalesChannelCustom.bindingId
+      )
+
+      const updatedSalesChannelCustomData = hasBindingInfo
+        ? cacheData.salesChannelCustomData.map(salesChannelDetails =>
+            mergeCacheWithMutationResult(
+              salesChannelDetails,
+              updateSalesChannelCustom
+            )
+          )
+        : [updateSalesChannelCustom, ...cacheData.salesChannelCustomData]
+
+      cache.writeQuery({
+        query: SALES_CHANNELS_CUSTOM,
+        data: {
+          salesChannelCustomData: updatedSalesChannelCustomData,
+        },
+      })
+    },
+  })
+
+  const handleSalesChannelInfoMutation = async (
+    bindingId: string,
+    salesChannelInfo: SalesChannelCustomInfo[]
+  ) => {
+    return updateSalesChannel({
+      variables: {
+        bindingId,
+        salesChannelInfo,
+      },
+    })
+  }
 
   useEffect(() => {
     if (tenantData) {
@@ -81,7 +133,7 @@ const AdminPanel = () => {
       salesChannelList.length
     ) {
       return mapSalesChannelPerBinding(
-        salesChannelCustomData?.salesChannelCustomData ?? [],
+        salesChannelCustomData.salesChannelCustomData ?? [],
         salesChannelList
       )
     }
@@ -122,6 +174,7 @@ const AdminPanel = () => {
                       initialSalesChannelState={
                         mappedSalesChannelPerBinding?.[bindingId] ?? []
                       }
+                      onMutation={handleSalesChannelInfoMutation}
                     />
                   </div>
                 )

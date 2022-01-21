@@ -1,20 +1,25 @@
 import { useMemo, useState, useEffect, Fragment } from 'react'
-import { useMutation } from 'react-apollo'
+import type { ExecutionResult } from 'react-apollo'
 import { Button, Collapsible, ModalDialog, Table } from 'vtex.styleguide'
 
-import UPDATE_SALES_CHANNEL from '../../graphql/updateSalesChannelCustom.gql'
-import SALES_CHANNELS_CUSTOM from '../../graphql/salesChannelCustomData.gql'
 import { useAlert } from '../../providers/AlertProvider'
 import { EditSalesChannel } from './EditSalesChannels'
 import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
-import { mergeCacheWithMutationResult } from './utils/mergeCacheWithMutationResult'
 import { tableSchema } from './utils/tableSchema'
 import { filterAvailableSalesChannels } from './utils/availableSalesChannels'
 
 interface BindingInfoProps extends Settings {
   salesChannelList: SalesChannel[]
   initialSalesChannelState: SalesChannelPerBinding[]
+  onMutation: (
+    bindingId: string,
+    salesChannelInfo: SalesChannelCustomInfo[]
+  ) => Promise<
+    ExecutionResult<{
+      updateSalesChannelCustom: CurrencySelectorAdminConfig
+    }>
+  >
 }
 
 const BindingInfo = ({
@@ -23,6 +28,7 @@ const BindingInfo = ({
   salesChannelList,
   defaultSalesChannel,
   initialSalesChannelState,
+  onMutation,
 }: BindingInfoProps) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState<
@@ -40,44 +46,6 @@ const BindingInfo = ({
   >([])
 
   const { openAlert } = useAlert()
-
-  const [updateSalesChannel] = useMutation<
-    {
-      updateSalesChannelCustom: CurrencySelectorAdminConfig
-    },
-    { bindingId: string; salesChannelInfo: SalesChannelCustomInfo[] }
-  >(UPDATE_SALES_CHANNEL, {
-    update(cache, { data: returnMutationData }) {
-      const cacheData = cache.readQuery<{
-        salesChannelCustomData: CurrencySelectorAdminConfig[]
-      }>({
-        query: SALES_CHANNELS_CUSTOM,
-      })
-
-      if (!returnMutationData || !cacheData) return
-      const { updateSalesChannelCustom } = returnMutationData
-
-      const hasBindingInfo = cacheData.salesChannelCustomData.some(
-        item => item.bindingId === updateSalesChannelCustom.bindingId
-      )
-
-      const salesChannelCustomData = hasBindingInfo
-        ? cacheData.salesChannelCustomData.map(salesChannelDetails =>
-            mergeCacheWithMutationResult(
-              salesChannelDetails,
-              updateSalesChannelCustom
-            )
-          )
-        : [updateSalesChannelCustom, ...cacheData.salesChannelCustomData]
-
-      cache.writeQuery({
-        query: SALES_CHANNELS_CUSTOM,
-        data: {
-          salesChannelCustomData,
-        },
-      })
-    },
-  })
 
   const { currencySymbol } =
     salesChannelList.find(item => {
@@ -121,15 +89,14 @@ const BindingInfo = ({
     })
 
     try {
-      const { errors } = await updateSalesChannel({
-        variables: {
-          bindingId,
-          salesChannelInfo: [...filterSalesChannelProps, ...salesChannelAdmin],
-        },
-      })
+      const { errors } = await onMutation(bindingId, [
+        ...filterSalesChannelProps,
+        ...salesChannelAdmin,
+      ])
 
       if (errors) {
-        throw errors
+        console.error({ errors })
+        throw new Error('Error saving sales channels information')
       }
 
       openAlert('success', 'Sales Channel has been added successfully')
@@ -141,7 +108,7 @@ const BindingInfo = ({
     }
   }
 
-  const handleEditLabelSave = (): void => {
+  const handleEditLabelSave = async () => {
     try {
       const editedCustomLabel = salesChannelPerBinding
         .filter(({ id }) => Number(id) === Number(salesChannelIdToEdit))
@@ -161,12 +128,13 @@ const BindingInfo = ({
         }
       })
 
-      updateSalesChannel({
-        variables: {
-          bindingId,
-          salesChannelInfo: filterSalesChannelProps,
-        },
-      })
+      const { errors } = await onMutation(bindingId, filterSalesChannelProps)
+
+      if (errors) {
+        console.error({ errors })
+        throw new Error('Error updating custom label')
+      }
+
       openAlert('success', 'Custom Label has been edited successfully')
     } catch (error) {
       console.error(error)
@@ -210,7 +178,7 @@ const BindingInfo = ({
     defaultSalesChannel
   )
 
-  const deleteSalesChannelBinding = () => {
+  const deleteSalesChannelBinding = async () => {
     try {
       const salesChannelToChange = salesChannelPerBinding.filter(
         ({ id }) => String(id) !== salesChannelIdToDelete
@@ -221,13 +189,13 @@ const BindingInfo = ({
         customLabel: item.customLabel,
       }))
 
-      updateSalesChannel({
-        variables: {
-          bindingId,
-          salesChannelInfo: filterSalesChannelProps,
-        },
-      })
-      setSalesChannelPerBinding(salesChannelToChange)
+      const { errors } = await onMutation(bindingId, filterSalesChannelProps)
+
+      if (errors) {
+        console.error({ errors })
+        throw new Error('Error deleting sales channel')
+      }
+
       openAlert('success', 'Sales Channel has been deleted successfully')
     } catch (error) {
       console.error(error)
