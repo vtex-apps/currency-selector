@@ -6,6 +6,7 @@
   "devDependencies": {
     "@types/node": "^17.0.2",
     "@types/react": "^17.0.37",
+    "@types/react-intl": "^3.0.0",
     "vtex.render-runtime": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.render-runtime@8.132.3/public/@types/vtex.render-runtime",
     "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.145.2/public/@types/vtex.styleguide",
     "vtex.tenant-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.tenant-graphql@0.1.2/public/@types/vtex.tenant-graphql"
@@ -15,6 +16,7 @@
     "apollo-client": "^2.6.10",
     "graphql": "^15.5.0",
     "react": "^17.0.2",
-    "react-apollo": "^3.1.5"
+    "react-apollo": "^3.1.5",
+    "react-intl": "^5.24.3"
   }
 }
