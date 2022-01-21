@@ -9,6 +9,7 @@ import {
 } from 'vtex.styleguide'
 import { useQuery, useMutation } from 'react-apollo'
 import type { Tenant } from 'vtex.tenant-graphql'
+import { FormattedMessage } from 'react-intl'
 
 import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
@@ -157,7 +158,9 @@ const AdminPanel = () => {
       <Layout pageHeader={<PageHeader title="Currency Selector"></PageHeader>}>
         <PageBlock>
           {isError ? (
-            <Alert type="error">Something went wrong, Please try again.</Alert>
+            <Alert type="error">
+              <FormattedMessage id="admin/currency-selector.error" />
+            </Alert>
           ) : isLoading ? (
             <Spinner />
           ) : (

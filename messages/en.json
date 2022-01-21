@@ -1,8 +1,8 @@
 {
-  "admin.currencySelector.title": "Currency Selector",
+  "admin/currency-selector.title": "Currency Selector",
+  "admin/currency-selector.error": "Something went wrong, Please try again.",
   "admin/currency-selector.action-buttons.save": "Save",
   "admin/currency-selector.action-buttons.cancel": "Cancel",
   "admin/currency-selector.action-buttons.edit": "Edit",
-  "admin/currency-selector.error": "Something went wrong. Please try again.",
   "admin/currency-selector.success": "Sales Channel has been added successfully"
 }
