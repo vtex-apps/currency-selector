@@ -1,12 +1,6 @@
 import { useMemo, useState, useEffect, Fragment } from 'react'
 import { useQuery, useMutation } from 'react-apollo'
-import {
-  Button,
-  Collapsible,
-  Divider,
-  ModalDialog,
-  Table,
-} from 'vtex.styleguide'
+import { Button, Collapsible, ModalDialog, Table } from 'vtex.styleguide'
 
 import UPDATE_SALES_CHANNEL from '../../graphql/updateSalesChannelCustom.gql'
 import SALES_CHANNELS_CUSTOM from '../../graphql/salesChannelCustomData.gql'
@@ -65,7 +59,7 @@ const BindingInfo = ({
         item => item.bindingId === updateSalesChannelCustom.bindingId
       )
 
-      const a = hasBindingInfo
+      const salesChannelCustomData = hasBindingInfo
         ? cacheData.salesChannelCustomData.map(salesChannelDetails =>
             mergeCacheWithMutationResult(
               salesChannelDetails,
@@ -77,14 +71,14 @@ const BindingInfo = ({
       cache.writeQuery({
         query: SALES_CHANNELS_CUSTOM,
         data: {
-          salesChannelCustomData: a,
+          salesChannelCustomData,
         },
       })
     },
   })
 
   const {
-    data,
+    data: salesChannelCustomData,
     loading: l,
     error: err,
   } = useQuery<{ salesChannelCustomData: CurrencySelectorAdminConfig[] }>(
@@ -97,9 +91,9 @@ const BindingInfo = ({
     }) ?? {}
 
   useEffect(() => {
-    if (data) {
+    if (salesChannelCustomData) {
       const filteredChannelsPerBind =
-        data.salesChannelCustomData
+        salesChannelCustomData.salesChannelCustomData
           .filter(obj => obj.bindingId === bindingId)
           .flatMap(x => x.salesChannelInfo)
           .map(itm => ({
@@ -112,7 +106,7 @@ const BindingInfo = ({
 
       setSalesChannelPerBinding(filteredChannelsPerBind)
     }
-  }, [data])
+  }, [salesChannelCustomData])
 
   const availableSalesChannels = useMemo(
     () =>
@@ -281,7 +275,6 @@ const BindingInfo = ({
 
   return (
     <Fragment>
-      <Divider />
       <div className="flex flex-column mv2">
         <div className="flex items-center mv2">
           <div className="w-10 c-muted-1 pa4 mr6 ba br2 b--light-gray tc">

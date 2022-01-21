@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Layout, PageBlock, PageHeader, Spinner, Alert } from 'vtex.styleguide'
+import {
+  Layout,
+  PageBlock,
+  PageHeader,
+  Spinner,
+  Alert,
+  Divider,
+} from 'vtex.styleguide'
 import { useQuery } from 'react-apollo'
 import type { Tenant } from 'vtex.tenant-graphql'
 
@@ -71,15 +78,17 @@ const AdminPanel = () => {
             <Spinner />
           ) : (
             settings.map(
-              ({ bindingId, canonicalBaseAddress, defaultSalesChannel }) => {
+              ({ bindingId, canonicalBaseAddress, defaultSalesChannel }, i) => {
                 return (
-                  <BindingInfo
-                    key={bindingId}
-                    bindingId={bindingId}
-                    canonicalBaseAddress={canonicalBaseAddress}
-                    defaultSalesChannel={defaultSalesChannel}
-                    salesChannelList={salesChannelList}
-                  />
+                  <div key={bindingId}>
+                    {i === 0 ? null : <Divider />}
+                    <BindingInfo
+                      bindingId={bindingId}
+                      canonicalBaseAddress={canonicalBaseAddress}
+                      defaultSalesChannel={defaultSalesChannel}
+                      salesChannelList={salesChannelList}
+                    />
+                  </div>
                 )
               }
             )
