@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import {
   Layout,
   PageBlock,
@@ -15,6 +15,7 @@ import { BindingInfo } from './BindingInfo'
 import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
 import SALES_CHANNELS_CUSTOM from '../../graphql/salesChannelCustomData.gql'
+import { mapSalesChannelPerBinding } from './utils/mapSalesChannelPerBinding'
 
 const AdminPanel = () => {
   const [settings, setSettings] = useState<Settings[]>([])
@@ -39,16 +40,6 @@ const AdminPanel = () => {
   } = useQuery<{ salesChannelCustomData: CurrencySelectorAdminConfig[] }>(
     SALES_CHANNELS_CUSTOM
   )
-
-  const isLoading =
-    loadingTenant || loadingSalesChannelsData || salesChannelCustomLoading
-
-  const isError =
-    errorTenant || errorSalesChannelsData || salesChannelCustomError
-
-  if (isError) {
-    console.error({ error: isError })
-  }
 
   useEffect(() => {
     if (tenantData) {
@@ -84,6 +75,31 @@ const AdminPanel = () => {
     }
   }, [salesChannelsData])
 
+  const mappedSalesChannelPerBinding = useMemo(() => {
+    if (
+      salesChannelCustomData?.salesChannelCustomData &&
+      salesChannelList.length
+    ) {
+      return mapSalesChannelPerBinding(
+        salesChannelCustomData?.salesChannelCustomData ?? [],
+        salesChannelList
+      )
+    }
+  }, [salesChannelCustomData, salesChannelList])
+
+  const isLoading =
+    loadingTenant ||
+    loadingSalesChannelsData ||
+    salesChannelCustomLoading ||
+    !mappedSalesChannelPerBinding
+
+  const isError =
+    errorTenant || errorSalesChannelsData || salesChannelCustomError
+
+  if (isError) {
+    console.error({ error: isError })
+  }
+
   return (
     <AlertProvider>
       <Layout pageHeader={<PageHeader title="Currency Selector"></PageHeader>}>
@@ -103,8 +119,8 @@ const AdminPanel = () => {
                       canonicalBaseAddress={canonicalBaseAddress}
                       defaultSalesChannel={defaultSalesChannel}
                       salesChannelList={salesChannelList}
-                      salesChannelCustomList={
-                        salesChannelCustomData?.salesChannelCustomData
+                      initialSalesChannelState={
+                        mappedSalesChannelPerBinding?.[bindingId] ?? []
                       }
                     />
                   </div>

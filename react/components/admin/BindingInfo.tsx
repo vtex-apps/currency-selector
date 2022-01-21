@@ -14,7 +14,7 @@ import { filterAvailableSalesChannels } from './utils/availableSalesChannels'
 
 interface BindingInfoProps extends Settings {
   salesChannelList: SalesChannel[]
-  salesChannelCustomList?: CurrencySelectorAdminConfig[]
+  initialSalesChannelState: SalesChannelPerBinding[]
 }
 
 const BindingInfo = ({
@@ -22,7 +22,7 @@ const BindingInfo = ({
   canonicalBaseAddress,
   salesChannelList,
   defaultSalesChannel,
-  salesChannelCustomList,
+  initialSalesChannelState,
 }: BindingInfoProps) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState<
@@ -85,22 +85,10 @@ const BindingInfo = ({
     }) ?? {}
 
   useEffect(() => {
-    if (salesChannelCustomList) {
-      const filteredChannelsPerBind =
-        salesChannelCustomList
-          .filter(obj => obj.bindingId === bindingId)
-          .flatMap(x => x.salesChannelInfo)
-          .map(itm => ({
-            ...(salesChannelList.find(
-              (item: SalesChannel) =>
-                Number(item.id) === Number(itm.salesChannel)
-            ) as SalesChannel),
-            ...itm,
-          })) ?? []
-
-      setSalesChannelPerBinding(filteredChannelsPerBind)
+    if (initialSalesChannelState.length) {
+      setSalesChannelPerBinding(initialSalesChannelState)
     }
-  }, [salesChannelCustomList, salesChannelList, bindingId])
+  }, [initialSalesChannelState])
 
   const availableSalesChannels = useMemo(
     () =>
