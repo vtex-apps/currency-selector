@@ -1,6 +1,6 @@
 mutation updateSalesChannelCustom(
   $bindingId: String!
-  $salesChannelInfo: [SalesChannelInfo]!
+  $salesChannelInfo: [SalesChannelCustomInfo]!
 ) {
   updateSalesChannelCustom(
     bindingId: $bindingId

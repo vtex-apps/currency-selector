@@ -1,16 +1,15 @@
 export const filterAvailableSalesChannels = (
   salesChannelList: SalesChannel[],
   salesChannelPerBinding: SalesChannelPerBinding[]
-) =>
-  salesChannelList
-    .filter(
-      ({ id: id1 }) =>
-        !salesChannelPerBinding.some(({ id: id2 }) => id2 === id1) ?? []
-    )
-    .map(item => {
-      return {
-        ...item,
-        salesChannel: Number(item.id),
-        customLabel: '',
-      }
-    }) ?? []
+) => {
+  const salesChannelToDisplay = salesChannelList.filter(
+    ({ id }) =>
+      !salesChannelPerBinding.some(salesChannel => salesChannel.id === id)
+  )
+
+  return salesChannelToDisplay.map(salesChannel => ({
+    ...salesChannel,
+    salesChannel: Number(salesChannel.id),
+    customLabel: '',
+  }))
+}
