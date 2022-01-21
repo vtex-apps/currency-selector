@@ -1,4 +1,3 @@
-import type { FC } from 'react'
 import { useMemo, useState, useEffect, Fragment } from 'react'
 import { useQuery, useMutation } from 'react-apollo'
 import {
@@ -16,7 +15,6 @@ import { EditSalesChannel } from './EditSalesChannels'
 import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
 import { mergeCacheWithMutationResult } from './utils/mergeCacheWithMutationResult'
-import { salesChannelWithLabel } from './salesChannelWithLabel'
 import { tableSchema } from './utils/tableSchema'
 import { filterAvailableSalesChannels } from './utils/availableSalesChannels'
 
@@ -24,16 +22,17 @@ interface BindingInfoProps extends Settings {
   salesChannelList: SalesChannel[]
 }
 
-const BindingInfo: FC<BindingInfoProps> = ({
+const BindingInfo = ({
   bindingId,
   canonicalBaseAddress,
   salesChannelList,
   defaultSalesChannel,
-}) => {
+}: BindingInfoProps) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState<
+    'add' | 'edit' | 'delete' | null
+  >(null)
+
   const [salesChannelIdToDelete, setSalesChannelIdToDelete] = useState('')
   const [salesChannelIdToEdit, setSalesChannelIdToEdit] = useState('')
   const [salesChannelAdded, setSalesChannelAdded] = useState<
@@ -121,8 +120,10 @@ const BindingInfo: FC<BindingInfoProps> = ({
     [salesChannelPerBinding]
   )
 
-  const handleModalToggle = () => {
-    setIsModalOpen(!isModalOpen)
+  const handleCloseModal = () => {
+    if (isModalOpen === 'edit') setSalesChannelIdToEdit('')
+    if (isModalOpen === 'delete') setSalesChannelIdToDelete('')
+    setIsModalOpen(null)
   }
 
   const handleAddSalesChannel = (selectedSalesChanel: SalesChannelBlock) => {
@@ -160,7 +161,7 @@ const BindingInfo: FC<BindingInfoProps> = ({
       openAlert('error', 'Something went wrong. Please try again.')
     } finally {
       setSalesChannelAdded([])
-      handleModalToggle()
+      handleCloseModal()
     }
   }
 
@@ -195,7 +196,7 @@ const BindingInfo: FC<BindingInfoProps> = ({
       console.error(error)
       openAlert('error', 'Something went wrong. Please try again.')
     } finally {
-      setIsEditModalOpen(!isEditModalOpen)
+      setIsModalOpen(null)
     }
   }
 
@@ -233,16 +234,6 @@ const BindingInfo: FC<BindingInfoProps> = ({
     defaultSalesChannel
   )
 
-  const handleDeleteModal = (id: string) => {
-    setSalesChannelIdToDelete(id)
-    setIsDeleteModalOpen(!isDeleteModalOpen)
-  }
-
-  const handleEditModal = (id: string) => {
-    setSalesChannelIdToEdit(id)
-    setIsEditModalOpen(!isEditModalOpen)
-  }
-
   const deleteSalesChannelBinding = () => {
     try {
       const salesChannelToChange = salesChannelPerBinding.filter(
@@ -266,21 +257,25 @@ const BindingInfo: FC<BindingInfoProps> = ({
       console.error(error)
       openAlert('error', 'Something went wrong. Please try again.')
     } finally {
-      setIsDeleteModalOpen(!isDeleteModalOpen)
+      setIsModalOpen(null)
     }
   }
 
   const lineActions = [
     {
       label: () => 'Edit',
-      onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) =>
-        handleEditModal(String(rowData.salesChannel)),
+      onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) => {
+        setSalesChannelIdToEdit(String(rowData.salesChannel))
+        setIsModalOpen('edit')
+      },
     },
     {
       label: () => 'Delete',
       isDangerous: true,
-      onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) =>
-        handleDeleteModal(String(rowData.salesChannel)),
+      onClick: ({ rowData }: { rowData: SalesChannelCustomInfo }) => {
+        setSalesChannelIdToDelete(String(rowData.salesChannel))
+        setIsModalOpen('delete')
+      },
     },
   ]
 
@@ -306,21 +301,19 @@ const BindingInfo: FC<BindingInfoProps> = ({
             isOpen={isCollapsibleOpen}
             caretColor="primary"
           >
-            {salesChannelWithLabel && (
-              <div className="mb5">
-                <Table
-                  fullWidth
-                  schema={tableSchema}
-                  items={salesChannelPerBinding}
-                  lineActions={lineActions}
-                />
-              </div>
-            )}
+            <div className="mb5">
+              <Table
+                fullWidth
+                schema={tableSchema}
+                items={salesChannelPerBinding}
+                lineActions={lineActions}
+              />
+            </div>
             <Button
               variation="tertiary"
               size="small"
               block
-              onClick={handleModalToggle}
+              onClick={() => setIsModalOpen('add')}
             >
               Add
             </Button>
@@ -329,10 +322,10 @@ const BindingInfo: FC<BindingInfoProps> = ({
       </div>
       <ModalDialog
         centered
-        isOpen={isModalOpen}
-        onClose={handleModalToggle}
+        isOpen={isModalOpen === 'add'}
+        onClose={handleCloseModal}
         confirmation={{ label: 'Save', onClick: handleSave }}
-        cancelation={{ label: 'Cancel', onClick: handleModalToggle }}
+        cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
       >
         <h2>Available Sales Channels</h2>
         <EditSalesChannel
@@ -345,10 +338,10 @@ const BindingInfo: FC<BindingInfoProps> = ({
       </ModalDialog>
       <ModalDialog
         centered
-        isOpen={isEditModalOpen}
-        onClose={handleEditModal}
+        isOpen={isModalOpen === 'edit'}
+        onClose={handleCloseModal}
         confirmation={{ label: 'Save', onClick: handleEditLabelSave }}
-        cancelation={{ label: 'Cancel', onClick: handleEditModal }}
+        cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
       >
         <h2>Edit Custom Label</h2>
         <EditCustomLabel
@@ -359,14 +352,14 @@ const BindingInfo: FC<BindingInfoProps> = ({
       </ModalDialog>
       <ModalDialog
         centered
-        isOpen={isDeleteModalOpen}
-        onClose={handleDeleteModal}
+        isOpen={isModalOpen === 'delete'}
+        onClose={handleCloseModal}
         confirmation={{
           label: 'Yes',
           onClick: deleteSalesChannelBinding,
           isDangerous: true,
         }}
-        cancelation={{ label: 'Cancel', onClick: handleDeleteModal }}
+        cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
       >
         <p className="f3 fw3 f3-ns">
           Are you sure you want to delete this information?

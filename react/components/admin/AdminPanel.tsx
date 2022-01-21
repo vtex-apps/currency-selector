@@ -74,6 +74,7 @@ const AdminPanel = () => {
               ({ bindingId, canonicalBaseAddress, defaultSalesChannel }) => {
                 return (
                   <BindingInfo
+                    key={bindingId}
                     bindingId={bindingId}
                     canonicalBaseAddress={canonicalBaseAddress}
                     defaultSalesChannel={defaultSalesChannel}
