@@ -115,6 +115,7 @@ const BindingInfo = ({
   )
 
   const handleCloseModal = () => {
+    if (isModalOpen === 'add') setSalesChannelAdded([])
     if (isModalOpen === 'edit') setSalesChannelIdToEdit('')
     if (isModalOpen === 'delete') setSalesChannelIdToDelete('')
     setIsModalOpen(null)
@@ -154,7 +155,6 @@ const BindingInfo = ({
       console.error(error)
       openAlert('error', 'Something went wrong. Please try again.')
     } finally {
-      setSalesChannelAdded([])
       handleCloseModal()
     }
   }
