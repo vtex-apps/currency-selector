@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect, Fragment } from 'react'
 import type { ExecutionResult } from 'react-apollo'
 import { Button, Collapsible, ModalDialog, Table } from 'vtex.styleguide'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { useAlert } from '../../providers/AlertProvider'
 import { EditSalesChannel } from './EditSalesChannels'
@@ -22,6 +23,21 @@ interface BindingInfoProps extends Settings {
   >
 }
 
+const messages = defineMessages({
+  successCustomLabelEdit: {
+    id: 'admin/currency-selector.edit.custom-label.success-message',
+  },
+  successAddSalesChannel: {
+    id: 'admin/currency-selector.add.sales-channel.success-message',
+  },
+  error: {
+    id: 'admin/currency-selector.error',
+  },
+  successDeleteSalesChannel: {
+    id: 'admin/currency-selector.delete.sales-channel.success-message',
+  },
+})
+
 const BindingInfo = ({
   bindingId,
   canonicalBaseAddress,
@@ -31,6 +47,7 @@ const BindingInfo = ({
   onMutation,
 }: BindingInfoProps) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
+  const intl = useIntl()
   const [isModalOpen, setIsModalOpen] = useState<
     'add' | 'edit' | 'delete' | null
   >(null)
@@ -99,10 +116,10 @@ const BindingInfo = ({
         throw new Error('Error saving sales channels information')
       }
 
-      openAlert('success', 'Sales Channel has been added successfully')
+      openAlert('success', intl.formatMessage(messages.successAddSalesChannel))
     } catch (error) {
       console.error(error)
-      openAlert('error', 'Something went wrong. Please try again.')
+      openAlert('error', intl.formatMessage(messages.error))
     } finally {
       handleCloseModal()
     }
@@ -135,10 +152,10 @@ const BindingInfo = ({
         throw new Error('Error updating custom label')
       }
 
-      openAlert('success', 'Custom Label has been edited successfully')
+      openAlert('success', intl.formatMessage(messages.successCustomLabelEdit))
     } catch (error) {
       console.error(error)
-      openAlert('error', 'Something went wrong. Please try again.')
+      openAlert('error', intl.formatMessage(messages.error))
     } finally {
       setIsModalOpen(null)
     }
@@ -196,10 +213,13 @@ const BindingInfo = ({
         throw new Error('Error deleting sales channel')
       }
 
-      openAlert('success', 'Sales Channel has been deleted successfully')
+      openAlert(
+        'success',
+        intl.formatMessage(messages.successDeleteSalesChannel)
+      )
     } catch (error) {
       console.error(error)
-      openAlert('error', 'Something went wrong. Please try again.')
+      openAlert('error', intl.formatMessage(messages.error))
     } finally {
       setIsModalOpen(null)
     }
