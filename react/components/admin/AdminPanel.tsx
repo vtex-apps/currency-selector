@@ -14,6 +14,7 @@ import { AlertProvider } from '../../providers/AlertProvider'
 import { BindingInfo } from './BindingInfo'
 import TENANT_INFO from '../../graphql/tenantInfo.gql'
 import SALES_CHANNELS from '../../graphql/salesChannel.gql'
+import SALES_CHANNELS_CUSTOM from '../../graphql/salesChannelCustomData.gql'
 
 const AdminPanel = () => {
   const [settings, setSettings] = useState<Settings[]>([])
@@ -31,8 +32,23 @@ const AdminPanel = () => {
     error: errorSalesChannelsData,
   } = useQuery<{ salesChannel: SalesChannel[] }>(SALES_CHANNELS)
 
-  const isLoading = loadingTenant || loadingSalesChannelsData
-  const isError = errorTenant || errorSalesChannelsData
+  const {
+    data: salesChannelCustomData,
+    loading: salesChannelCustomLoading,
+    error: salesChannelCustomError,
+  } = useQuery<{ salesChannelCustomData: CurrencySelectorAdminConfig[] }>(
+    SALES_CHANNELS_CUSTOM
+  )
+
+  const isLoading =
+    loadingTenant || loadingSalesChannelsData || salesChannelCustomLoading
+
+  const isError =
+    errorTenant || errorSalesChannelsData || salesChannelCustomError
+
+  if (isError) {
+    console.error({ error: isError })
+  }
 
   useEffect(() => {
     if (tenantData) {
@@ -87,6 +103,9 @@ const AdminPanel = () => {
                       canonicalBaseAddress={canonicalBaseAddress}
                       defaultSalesChannel={defaultSalesChannel}
                       salesChannelList={salesChannelList}
+                      salesChannelCustomList={
+                        salesChannelCustomData?.salesChannelCustomData
+                      }
                     />
                   </div>
                 )

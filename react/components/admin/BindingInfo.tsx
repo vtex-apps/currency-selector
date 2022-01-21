@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect, Fragment } from 'react'
-import { useQuery, useMutation } from 'react-apollo'
+import { useMutation } from 'react-apollo'
 import { Button, Collapsible, ModalDialog, Table } from 'vtex.styleguide'
 
 import UPDATE_SALES_CHANNEL from '../../graphql/updateSalesChannelCustom.gql'
@@ -14,6 +14,7 @@ import { filterAvailableSalesChannels } from './utils/availableSalesChannels'
 
 interface BindingInfoProps extends Settings {
   salesChannelList: SalesChannel[]
+  salesChannelCustomList?: CurrencySelectorAdminConfig[]
 }
 
 const BindingInfo = ({
@@ -21,6 +22,7 @@ const BindingInfo = ({
   canonicalBaseAddress,
   salesChannelList,
   defaultSalesChannel,
+  salesChannelCustomList,
 }: BindingInfoProps) => {
   const [isCollapsibleOpen, setIsCollapsibleOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState<
@@ -77,23 +79,15 @@ const BindingInfo = ({
     },
   })
 
-  const {
-    data: salesChannelCustomData,
-    loading: l,
-    error: err,
-  } = useQuery<{ salesChannelCustomData: CurrencySelectorAdminConfig[] }>(
-    SALES_CHANNELS_CUSTOM
-  )
-
   const { currencySymbol } =
     salesChannelList.find(item => {
       return Number(item.id) === defaultSalesChannel
     }) ?? {}
 
   useEffect(() => {
-    if (salesChannelCustomData) {
+    if (salesChannelCustomList) {
       const filteredChannelsPerBind =
-        salesChannelCustomData.salesChannelCustomData
+        salesChannelCustomList
           .filter(obj => obj.bindingId === bindingId)
           .flatMap(x => x.salesChannelInfo)
           .map(itm => ({
@@ -106,7 +100,7 @@ const BindingInfo = ({
 
       setSalesChannelPerBinding(filteredChannelsPerBind)
     }
-  }, [salesChannelCustomData])
+  }, [salesChannelCustomList, salesChannelList, bindingId])
 
   const availableSalesChannels = useMemo(
     () =>
