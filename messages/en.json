@@ -1,5 +1,13 @@
 {
   "admin/currency-selector.title": "Currency Selector",
   "store/currency-selector.label-format.default": "{CurrencySymbol}",
-  "store/currency-selector.label-format.description": "Values available for interpolation: '{CurrencySymbol}, {CurrencyCode}, {CustomLabel}'"
+  "store/currency-selector.label-format.description": "Values available for interpolation: '{CurrencySymbol}, {CurrencyCode}, {CustomLabel}'",
+  "admin/currency-selector.error": "Something went wrong, Please try again.",
+  "admin/currency-selector.add.sales-channel.success-message": "Sales Channel has been added successfully",
+  "admin/currency-selector.edit.custom-label.success-message": "Custom Label has been edited successfully",
+  "admin/currency-selector.delete.sales-channel.success-message": "Sales Channel has been deleted successfully",
+  "admin/currency-selector.edit": "Edit",
+  "admin/currency-selector.delete": "Delete",
+  "admin/currency-selector.canonical-address": "Canonical address:",
+  "admin/currency-selector.sales-channel": "Sales Channel"
 }

@@ -38,3 +38,5 @@ interface SalesChannelCustomInfo {
   salesChannel: number
   customLabel?: string
 }
+
+interface SalesChannelPerBinding extends SalesChannel, SalesChannelCustomInfo {}

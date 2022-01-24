@@ -1,0 +1,9 @@
+query salesChannelCustomData {
+  salesChannelCustomData @context(provider: "vtex.currency-selector") {
+    bindingId
+    salesChannelInfo {
+      salesChannel
+      customLabel
+    }
+  }
+}
