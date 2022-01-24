@@ -28,9 +28,9 @@ const CurrentCurrencyBlock = ({ labelFormat = messages.default.id }: Props) => {
     <div
       className={`flex items-center justify-center relative h-100 pointer mh4 ${handles.container}`}
     >
-      {isLoading || !currentSalesChannel ? (
+      {isLoading ? (
         <Spinner />
-      ) : (
+      ) : !currentSalesChannel ? null : (
         <CustomLabel {...currentSalesChannel} labelFormat={labelFormat} />
       )}
     </div>

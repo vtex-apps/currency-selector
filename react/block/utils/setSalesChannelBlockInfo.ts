@@ -64,7 +64,7 @@ interface CreateSalesChannelBlockInfo {
   currentBindingId: string
   currentSalesChannel: string
   salesChannelAPIInfoList: SalesChannel[]
-  currentBindingAdminConfig: CurrencySelectorAdminConfig
+  currentBindingAdminConfig: CurrencySelectorAdminConfig | null
 }
 
 /**

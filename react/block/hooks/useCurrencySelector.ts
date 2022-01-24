@@ -83,12 +83,7 @@ export const useCurrencySelector = () => {
       return
     }
 
-    if (
-      !currentBindingId ||
-      !currentBindingId ||
-      !salesChannelData ||
-      !salesChannelCustomData?.salesChannelCustom
-    ) {
+    if (!currentBindingId || !salesChannelData || !salesChannelCustomData) {
       return
     }
 
@@ -135,10 +130,7 @@ export const useCurrencySelector = () => {
   }, [session])
 
   const isLoading =
-    loadingSession ||
-    loadingSalesChannel ||
-    salesChannelCustomLoading ||
-    !currentSalesChannel
+    loadingSession || loadingSalesChannel || salesChannelCustomLoading
 
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const hasError =
