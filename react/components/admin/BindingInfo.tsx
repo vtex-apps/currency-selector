@@ -9,6 +9,7 @@ import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
 import { tableSchema } from './utils/tableSchema'
 import { filterAvailableSalesChannels } from './utils/availableSalesChannels'
+import { convertSalesChannelToMutationArgs } from './utils/convertSalesChannelToMutationArgs'
 
 interface BindingInfoProps extends Settings {
   salesChannelList: SalesChannel[]
@@ -130,17 +131,14 @@ const BindingInfo = ({
   }
 
   const saveSalesChannelList = async () => {
-    const salesChannelAdmin = salesChannelAdded.map(({ id, customLabel }) => ({
-      salesChannel: Number(id),
-      customLabel,
-    }))
+    convertSalesChannelToMutationArgs
+    const salesChannelAdmin = salesChannelAdded.map(salesChannel =>
+      convertSalesChannelToMutationArgs(salesChannel)
+    )
 
-    const filterSalesChannelProps = salesChannelPerBinding.map(item => {
-      return {
-        salesChannel: item.salesChannel,
-        customLabel: item.customLabel,
-      }
-    })
+    const filterSalesChannelProps = salesChannelPerBinding.map(salesChannel =>
+      convertSalesChannelToMutationArgs(salesChannel)
+    )
 
     dispatchMutation(
       [...filterSalesChannelProps, ...salesChannelAdmin],
@@ -151,20 +149,14 @@ const BindingInfo = ({
   const editCustomLabel = async () => {
     const editedCustomLabel = salesChannelPerBinding
       .filter(({ id }) => id === salesChannelIdToEdit)
-      .map(({ id, customLabel }) => ({
-        salesChannel: Number(id),
-        customLabel,
-      }))
+      .map(salesChannel => convertSalesChannelToMutationArgs(salesChannel))
 
-    const filterSalesChannelProps = salesChannelPerBinding.map(item => {
-      if (item.id === salesChannelIdToEdit) {
+    const filterSalesChannelProps = salesChannelPerBinding.map(salesChannel => {
+      if (salesChannel.id === salesChannelIdToEdit) {
         return editedCustomLabel[0]
       }
 
-      return {
-        salesChannel: item.salesChannel,
-        customLabel: item.customLabel,
-      }
+      return convertSalesChannelToMutationArgs(salesChannel)
     })
 
     dispatchMutation(filterSalesChannelProps, messages.successCustomLabelEdit)
@@ -175,10 +167,9 @@ const BindingInfo = ({
       ({ id }) => String(id) !== salesChannelIdToDelete
     )
 
-    const filterSalesChannelProps = salesChannelToChange.map(item => ({
-      salesChannel: item.salesChannel,
-      customLabel: item.customLabel,
-    }))
+    const filterSalesChannelProps = salesChannelToChange.map(salesChannel =>
+      convertSalesChannelToMutationArgs(salesChannel)
+    )
 
     dispatchMutation(
       filterSalesChannelProps,
