@@ -1,16 +1,26 @@
+import { FormattedMessage } from 'react-intl'
+
 export const tableSchema = {
   properties: {
     salesChannel: {
-      title: 'Sales Channel',
+      title: (
+        <FormattedMessage id="admin/currency-selector.table-schema-sales-channel" />
+      ),
     },
     currencySymbol: {
-      title: 'Currency symbol',
+      title: (
+        <FormattedMessage id="admin/currency-selector.table-schema-currency-symbol" />
+      ),
     },
     currencyCode: {
-      title: 'Currency code',
+      title: (
+        <FormattedMessage id="admin/currency-selector.table-schema-currency-code" />
+      ),
     },
     customLabel: {
-      title: 'Custom label',
+      title: (
+        <FormattedMessage id="admin/currency-selector.table-schema-custom-label" />
+      ),
     },
   },
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { Button, Input, Dropdown, Table } from 'vtex.styleguide'
 
 interface SalesChannelToAddListProps {
@@ -8,6 +9,15 @@ interface SalesChannelToAddListProps {
   onLabelChange: (updatedList: SalesChannelBlock[]) => void
   availableSalesChannels: SalesChannelPerBinding[]
 }
+
+const messages = defineMessages({
+  dropdownPlaceholder: {
+    id: 'admin/currency-selector.dropdown-placeholder',
+  },
+  dropdownDefault: {
+    id: 'admin/currency-selector.dropdown-default-sales-channel',
+  },
+})
 
 const SalesChannelToAddList = ({
   dropdownOptions,
@@ -20,6 +30,8 @@ const SalesChannelToAddList = ({
   const [customLabelValue, setCustomLabelValue] = useState<
     Record<string, string>
   >({})
+
+  const intl = useIntl()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target
@@ -42,16 +54,24 @@ const SalesChannelToAddList = ({
   const tableSchema = {
     properties: {
       salesChannel: {
-        title: 'Sales Channel',
+        title: (
+          <FormattedMessage id="admin/currency-selector.table-schema-sales-channel" />
+        ),
       },
       currencySymbol: {
-        title: 'Currency symbol',
+        title: (
+          <FormattedMessage id="admin/currency-selector.table-schema-currency-symbol" />
+        ),
       },
       currencyCode: {
-        title: 'Currency code',
+        title: (
+          <FormattedMessage id="admin/currency-selector.table-schema-currency-code" />
+        ),
       },
       customLabel: {
-        title: 'Custom label',
+        title: (
+          <FormattedMessage id="admin/currency-selector.table-schema-custom-label" />
+        ),
         cellRenderer: (cellData: CellData) => {
           return (
             <Input
@@ -93,7 +113,7 @@ const SalesChannelToAddList = ({
       <div className="mb5 flex items-center">
         <div className="mr5 w-80">
           <Dropdown
-            placeholder={'Add a sales channel'}
+            placeholder={intl.formatMessage(messages.dropdownPlaceholder)}
             options={dropdownOptions}
             onChange={handleSelected}
             value={selected}
@@ -101,7 +121,7 @@ const SalesChannelToAddList = ({
         </div>
         <div className="w-20">
           <Button onClick={addSelectedChannel} block>
-            Add
+            <FormattedMessage id="admin/currency-selector.add" />
           </Button>
         </div>
       </div>
