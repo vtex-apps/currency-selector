@@ -54,6 +54,7 @@ const BindingInfo = ({
 
   const [salesChannelIdToDelete, setSalesChannelIdToDelete] = useState('')
   const [salesChannelIdToEdit, setSalesChannelIdToEdit] = useState('')
+  const [isMutating, setIsMutating] = useState(false)
   /**
    * This state is a temp state to hold all the sales channel info and builds the
    * list of sales channel to be added in the add new sales channel modal
@@ -108,6 +109,8 @@ const BindingInfo = ({
     updatedSalesChannelInfo: SalesChannelCustomInfo[],
     successMessage: { id: string }
   ) => {
+    if (isMutating) return
+    setIsMutating(true)
     try {
       const { errors } = await onMutation(bindingId, updatedSalesChannelInfo)
 
@@ -121,6 +124,7 @@ const BindingInfo = ({
       console.error(error)
       openAlert('error', intl.formatMessage(messages.error))
     } finally {
+      setIsMutating(false)
       handleCloseModal()
     }
   }
@@ -264,6 +268,7 @@ const BindingInfo = ({
       <ModalDialog
         centered
         isOpen={isModalOpen === 'add'}
+        loading={isMutating}
         onClose={handleCloseModal}
         confirmation={{ label: 'Save', onClick: saveSalesChannelList }}
         cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
@@ -280,6 +285,7 @@ const BindingInfo = ({
       <ModalDialog
         centered
         isOpen={isModalOpen === 'edit'}
+        loading={isMutating}
         onClose={handleCloseModal}
         confirmation={{ label: 'Save', onClick: editCustomLabel }}
         cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
@@ -294,6 +300,7 @@ const BindingInfo = ({
       <ModalDialog
         centered
         isOpen={isModalOpen === 'delete'}
+        loading={isMutating}
         onClose={handleCloseModal}
         confirmation={{
           label: 'Yes',
