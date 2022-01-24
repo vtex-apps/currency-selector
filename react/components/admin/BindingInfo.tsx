@@ -70,7 +70,7 @@ const BindingInfo = ({
     }) ?? {}
 
   useEffect(() => {
-    if (initialSalesChannelState.length) {
+    if (initialSalesChannelState) {
       setSalesChannelPerBinding(initialSalesChannelState)
     }
   }, [initialSalesChannelState])
