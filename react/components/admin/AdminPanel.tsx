@@ -147,7 +147,7 @@ const AdminPanel = () => {
     !mappedSalesChannelPerBinding
 
   const isError =
-    errorTenant || errorSalesChannelsData || salesChannelCustomError
+    errorTenant ?? errorSalesChannelsData ?? salesChannelCustomError
 
   if (isError) {
     console.error({ error: isError })
