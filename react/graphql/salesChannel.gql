@@ -1,0 +1,10 @@
+query salesChannel {
+  salesChannel @context(provider: "vtex.currency-selector") {
+    id
+    name
+    currencyCode
+    currencySymbol
+    isActive
+    cultureInfo
+  }
+}

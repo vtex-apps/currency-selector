@@ -1,0 +1,10 @@
+query tenantInfo {
+  tenantInfo @context(provider: "vtex.tenant-graphql") {
+    bindings {
+      id
+      targetProduct
+      canonicalBaseAddress
+      extraContext
+    }
+  }
+}

@@ -51,3 +51,5 @@ interface ComponentViewProps {
   ) => void
   isLoading: boolean
 }
+
+interface SalesChannelPerBinding extends SalesChannel, SalesChannelCustomInfo {}
