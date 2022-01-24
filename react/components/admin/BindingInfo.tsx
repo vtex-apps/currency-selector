@@ -4,7 +4,7 @@ import { Button, Collapsible, ModalDialog, Table } from 'vtex.styleguide'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 
 import { useAlert } from '../../providers/AlertProvider'
-import { EditSalesChannel } from './EditSalesChannels'
+import { SalesChannelToAddList } from './SalesChannelToAddList'
 import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
 import { tableSchema } from './utils/tableSchema'
@@ -257,7 +257,7 @@ const BindingInfo = ({
         cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
       >
         <h2>Available Sales Channels</h2>
-        <EditSalesChannel
+        <SalesChannelToAddList
           dropdownOptions={dropdownOptions}
           onSalesChannelAdded={handleAddSalesChannel}
           addedSalesChannel={salesChannelAdded}

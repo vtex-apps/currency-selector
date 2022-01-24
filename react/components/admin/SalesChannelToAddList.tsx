@@ -1,8 +1,7 @@
-import type { FC } from 'react'
 import { useState } from 'react'
 import { Button, Input, Dropdown, Table } from 'vtex.styleguide'
 
-interface EditSalesChannelInterface {
+interface SalesChannelToAddListProps {
   dropdownOptions: DropdownOptions[]
   onSalesChannelAdded: (salesChannel: SalesChannelBlock) => void
   addedSalesChannel: SalesChannelBlock[]
@@ -10,13 +9,13 @@ interface EditSalesChannelInterface {
   availableSalesChannels: SalesChannelPerBinding[]
 }
 
-const EditSalesChannel: FC<EditSalesChannelInterface> = ({
+const SalesChannelToAddList = ({
   dropdownOptions,
   onSalesChannelAdded,
   addedSalesChannel,
   onLabelChange,
   availableSalesChannels,
-}) => {
+}: SalesChannelToAddListProps) => {
   const [selected, setSelected] = useState<string>('')
   const [customLabelValue, setCustomLabelValue] = useState<
     Record<string, string>
@@ -118,4 +117,4 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
   )
 }
 
-export { EditSalesChannel }
+export { SalesChannelToAddList }
