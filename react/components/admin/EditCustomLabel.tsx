@@ -47,7 +47,7 @@ const EditCustomLabel = ({
       },
       customLabel: {
         title: 'Custom label',
-        cellRenderer: (cellData: any) => {
+        cellRenderer: (cellData: CellData) => {
           return (
             <Input
               onChange={handleChange}

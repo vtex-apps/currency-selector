@@ -3,3 +3,10 @@ interface Settings {
   canonicalBaseAddress: string
   defaultSalesChannel?: number
 }
+
+interface CellData {
+  rowData: {
+    id: string
+    customLabel: string
+  }
+}
