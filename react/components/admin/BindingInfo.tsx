@@ -54,32 +54,28 @@ const BindingInfo = ({
 
   const [salesChannelIdToDelete, setSalesChannelIdToDelete] = useState('')
   const [salesChannelIdToEdit, setSalesChannelIdToEdit] = useState('')
+  /**
+   * This state is a temp state to hold all the sales channel info and builds the
+   * list of sales channel to be added in the add new sales channel modal
+   */
   const [salesChannelAdded, setSalesChannelAdded] = useState<
     SalesChannelBlock[]
   >([])
 
+  /**
+   * This state builds the list of sales channel in the main page.
+   */
   const [salesChannelPerBinding, setSalesChannelPerBinding] = useState<
     SalesChannelPerBinding[]
   >([])
 
   const { openAlert } = useAlert()
 
-  const { currencySymbol } =
-    salesChannelList.find(item => {
-      return Number(item.id) === defaultSalesChannel
-    }) ?? {}
-
   useEffect(() => {
     if (initialSalesChannelState) {
       setSalesChannelPerBinding(initialSalesChannelState)
     }
   }, [initialSalesChannelState])
-
-  const availableSalesChannels = useMemo(
-    () =>
-      filterAvailableSalesChannels(salesChannelList, salesChannelPerBinding),
-    [salesChannelPerBinding]
-  )
 
   const handleCloseModal = () => {
     if (isModalOpen === 'add') setSalesChannelAdded([])
@@ -92,7 +88,23 @@ const BindingInfo = ({
     setSalesChannelAdded([...salesChannelAdded, selectedSalesChanel])
   }
 
-  const handleSave = async () => {
+  /**
+   * This handler is responsible for updating the custom label when user is adding
+   * a new sales channel.
+   */
+  const handleCustomLabel = (updatedList: SalesChannelBlock[]): void => {
+    setSalesChannelAdded(updatedList)
+  }
+
+  /**
+   * This handler is responsible for updating the custom label on a sales channel
+   * already saved.
+   */
+  const handleEditLabel = (updatedList: SalesChannelPerBinding[]): void => {
+    setSalesChannelPerBinding(updatedList)
+  }
+
+  const saveSalesChannelList = async () => {
     const salesChannelAdmin = salesChannelAdded.map(({ id, customLabel }) => ({
       salesChannel: Number(id),
       customLabel,
@@ -125,7 +137,7 @@ const BindingInfo = ({
     }
   }
 
-  const handleEditLabelSave = async () => {
+  const editCustomLabel = async () => {
     try {
       const editedCustomLabel = salesChannelPerBinding
         .filter(({ id }) => id === salesChannelIdToEdit)
@@ -161,41 +173,7 @@ const BindingInfo = ({
     }
   }
 
-  const handleCustomLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { value, name } = e.currentTarget
-
-    const updatedList = salesChannelAdded.map(item => {
-      if (String(item.id) === name) {
-        return { ...item, customLabel: value }
-      }
-
-      return item
-    })
-
-    setSalesChannelAdded(updatedList)
-  }
-
-  const handleEditLabel = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { value, name } = e.currentTarget
-
-    const updatedList = salesChannelPerBinding.map(item => {
-      if (String(item.id) === name) {
-        return { ...item, customLabel: value }
-      }
-
-      return item
-    })
-
-    setSalesChannelPerBinding(updatedList)
-  }
-
-  const dropdownOptions = createDropdownList(
-    availableSalesChannels,
-    salesChannelAdded,
-    defaultSalesChannel
-  )
-
-  const deleteSalesChannelBinding = async () => {
+  const deleteSalesChannel = async () => {
     try {
       const salesChannelToChange = salesChannelPerBinding.filter(
         ({ id }) => String(id) !== salesChannelIdToDelete
@@ -224,6 +202,23 @@ const BindingInfo = ({
       setIsModalOpen(null)
     }
   }
+
+  const { currencySymbol } =
+    salesChannelList.find(item => {
+      return Number(item.id) === defaultSalesChannel
+    }) ?? {}
+
+  const availableSalesChannels = useMemo(
+    () =>
+      filterAvailableSalesChannels(salesChannelList, salesChannelPerBinding),
+    [salesChannelPerBinding]
+  )
+
+  const dropdownOptions = createDropdownList(
+    availableSalesChannels,
+    salesChannelAdded,
+    defaultSalesChannel
+  )
 
   const lineActions = [
     {
@@ -291,7 +286,7 @@ const BindingInfo = ({
         centered
         isOpen={isModalOpen === 'add'}
         onClose={handleCloseModal}
-        confirmation={{ label: 'Save', onClick: handleSave }}
+        confirmation={{ label: 'Save', onClick: saveSalesChannelList }}
         cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
       >
         <h2>Available Sales Channels</h2>
@@ -307,7 +302,7 @@ const BindingInfo = ({
         centered
         isOpen={isModalOpen === 'edit'}
         onClose={handleCloseModal}
-        confirmation={{ label: 'Save', onClick: handleEditLabelSave }}
+        confirmation={{ label: 'Save', onClick: editCustomLabel }}
         cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
       >
         <h2>Edit Custom Label</h2>
@@ -323,7 +318,7 @@ const BindingInfo = ({
         onClose={handleCloseModal}
         confirmation={{
           label: 'Yes',
-          onClick: deleteSalesChannelBinding,
+          onClick: deleteSalesChannel,
           isDangerous: true,
         }}
         cancelation={{ label: 'Cancel', onClick: handleCloseModal }}

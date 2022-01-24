@@ -6,7 +6,7 @@ interface EditSalesChannelInterface {
   dropdownOptions: DropdownOptions[]
   onSalesChannelAdded: (salesChannel: SalesChannelBlock) => void
   addedSalesChannel: SalesChannelBlock[]
-  onLabelChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onLabelChange: (updatedList: SalesChannelBlock[]) => void
   availableSalesChannels: SalesChannelPerBinding[]
 }
 
@@ -25,10 +25,19 @@ const EditSalesChannel: FC<EditSalesChannelInterface> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target
 
-    onLabelChange(e)
     setCustomLabelValue(prevState => {
       return { ...prevState, [name]: value }
     })
+
+    const updatedList = addedSalesChannel.map(item => {
+      if (String(item.id) === name) {
+        return { ...item, customLabel: value }
+      }
+
+      return item
+    })
+
+    onLabelChange(updatedList)
   }
 
   const tableSchema = {

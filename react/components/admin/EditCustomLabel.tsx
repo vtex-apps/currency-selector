@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Input, Table } from 'vtex.styleguide'
 
 interface EditSalesChannelInterface {
-  onLabelChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  salesChannelPerBinding: SalesChannelBlock[]
+  onLabelChange: (updatedList: SalesChannelPerBinding[]) => void
+  salesChannelPerBinding: SalesChannelPerBinding[]
   salesChannelIdToEdit: string
 }
 
@@ -19,10 +19,19 @@ const EditCustomLabel = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target
 
-    onLabelChange(e)
     setCustomLabelValue(prevState => {
       return { ...prevState, [name]: value }
     })
+
+    const updatedList = salesChannelPerBinding.map(item => {
+      if (String(item.id) === name) {
+        return { ...item, customLabel: value }
+      }
+
+      return item
+    })
+
+    onLabelChange(updatedList)
   }
 
   const tableSchema = {
