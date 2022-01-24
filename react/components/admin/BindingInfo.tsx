@@ -104,6 +104,27 @@ const BindingInfo = ({
     setSalesChannelPerBinding(updatedList)
   }
 
+  const dispatchMutation = async (
+    updatedSalesChannelInfo: SalesChannelCustomInfo[],
+    successMessage: { id: string }
+  ) => {
+    try {
+      const { errors } = await onMutation(bindingId, updatedSalesChannelInfo)
+
+      if (errors) {
+        console.error({ errors })
+        throw new Error('Error sending sales channel mutation')
+      }
+
+      openAlert('success', intl.formatMessage(successMessage))
+    } catch (error) {
+      console.error(error)
+      openAlert('error', intl.formatMessage(messages.error))
+    } finally {
+      handleCloseModal()
+    }
+  }
+
   const saveSalesChannelList = async () => {
     const salesChannelAdmin = salesChannelAdded.map(({ id, customLabel }) => ({
       salesChannel: Number(id),
@@ -117,90 +138,48 @@ const BindingInfo = ({
       }
     })
 
-    try {
-      const { errors } = await onMutation(bindingId, [
-        ...filterSalesChannelProps,
-        ...salesChannelAdmin,
-      ])
-
-      if (errors) {
-        console.error({ errors })
-        throw new Error('Error saving sales channels information')
-      }
-
-      openAlert('success', intl.formatMessage(messages.successAddSalesChannel))
-    } catch (error) {
-      console.error(error)
-      openAlert('error', intl.formatMessage(messages.error))
-    } finally {
-      handleCloseModal()
-    }
+    dispatchMutation(
+      [...filterSalesChannelProps, ...salesChannelAdmin],
+      messages.successAddSalesChannel
+    )
   }
 
   const editCustomLabel = async () => {
-    try {
-      const editedCustomLabel = salesChannelPerBinding
-        .filter(({ id }) => id === salesChannelIdToEdit)
-        .map(({ id, customLabel }) => ({
-          salesChannel: Number(id),
-          customLabel,
-        }))
+    const editedCustomLabel = salesChannelPerBinding
+      .filter(({ id }) => id === salesChannelIdToEdit)
+      .map(({ id, customLabel }) => ({
+        salesChannel: Number(id),
+        customLabel,
+      }))
 
-      const filterSalesChannelProps = salesChannelPerBinding.map(item => {
-        if (item.id === salesChannelIdToEdit) {
-          return editedCustomLabel[0]
-        }
-
-        return {
-          salesChannel: item.salesChannel,
-          customLabel: item.customLabel,
-        }
-      })
-
-      const { errors } = await onMutation(bindingId, filterSalesChannelProps)
-
-      if (errors) {
-        console.error({ errors })
-        throw new Error('Error updating custom label')
+    const filterSalesChannelProps = salesChannelPerBinding.map(item => {
+      if (item.id === salesChannelIdToEdit) {
+        return editedCustomLabel[0]
       }
 
-      openAlert('success', intl.formatMessage(messages.successCustomLabelEdit))
-    } catch (error) {
-      console.error(error)
-      openAlert('error', intl.formatMessage(messages.error))
-    } finally {
-      setIsModalOpen(null)
-    }
+      return {
+        salesChannel: item.salesChannel,
+        customLabel: item.customLabel,
+      }
+    })
+
+    dispatchMutation(filterSalesChannelProps, messages.successCustomLabelEdit)
   }
 
   const deleteSalesChannel = async () => {
-    try {
-      const salesChannelToChange = salesChannelPerBinding.filter(
-        ({ id }) => String(id) !== salesChannelIdToDelete
-      )
+    const salesChannelToChange = salesChannelPerBinding.filter(
+      ({ id }) => String(id) !== salesChannelIdToDelete
+    )
 
-      const filterSalesChannelProps = salesChannelToChange.map(item => ({
-        salesChannel: item.salesChannel,
-        customLabel: item.customLabel,
-      }))
+    const filterSalesChannelProps = salesChannelToChange.map(item => ({
+      salesChannel: item.salesChannel,
+      customLabel: item.customLabel,
+    }))
 
-      const { errors } = await onMutation(bindingId, filterSalesChannelProps)
-
-      if (errors) {
-        console.error({ errors })
-        throw new Error('Error deleting sales channel')
-      }
-
-      openAlert(
-        'success',
-        intl.formatMessage(messages.successDeleteSalesChannel)
-      )
-    } catch (error) {
-      console.error(error)
-      openAlert('error', intl.formatMessage(messages.error))
-    } finally {
-      setIsModalOpen(null)
-    }
+    dispatchMutation(
+      filterSalesChannelProps,
+      messages.successDeleteSalesChannel
+    )
   }
 
   const { currencySymbol } =
