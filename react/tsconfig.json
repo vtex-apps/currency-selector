@@ -6,7 +6,8 @@
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "lib": ["es2017", "dom"],
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   },
   "exclude": ["node_modules"],
   "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"]

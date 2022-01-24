@@ -10,6 +10,7 @@
     "postreleasy": "vtex publish"
   },
   "builders": {
+    "admin": "0.x",
     "docs": "0.x",
     "messages": "1.x",
     "react": "3.x",
@@ -38,7 +39,8 @@
     "availableCountries": ["*"]
   },
   "dependencies": {
-    "vtex.styleguide": "9.x"
+    "vtex.styleguide": "9.x",
+    "vtex.tenant-graphql": "0.x"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

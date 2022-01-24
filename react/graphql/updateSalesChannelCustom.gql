@@ -1,0 +1,15 @@
+mutation updateSalesChannelCustom(
+  $bindingId: String!
+  $salesChannelInfo: [SalesChannelInfo]!
+) {
+  updateSalesChannelCustom(
+    bindingId: $bindingId
+    salesChannelInfo: $salesChannelInfo
+  ) @context(provider: "vtex.currency-selector") {
+    bindingId
+    salesChannelInfo {
+      customLabel
+      salesChannel
+    }
+  }
+}
