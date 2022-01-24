@@ -1,5 +1,6 @@
 {
   "admin/currency-selector.title": "Currency Selector",
+  "admin/current-currency.title": "Current Currency",
   "store/currency-selector.label-format.default": "{CurrencySymbol}",
   "store/currency-selector.label-format.description": "Values available for interpolation: '{CurrencySymbol}, {CurrencyCode}, {CustomLabel}'",
   "admin/currency-selector.error": "Something went wrong, Please try again.",

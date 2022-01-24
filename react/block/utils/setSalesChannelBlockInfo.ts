@@ -44,32 +44,27 @@ const mergeSalesChannelInfo = ({
 }
 
 /**
- * Makes the current sales channel info the first one in the array
- *
+ * Set the current sales channel.
  */
-const sortSalesChannelBlockInfo = ({
+const setCurrentSalesChannelBlockInfo = ({
   salesChannelBlock,
   currentSalesChannel,
 }: {
   salesChannelBlock: SalesChannelBlock[]
   currentSalesChannel: string
-}): SalesChannelBlock[] => {
-  const active = salesChannelBlock.find(
-    ({ id }) => id === currentSalesChannel
-  ) as SalesChannelBlock
-
-  const otherSalesChannels = salesChannelBlock.filter(
-    ({ id }) => id !== currentSalesChannel
-  )
-
-  return [active, ...otherSalesChannels]
-}
+}): SalesChannelBlock[] =>
+  salesChannelBlock.map(salesChannel => {
+    return {
+      ...salesChannel,
+      isCurrent: salesChannel.id === currentSalesChannel,
+    }
+  })
 
 interface CreateSalesChannelBlockInfo {
   currentBindingId: string
   currentSalesChannel: string
   salesChannelAPIInfoList: SalesChannel[]
-  currencySelectorAdminConfig: CurrencySelectorAdminConfig[]
+  currentBindingAdminConfig: CurrencySelectorAdminConfig
 }
 
 /**
@@ -85,13 +80,12 @@ export const createSalesChannelBlockInfo = ({
   currentBindingId,
   currentSalesChannel,
   salesChannelAPIInfoList,
-  currencySelectorAdminConfig,
+  currentBindingAdminConfig,
 }: CreateSalesChannelBlockInfo): SalesChannelBlock[] | undefined => {
-  const currentBindingConfig = currencySelectorAdminConfig.find(
-    ({ bindingId }) => bindingId === currentBindingId
-  )
-
-  if (!currentBindingConfig || !currentBindingConfig.salesChannelInfo.length) {
+  if (
+    !currentBindingAdminConfig ||
+    !currentBindingAdminConfig.salesChannelInfo.length
+  ) {
     console.error(
       `There is no Sales Channel configuration for binding ${currentBindingId} in vtex.currency-selector admin.`
     )
@@ -99,7 +93,7 @@ export const createSalesChannelBlockInfo = ({
     return
   }
 
-  const { salesChannelInfo: salesChannelCustomInfo } = currentBindingConfig
+  const { salesChannelInfo: salesChannelCustomInfo } = currentBindingAdminConfig
 
   const hasConfigForCurrentSalesChannel = salesChannelCustomInfo.some(
     ({ salesChannel }) => salesChannel === Number(currentSalesChannel)
@@ -118,7 +112,7 @@ export const createSalesChannelBlockInfo = ({
     salesChannelAPIInfoList,
   })
 
-  return sortSalesChannelBlockInfo({
+  return setCurrentSalesChannelBlockInfo({
     salesChannelBlock: mergedSalesChannelInfo,
     currentSalesChannel,
   })

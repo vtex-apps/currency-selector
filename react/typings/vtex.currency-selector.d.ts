@@ -7,6 +7,7 @@
  */
 interface SalesChannelBlock extends SalesChannel {
   customLabel?: string
+  isCurrent?: boolean
 }
 
 /**
@@ -37,6 +38,18 @@ interface CurrencySelectorAdminConfig {
 interface SalesChannelCustomInfo {
   salesChannel: number
   customLabel?: string
+}
+
+interface ComponentViewProps {
+  currentSalesChannel?: SalesChannelBlock
+  labelFormat: string
+  salesChannelList: SalesChannelBlock[]
+  onSalesChannelSelection: (
+    salesChannel: string,
+    cultureInfo: string,
+    callBack?: () => void
+  ) => void
+  isLoading: boolean
 }
 
 interface SalesChannelPerBinding extends SalesChannel, SalesChannelCustomInfo {}

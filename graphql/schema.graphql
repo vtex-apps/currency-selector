@@ -3,6 +3,7 @@ type Query {
   salesChannel: [SalesChannel] @cacheControl(scope: PUBLIC, maxAge: LONG)
   salesChannelCustomData: [CurrencySelectorConfig]
   salesChannelCustom(bindingId: String!): CurrencySelectorConfig
+    @cacheControl(scope: PUBLIC, maxAge: SHORT)
 }
 
 type Mutation {

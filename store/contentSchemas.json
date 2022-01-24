@@ -10,6 +10,17 @@
           "default": "store/currency-selector.label-format.default"
         }
       }
+    },
+    "CurrentCurrencyBlock": {
+      "type": "object",
+      "properties": {
+        "labelFormat": {
+          "title": "admin/current-currency.title",
+          "description": "store/currency-selector.label-format.description",
+          "$ref": "app:vtex.native-types#/definitions/text",
+          "default": "store/currency-selector.label-format.default"
+        }
+      }
     }
   }
 }

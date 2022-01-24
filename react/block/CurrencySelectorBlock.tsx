@@ -8,6 +8,10 @@ import { useCurrencySelector } from './hooks/useCurrencySelector'
 import CurrencySelectorDropdown from '../views/CurrencySelectorDropdown'
 import { patchSalesChannelToSession } from './utils/patchSalesChannelToSession'
 import UPDATE_CART_SALES_CHANNEL from './graphql/updateCartSalesChannel.gql'
+import CurrencySelectorList from '../views/CurrencySelectorList'
+import CurrencySelectorSelect from '../views/CurrencySelectorSelect'
+
+import './styles.global.css'
 
 const messages = defineMessages({
   title: { id: 'admin/currency-selector.title' },
@@ -21,10 +25,12 @@ const messages = defineMessages({
 
 interface Props {
   labelFormat: string
+  layout?: 'dropwdown' | 'list' | 'select'
 }
 
 const CurrencySelectorBlock = ({
   labelFormat = messages.default.id,
+  layout = 'dropwdown',
 }: Props) => {
   const [isRedirecting, setIsRedirecting] = useState(false)
   const {
@@ -86,6 +92,28 @@ const CurrencySelectorBlock = ({
     )
 
     return null
+  }
+
+  if (layout === 'list') {
+    return hasError ? null : (
+      <CurrencySelectorList
+        labelFormat={labelFormat}
+        salesChannelList={salesChannelList}
+        onSalesChannelSelection={handleSalesChannelSelection}
+        isLoading={isLoading}
+      />
+    )
+  }
+
+  if (layout === 'select') {
+    return hasError ? null : (
+      <CurrencySelectorSelect
+        labelFormat={labelFormat}
+        salesChannelList={salesChannelList}
+        onSalesChannelSelection={handleSalesChannelSelection}
+        isLoading={isLoading}
+      />
+    )
   }
 
   return hasError ? null : (
