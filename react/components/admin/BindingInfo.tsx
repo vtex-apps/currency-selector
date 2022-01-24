@@ -147,17 +147,9 @@ const BindingInfo = ({
   }
 
   const editCustomLabel = async () => {
-    const editedCustomLabel = salesChannelPerBinding
-      .filter(({ id }) => id === salesChannelIdToEdit)
-      .map(salesChannel => convertSalesChannelToMutationArgs(salesChannel))
-
-    const filterSalesChannelProps = salesChannelPerBinding.map(salesChannel => {
-      if (salesChannel.id === salesChannelIdToEdit) {
-        return editedCustomLabel[0]
-      }
-
-      return convertSalesChannelToMutationArgs(salesChannel)
-    })
+    const filterSalesChannelProps = salesChannelPerBinding.map(salesChannel =>
+      convertSalesChannelToMutationArgs(salesChannel)
+    )
 
     dispatchMutation(filterSalesChannelProps, messages.successCustomLabelEdit)
   }
