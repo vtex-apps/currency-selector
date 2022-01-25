@@ -1,5 +1,6 @@
 query salesChannelCustom($bindingId: String!) {
-  salesChannelCustom(bindingId: $bindingId) {
+  salesChannelCustom(bindingId: $bindingId)
+    @context(provider: "vtex.currency-selector") {
     bindingId
     salesChannelInfo {
       salesChannel
