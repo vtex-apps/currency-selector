@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Input, Table } from 'vtex.styleguide'
 
 interface EditSalesChannelInterface {
@@ -37,16 +38,24 @@ const EditCustomLabel = ({
   const tableSchema = {
     properties: {
       salesChannel: {
-        title: 'Sales Channel',
+        title: (
+          <FormattedMessage id="admin/currency-selector.table-schema-sales-channel" />
+        ),
       },
       currencySymbol: {
-        title: 'Currency symbol',
+        title: (
+          <FormattedMessage id="admin/currency-selector.table-schema-currency-symbol" />
+        ),
       },
       currencyCode: {
-        title: 'Currency code',
+        title: (
+          <FormattedMessage id="admin/currency-selector.table-schema-currency-code" />
+        ),
       },
       customLabel: {
-        title: 'Custom label',
+        title: (
+          <FormattedMessage id="admin/currency-selector.table-schema-custom-label" />
+        ),
         cellRenderer: (cellData: CellData) => {
           return (
             <Input

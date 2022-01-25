@@ -155,7 +155,13 @@ const AdminPanel = () => {
 
   return (
     <AlertProvider>
-      <Layout pageHeader={<PageHeader title="Currency Selector"></PageHeader>}>
+      <Layout
+        pageHeader={
+          <PageHeader
+            title={<FormattedMessage id="admin/currency-selector.title" />}
+          ></PageHeader>
+        }
+      >
         <PageBlock>
           {isError ? (
             <Alert type="error">
