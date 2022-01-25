@@ -2,13 +2,13 @@
   "currency-selector": {
     "component": "CurrencySelectorBlock",
     "content": {
-      "$ref": "app:vtex.currency-selector#/definitions/CurrencySelectorBlock"
+      "$ref": "#/definitions/CurrencySelectorBlock"
     }
   },
   "current-currency": {
     "component": "CurrentCurrencyBlock",
     "content": {
-      "$ref": "app:vtex.currency-selector#/definitions/CurrentCurrencyBlock"
+      "$ref": "#/definitions/CurrentCurrencyBlock"
     }
   }
 }
