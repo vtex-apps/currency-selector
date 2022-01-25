@@ -1,3 +1,12 @@
+import type { IntlShape } from 'react-intl'
+import { defineMessages } from 'react-intl'
+
+const messages = defineMessages({
+  default: {
+    id: 'admin/currency-selector.dropdown-default-sales-channel',
+  },
+})
+
 const sortDropdownOptions = (
   dropdownOptions: DropdownOptions[],
   defaultSalesChannel?: number
@@ -13,11 +22,19 @@ const sortDropdownOptions = (
   return defaultOption ? [defaultOption, ...otherOptions] : otherOptions
 }
 
-export const createDropdownList = (
-  availableSalesChannel: SalesChannelPerBinding[],
-  selectedSalesChannel: SalesChannelBlock[],
+export const createDropdownList = ({
+  availableSalesChannel,
+  selectedSalesChannel,
+  intl,
+  defaultSalesChannel,
+}: {
+  availableSalesChannel: SalesChannelPerBinding[]
+  selectedSalesChannel: SalesChannelBlock[]
+  intl: IntlShape
   defaultSalesChannel?: number
-): DropdownOptions[] => {
+}): DropdownOptions[] => {
+  const defaultTag = intl.formatMessage(messages.default)
+
   const activeSalesChannel = availableSalesChannel.filter(
     salesChannel => salesChannel.isActive
   )
@@ -31,7 +48,7 @@ export const createDropdownList = (
     ({ id, name, currencyCode, currencySymbol }) => ({
       value: id,
       label: `${id} - ${name} - ${currencyCode} - ${currencySymbol}${
-        id === defaultSalesChannel?.toString() ? ' - Default' : ''
+        id === defaultSalesChannel?.toString() ? defaultTag : ''
       }`,
     })
   )

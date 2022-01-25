@@ -174,17 +174,18 @@ const BindingInfo = ({
       return Number(item.id) === defaultSalesChannel
     }) ?? {}
 
-  const availableSalesChannels = useMemo(
+  const availableSalesChannel = useMemo(
     () =>
       filterAvailableSalesChannels(salesChannelList, salesChannelPerBinding),
     [salesChannelList, salesChannelPerBinding]
   )
 
-  const dropdownOptions = createDropdownList(
-    availableSalesChannels,
-    salesChannelAdded,
-    defaultSalesChannel
-  )
+  const dropdownOptions = createDropdownList({
+    availableSalesChannel,
+    selectedSalesChannel: salesChannelAdded,
+    intl,
+    defaultSalesChannel,
+  })
 
   const lineActions = [
     {
@@ -235,6 +236,9 @@ const BindingInfo = ({
                 schema={tableSchema}
                 items={salesChannelPerBinding}
                 lineActions={lineActions}
+                emptyStateLabel={
+                  <FormattedMessage id="admin/currency-selector.table-empty-state" />
+                }
               />
             </div>
             <Button
@@ -243,7 +247,7 @@ const BindingInfo = ({
               block
               onClick={() => setIsModalOpen('add')}
             >
-              Add
+              <FormattedMessage id="admin/currency-selector.add" />
             </Button>
           </Collapsible>
         </div>
@@ -253,16 +257,24 @@ const BindingInfo = ({
         isOpen={isModalOpen === 'add'}
         loading={isMutating}
         onClose={handleCloseModal}
-        confirmation={{ label: 'Save', onClick: saveSalesChannelList }}
-        cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
+        confirmation={{
+          label: <FormattedMessage id="admin/currency-selector.save" />,
+          onClick: saveSalesChannelList,
+        }}
+        cancelation={{
+          label: <FormattedMessage id="admin/currency-selector.cancel" />,
+          onClick: handleCloseModal,
+        }}
       >
-        <h2>Available Sales Channels</h2>
+        <h2>
+          <FormattedMessage id="admin/currency-selector.available-sales-channels" />
+        </h2>
         <SalesChannelToAddList
           dropdownOptions={dropdownOptions}
           onSalesChannelAdded={handleAddSalesChannel}
           addedSalesChannel={salesChannelAdded}
           onLabelChange={handleCustomLabel}
-          availableSalesChannels={availableSalesChannels}
+          availableSalesChannels={availableSalesChannel}
         />
       </ModalDialog>
       <ModalDialog
@@ -270,10 +282,18 @@ const BindingInfo = ({
         isOpen={isModalOpen === 'edit'}
         loading={isMutating}
         onClose={handleCloseModal}
-        confirmation={{ label: 'Save', onClick: editCustomLabel }}
-        cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
+        confirmation={{
+          label: <FormattedMessage id="admin/currency-selector.save" />,
+          onClick: editCustomLabel,
+        }}
+        cancelation={{
+          label: <FormattedMessage id="admin/currency-selector.cancel" />,
+          onClick: handleCloseModal,
+        }}
       >
-        <h2>Edit Custom Label</h2>
+        <h2>
+          <FormattedMessage id="admin/currency-selector.edit-custom-label" />
+        </h2>
         <EditCustomLabel
           onLabelChange={handleEditLabel}
           salesChannelPerBinding={salesChannelPerBinding}
@@ -286,14 +306,19 @@ const BindingInfo = ({
         loading={isMutating}
         onClose={handleCloseModal}
         confirmation={{
-          label: 'Yes',
+          label: (
+            <FormattedMessage id="admin/currency-selector.delete-confirmation" />
+          ),
           onClick: deleteSalesChannel,
           isDangerous: true,
         }}
-        cancelation={{ label: 'Cancel', onClick: handleCloseModal }}
+        cancelation={{
+          label: <FormattedMessage id="admin/currency-selector.cancel" />,
+          onClick: handleCloseModal,
+        }}
       >
         <p className="f3 fw3 f3-ns">
-          Are you sure you want to delete this information?
+          <FormattedMessage id="admin/currency-selector.delete-confirmation-paragraph" />
         </p>
       </ModalDialog>
     </Fragment>
