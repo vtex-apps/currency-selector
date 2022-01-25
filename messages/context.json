@@ -5,13 +5,21 @@
   "admin/currency-selector.edit.custom-label.success-message": "Custom Label has been edited successfully",
   "admin/currency-selector.delete.sales-channel.success-message": "Sales Channel has been deleted successfully",
   "admin/currency-selector.add": "Add",
+  "admin/currency-selector.cancel": "Cancel",
+  "admin/currency-selector.save": "Save",
   "admin/currency-selector.edit": "Edit",
   "admin/currency-selector.delete": "Delete",
+  "admin/currency-selector.delete-confirmation": "Yes",
+  "admin/currency-selector.delete-confirmation-paragraph": "Are you sure you want to delete this information?",
   "admin/currency-selector.canonical-address": "Canonical address:",
   "admin/currency-selector.sales-channel": "Sales Channel",
   "admin/currency-selector.available-sales-channels": "Available Sales Channels",
+  "admin/currency-selector.edit-custom-label": "Edit Custom Label",
   "admin/currency-selector.table-schema-sales-channel": "Sales Channel",
   "admin/currency-selector.table-schema-currency-symbol": "Currency symbol",
   "admin/currency-selector.table-schema-currency-code": "Currency code",
-  "admin/currency-selector.table-schema-custom-label": "Custom label"
+  "admin/currency-selector.table-schema-custom-label": "Custom label",
+  "admin/currency-selector.table-empty-state": "No sales channel added",
+  "admin/currency-selector.dropdown-placeholder": "Add a sales channel",
+  "admin/currency-selector.dropdown-default-sales-channel": " - Default"
 }
