@@ -1,5 +1,4 @@
 type Query {
-  DoNotCall: Boolean
   salesChannel: [SalesChannel] @cacheControl(scope: PUBLIC, maxAge: LONG)
   salesChannelCustomData: [CurrencySelectorConfig]
   salesChannelCustom(bindingId: String!): CurrencySelectorConfig
@@ -7,7 +6,6 @@ type Query {
 }
 
 type Mutation {
-  DoNotCall: Boolean
   updateSalesChannelCustom(
     bindingId: String!
     salesChannelInfo: [SalesChannelInfo]!
