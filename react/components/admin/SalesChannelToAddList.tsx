@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { Button, Input, Dropdown, Table } from 'vtex.styleguide'
 

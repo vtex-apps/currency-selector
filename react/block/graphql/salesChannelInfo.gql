@@ -1,4 +1,4 @@
-query salesChannel {
+query salesChannelInfo {
   salesChannel @context(provider: "vtex.currency-selector") {
     id
     name

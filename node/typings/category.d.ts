@@ -4,6 +4,7 @@ interface SalesChannelResponse {
   CurrencyCode: string
   CurrencySymbol: string
   IsActive: boolean
+  CultureInfo: string
 }
 
 interface CurrencySelectorConfig {

@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, Fragment } from 'react'
+import React, { useMemo, useState, useEffect, Fragment } from 'react'
 import type { ExecutionResult } from 'react-apollo'
 import { Button, Collapsible, ModalDialog, Table } from 'vtex.styleguide'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
@@ -177,7 +177,7 @@ const BindingInfo = ({
   const availableSalesChannel = useMemo(
     () =>
       filterAvailableSalesChannels(salesChannelList, salesChannelPerBinding),
-    [salesChannelPerBinding]
+    [salesChannelList, salesChannelPerBinding]
   )
 
   const dropdownOptions = createDropdownList({

@@ -1,0 +1,9 @@
+query salesChannelCustom($bindingId: String!) {
+  salesChannelCustom(bindingId: $bindingId) {
+    bindingId
+    salesChannelInfo {
+      salesChannel
+      customLabel
+    }
+  }
+}

@@ -6,6 +6,7 @@ export const SalesChannel = {
   currencyCode: (root: SalesChannelResponse) => root.CurrencyCode,
   currencySymbol: (root: SalesChannelResponse) => root.CurrencySymbol,
   isActive: (root: SalesChannelResponse) => root.IsActive,
+  cultureInfo: (root: SalesChannelResponse) => root.CultureInfo,
 }
 const BUCKET = 'currency_selector'
 const CONFIG_PATH = 'configs'

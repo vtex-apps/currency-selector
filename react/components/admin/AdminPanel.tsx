@@ -113,13 +113,14 @@ const AdminPanel = () => {
   useEffect(() => {
     if (salesChannelsData) {
       const currentSalesChannelsData = salesChannelsData.salesChannel.map(
-        ({ id, name, currencyCode, currencySymbol, isActive }) => {
+        ({ id, name, currencyCode, currencySymbol, isActive, cultureInfo }) => {
           return {
             id,
             name,
             currencyCode,
             currencySymbol,
             isActive,
+            cultureInfo,
           }
         }
       )
@@ -159,7 +160,7 @@ const AdminPanel = () => {
         pageHeader={
           <PageHeader
             title={<FormattedMessage id="admin/currency-selector.title" />}
-          ></PageHeader>
+          />
         }
       >
         <PageBlock>
