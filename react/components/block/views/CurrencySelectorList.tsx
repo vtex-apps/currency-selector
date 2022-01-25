@@ -2,8 +2,8 @@ import React from 'react'
 import { useCssHandles } from 'vtex.css-handles'
 import { ButtonGroup, Button } from 'vtex.styleguide'
 
-import CustomLabel from '../block/CustomLabel'
-import Spinner from '../block/Spinner'
+import CustomLabel from '../CustomLabel'
+import Spinner from '../Spinner'
 
 const CSS_HANDLES = ['listContainer'] as const
 

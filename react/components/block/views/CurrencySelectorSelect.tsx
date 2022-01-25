@@ -3,7 +3,7 @@ import { EXPERIMENTAL_Select as Select } from 'vtex.styleguide'
 import { useCssHandles } from 'vtex.css-handles'
 import { canUseDOM } from 'vtex.render-runtime'
 
-import CustomLabel from '../block/CustomLabel'
+import CustomLabel from '../CustomLabel'
 
 const CSS_HANDLES = ['selectContainer', 'relativeContainer'] as const
 

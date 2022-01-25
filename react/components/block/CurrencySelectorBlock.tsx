@@ -5,11 +5,11 @@ import { useRuntime } from 'vtex.render-runtime'
 import { useOrderForm } from 'vtex.order-manager/OrderForm'
 
 import { useCurrencySelector } from './hooks/useCurrencySelector'
-import CurrencySelectorDropdown from '../views/CurrencySelectorDropdown'
+import CurrencySelectorDropdown from './views/CurrencySelectorDropdown'
 import { patchSalesChannelToSession } from './utils/patchSalesChannelToSession'
 import UPDATE_CART_SALES_CHANNEL from './graphql/updateCartSalesChannel.gql'
-import CurrencySelectorList from '../views/CurrencySelectorList'
-import CurrencySelectorSelect from '../views/CurrencySelectorSelect'
+import CurrencySelectorList from './views/CurrencySelectorList'
+import CurrencySelectorSelect from './views/CurrencySelectorSelect'
 
 import './styles.global.css'
 
