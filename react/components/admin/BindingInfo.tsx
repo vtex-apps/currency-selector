@@ -3,7 +3,7 @@ import type { ExecutionResult } from 'react-apollo'
 import { Button, Collapsible, ModalDialog, Table } from 'vtex.styleguide'
 import { defineMessages, useIntl, FormattedMessage } from 'react-intl'
 
-import { useAlert } from '../../providers/AlertProvider'
+import { useAlert } from './providers/AlertProvider'
 import { SalesChannelToAddList } from './SalesChannelToAddList'
 import { EditCustomLabel } from './EditCustomLabel'
 import { createDropdownList } from './utils/createDropdownList'
