@@ -1,5 +1,8 @@
 {
   "admin/currency-selector.title": "Selector de monedas",
+  "admin/current-currency.title": "Moneda actual",
+  "store/currency-selector.label-format.default": "{CurrencySymbol}",
+  "store/currency-selector.label-format.description": "Valores disponibles para interpolación: '{CurrencySymbol}, {CurrencyCode}, {CustomLabel}'",
   "admin/currency-selector.error": "Algo ha ido mal, por favor, inténtelo de nuevo.",
   "admin/currency-selector.add.sales-channel.success-message": "El canal de ventas ha sido añadido con éxito",
   "admin/currency-selector.edit.custom-label.success-message": "La etiqueta personalizada ha sido editada con éxito",
