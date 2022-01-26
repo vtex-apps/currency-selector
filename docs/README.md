@@ -4,10 +4,13 @@
 
 Currency selector is responsible for allowing the user to change the currency on the store.
 
-List:
-<img width="1335" alt="Captura de Pantalla 2022-01-25 a la(s) 12 40 23" src="https://user-images.githubusercontent.com/96049132/150970690-871708a9-b9d7-4a75-8c2e-cb8ac33bfc4b.png">
+`currency-selector` Dropdown:
+<img width="1438" alt="Captura de Pantalla 2022-01-26 a la(s) 16 09 59" src="https://user-images.githubusercontent.com/96049132/151189855-60234fa5-bd1a-4f10-a998-2f2a027c6703.png">
 
-Select:
+`currency-selector` List:
+<img width="1335" alt="Captura de Pantalla 2022-01-25 a la(s) 12 40 23" src="https://user-images.githubusercontent.com/96049132/151188923-8f7e11db-282d-489a-8b96-00acd0087458.png">
+
+`currency-selector` Select:
 <img width="1440" alt="Captura de Pantalla 2022-01-25 a la(s) 11 47 11" src="https://user-images.githubusercontent.com/96049132/150970788-c02cb323-f5bf-4514-a0b4-4dcf68f73481.png">
 
 It also allows an admin user to customize the label to be displayed in both blocks via site editor.
@@ -17,9 +20,9 @@ Default label is `{CurrencySymbol}` and the other options available are `{Curren
 
 ## Configuration
 
-:warning: **You need to have `vtex.binding-selector@1.x` as a peer dependency.**
+:warning: **You need to have `vtex.binding-selector@2.x` as a peer dependency.**
 
-:warning: **In order to the app work correctly on binding bounded accounts, the store has to have this app configured. And all canonical has to contain the rootPath in the URL.**
+:warning: **In order to the app work correctly on binding bounded accounts, the store has to have this app configured: `vtex.binding-countries@0.x`. And all canonical has to contain the rootPath in the URL.**
 
 ### Step 1 - Installing and Adding the Currency selector app to your theme's peerDependencies
 
@@ -36,10 +39,10 @@ Add the Currency selector app as a `peerDependency` in your `store-theme`'s `man
 
 Now, you can use all the blocks exported by the `currency-selector` app. Check out the two blocks available:
 
-| Block name          | Description                                                            |
-| ------------------- | ---------------------------------------------------------------------- |
-| `current-currency`  | Renders the labelFormat prop and accepts currency selector as a child. |
-| `currency-selector` | Renders three posible layouts: dropdown, list and select.              |
+| Block name          | Description                                               |
+| ------------------- | --------------------------------------------------------- |
+| `current-currency`  | Renders the labelFormat                                   |
+| `currency-selector` | Renders three posible layouts: dropdown, list and select. |
 
 ### Step 2 - Adding the Currency selector's blocks to your theme's templates
 
