@@ -38,13 +38,12 @@ const CurrencySelectorBlock = ({
     salesChannelList,
     isLoading: isLoadingHook,
     hasError,
-    orderFormId,
   } = useCurrencySelector()
 
   const { rootPath } = useRuntime()
 
   const {
-    orderForm: { items },
+    orderForm: { items, id: orderFormId },
   } = useOrderForm()
 
   const [updateCartSalesChannel] = useMutation<
