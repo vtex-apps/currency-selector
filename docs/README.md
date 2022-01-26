@@ -28,6 +28,7 @@ Default label is `{CurrencySymbol}`
 <img width="1357" alt="Captura de Pantalla 2022-01-25 a la(s) 12 24 21" src="https://user-images.githubusercontent.com/96049132/150968955-3c0b8693-8ef4-4fa4-a321-8752da9203ee.png">
 
 In addition, the customer can configure a customised label for each sales channel through the admin.
+![edit_label](https://user-images.githubusercontent.com/96049132/151138070-37267f4a-8cf2-4e93-9eae-cd1aeb36dd91.gif)
 
 ## Configuration
 
