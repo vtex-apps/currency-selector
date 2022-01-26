@@ -2,6 +2,8 @@
 
 # Currency Selector
 
+:warning: **Store using `vtex.binding-selector@1.x` will have to update to `v2`.**
+
 _Upcoming documentation_
 
 **TODO**
