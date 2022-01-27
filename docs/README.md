@@ -76,11 +76,11 @@ In order to be able to see our blocks it is necessary to add some sales channels
 
 Go to your account Admin Panel and under the Account Settings, there will be a new menu item called Currency Selector. Here we will add some sales channels to a binding:
 
-1. Open the collalpsible of the binding you want to configure. Click on 'ADD' this will open a modal.
+1. Open the sales channel list of the binding you want to configure and click on `ADD`. This will open a modal.
 
-2. In which you will add the sales channels you want from a dropdown and ´SAVE´.
+2. In the modal, you can add the sales channels you want to display on your store from a dropdown. After selecting all the ones you want, click `SAVE`.
 
-3. Now you can see on your specific binding store your new blocks.
+3. Now you can see the options you selected in that store / binding.
 
 ### Set a Custom Label through the admin
 
