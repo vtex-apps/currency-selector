@@ -4,7 +4,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "lint": "eslint --ext js,jsx,ts,tsx .",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json}\""
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "husky": {
     "hooks": {
@@ -16,7 +16,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.{json,graphql,gql}": [
+    "*.{json,graphql,gql,md}": [
       "prettier --write"
     ]
   },
