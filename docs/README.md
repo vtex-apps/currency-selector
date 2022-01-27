@@ -14,7 +14,7 @@ Currency selector allows users to change the currency / sales channel (trade pol
 <img width="1440" alt="Captura de Pantalla 2022-01-25 a la(s) 11 47 11" src="https://user-images.githubusercontent.com/96049132/150970788-c02cb323-f5bf-4514-a0b4-4dcf68f73481.png">
 
 It also allows an admin user to customize the label to be displayed in both blocks via site editor.
-The default label is the token `{CurrencySymbol}` - which represents the currency symbol registered in the sales channel information. The tokens `{CurrencyCode}` and `{CustomLabel}` (registered via admin panel) are also available for interpolation.
+The default label is the token `{CurrencySymbol}` - which represents the currency symbol registered in the sales channel information. The tokens `{CurrencyCode}` and `{CustomLabel}` (registered via admin panel) are also available for interpolation. For more information on how to edit or set the `CustomLabel` go the section `Set a Custom Label through the admin`
 
 <img width="1357" alt="Captura de Pantalla 2022-01-25 a la(s) 12 24 21" src="https://user-images.githubusercontent.com/96049132/150968955-3c0b8693-8ef4-4fa4-a321-8752da9203ee.png">
 
@@ -70,12 +70,24 @@ For example:
 
 `current-currency` doesn't take any props.
 
+### Step 3 - Configuration in the admin
+
+In order to be able to see our blocks it is necessary to add some sales channels to a binding.
+
+Go to your account Admin Panel and under the Account Settings, there will be a new menu item called Currency Selector. Here we will add some sales channels to a binding:
+
+1. Open the collalpsible of the binding you want to configure. Click on 'ADD' this will open a modal.
+
+2. In which you will add the sales channels you want from a dropdown and ´SAVE´.
+
+3. Now you can see on your specific binding store your new blocks.
+
 ### Set a Custom Label through the admin
 
 In addition, the customer can configure a customised label for each sales channel through the admin.
 ![edit_label](https://user-images.githubusercontent.com/96049132/151138070-37267f4a-8cf2-4e93-9eae-cd1aeb36dd91.gif)
 
-Go to your account Admin Panel and under the Account Settings, there will be a new menu item called Currency Selector. Here you will have the following options:
+Go to the same page as in step 3
 
 1. Add sales channels per binding and create a new custom label.
 2. Modify the added sales channels. You can edit the custom label or delete the sales channel from the list.
