@@ -26,7 +26,6 @@ export const useCurrencySelector = () => {
 
   const [hasLoaded, setHasLoaded] = useState(false)
   const [hasLocalError, setHasLocalError] = useState(false)
-  const [orderFormId, setOrderFormId] = useState('')
 
   const {
     data: salesChannelData,
@@ -41,7 +40,7 @@ export const useCurrencySelector = () => {
     error: sessionError,
   } = useFullSession({
     variables: {
-      items: ['store.channel', 'checkout.orderFormId'],
+      items: ['store.channel'],
     },
   })
 
@@ -111,24 +110,6 @@ export const useCurrencySelector = () => {
     salesChannelCustomData,
   ])
 
-  /**
-   * This effect gets the order form id from the session. This information is used to
-   * update the cart when changing the sales channel.
-   */
-  useEffect(() => {
-    if (!isSessionSuccess(session)) {
-      return
-    }
-
-    const sessionOrderFormId = session.namespaces?.checkout?.orderFormId?.value
-
-    setOrderFormId(sessionOrderFormId)
-    if (!sessionOrderFormId) {
-      console.error("Session doesn't have orderFormId information")
-      setHasLocalError(true)
-    }
-  }, [session])
-
   const isLoading =
     loadingSession || loadingSalesChannel || salesChannelCustomLoading
 
@@ -154,6 +135,5 @@ export const useCurrencySelector = () => {
     salesChannelList,
     isLoading,
     hasError,
-    orderFormId,
   }
 }

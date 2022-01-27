@@ -7,4 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.3] - 2022-01-26
+### Fix
+- Change method to get `orderFormId` to avoid error loading the app when user hits the store for the first time
+
+## [1.0.2] - 2022-01-25
+### Fix
+- Remove `contentSchemas.json` and add it in the schemas on `interfaces.json`
+
+
+## [1.0.1] - 2022-01-25
+### Fix
+- Set relative path to reference `$ref` from interfaces.json to `contentSchemas.json`
+
 ## [1.0.0] - 2022-01-25
