@@ -10,4 +10,5 @@ type Mutation {
     bindingId: String!
     salesChannelInfo: [SalesChannelInfo]!
   ): CurrencySelectorConfig
+  updateSalesChannel(orderFormId: ID, salesChannel: String): PartialOrderForm
 }
