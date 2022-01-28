@@ -20,8 +20,6 @@ The default label is the token `{CurrencySymbol}` - which represents the currenc
 
 ## Configuration
 
-:warning: **You need to have `vtex.binding-selector@2.x` as a peer dependency.**
-
 :warning: **In order to the app work correctly on binding bounded accounts, the store has to have this app configured: [vtex.binding-countries](https://github.com/vtex-apps/binding-countries/), to ensure that the canonical address for all bindings has the `rootPath` in the URL.**
 
 ### Step 1 - Installing and Adding the Currency selector app to your theme's peerDependencies
@@ -33,7 +31,6 @@ Add the Currency selector app as a `peerDependency` in your `store-theme`'s `man
 ```diff
  "peerDependencies": {
 +  "vtex.currency-selector": "1.x"
-+  "vtex.binding-selector": "2.x"
  }
 ```
 
