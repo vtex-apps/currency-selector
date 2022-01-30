@@ -127,7 +127,6 @@ export const updateSalesChannel = async (
   args: {
     orderFormId: string
     salesChannel: string
-    locale: string
   },
   ctx: Context
 ): Promise<CheckoutOrderForm> => {
