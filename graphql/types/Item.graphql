@@ -1,0 +1,182 @@
+scalar InputValues
+
+"""
+ProductCategoriesObject is a Record<string, string>, in the following format:
+{ '<categoryNumber>': '<categoryName>' }
+"""
+scalar ProductCategoriesObject
+
+type Item {
+  additionalInfo: ItemAdditionalInfo
+  assemblyOptions: AssemblyOptionItem
+  availability: String
+  attachmentOfferings: [AttachmentOffering!]!
+  attachments: [Attachment!]!
+  bundleItems: [Item!]!
+  detailUrl: String
+  id: ID!
+  imageUrls: ImageUrls
+  listPrice: Float
+  manualPrice: Float
+  measurementUnit: String
+  name: String @translatableV2
+  offerings: [Offering!]!
+  options: [AssemblyOptionType]
+  parentAssemblyBinding: String
+  parentItemIndex: Int
+  price: Float
+  productCategories: ProductCategoriesObject
+  productCategoryIds: String
+  """
+  Id of the product. Can be null if included inside bundle items.
+  """
+  productId: String
+  productRefId: String
+  quantity: Float!
+  refId: String
+  """
+  Product's seller. Can be null if included inside bundle items.
+  """
+  seller: String
+  sellingPrice: Float
+  sellingPriceWithAssemblies: Float
+  skuName: String @translatableV2
+  skuSpecifications: [SKUSpecification!]!
+  uniqueId: String!
+  unitMultiplier: Float
+  priceTags: [PriceTag!]!
+}
+
+type ImageUrls {
+  at1x: String!
+  at2x: String!
+  at3x: String!
+}
+
+type AssemblyOptionItem {
+  added: [AddedOptionItem]!
+  removed: [RemovedOptionItem]!
+  parentPrice: Float
+}
+
+type RemovedOptionItem {
+  initialQuantity: Int
+  removedQuantity: Int
+  name: String @translatableV2
+}
+
+type AddedOptionItem {
+  item: Item
+  compositionItem: CompositionItem
+  normalizedQuantity: Int
+  choiceType: String
+  extraQuantity: Int
+}
+
+type CompositionItem {
+  id: ID
+  minQuantity: Int
+  maxQuantity: Int
+  initialQuantity: Int
+  priceTable: String
+  seller: String
+}
+
+type ItemAdditionalInfo {
+  brandName: String @translatableV2
+}
+
+type SKUSpecification {
+  fieldName: String @translatableV2
+  fieldValues: [String]! @translatableV2
+}
+
+type AssemblyOptionType {
+  assemblyId: String!
+  id: ID
+  quantity: Int
+  seller: String
+  inputValues: InputValues
+  options: [AssemblyOptionType!]
+}
+
+type Offering {
+  id: String!
+  name: String! @translatableV2
+  price: Int!
+  type: String!
+  attachmentOfferings: [AttachmentOffering!]!
+}
+
+scalar AttachmentSchema
+
+type AttachmentOffering {
+  name: String @translatableV2
+  required: Boolean
+  schema: AttachmentSchema
+}
+
+scalar AttachmentContent
+
+type Attachment {
+  name: String @translatableV2
+  content: AttachmentContent
+}
+
+input ItemInput {
+  id: Int
+  index: Int
+  quantity: Float
+  seller: ID
+  uniqueId: String
+  inputValues: InputValues
+  options: [AssemblyOptionInput]
+}
+
+input AssemblyOptionInput {
+  assemblyId: String!
+  id: ID
+  quantity: Int
+  seller: String
+  inputValues: InputValues
+  options: [AssemblyOptionInput!]
+}
+
+scalar OfferingInfo
+
+input OfferingInput {
+  itemIndex: Int!
+  offeringId: String!
+  offeringInfo: OfferingInfo
+}
+
+input BundleItemAttachmentInput {
+  itemIndex: Int!
+  bundleItemId: String!
+  attachmentName: String!
+  attachmentContent: AttachmentContent!
+}
+
+input ManualPriceInput {
+  itemIndex: Int!
+  price: Float!
+}
+
+type PriceTag {
+  identifier: String
+  isPercentual: Boolean
+  name: String
+  ratesAndBenefitsIdentifier: RatesAndBenefitsIdentifier
+  rawValue: Float
+  value: Int
+}
+
+type RatesAndBenefitsIdentifier {
+  description: String
+  featured: Boolean
+  id: String
+  matchedParameters: MatchedParameters
+  name: String
+}
+
+scalar MatchedParameters

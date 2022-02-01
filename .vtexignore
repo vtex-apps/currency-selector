@@ -4,3 +4,4 @@ node_modules/
 .eslintrc
 .gitignore
 README.md
+crowdin.yml

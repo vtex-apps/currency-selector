@@ -1,6 +1,6 @@
 mutation updateCartSalesChannel($orderFormId: ID, $salesChannel: String) {
   updateSalesChannel(orderFormId: $orderFormId, salesChannel: $salesChannel)
-    @context(provider: "vtex.binding-selector@2.x") {
+    @context(provider: "vtex.currency-selector") {
     orderFormId
   }
 }

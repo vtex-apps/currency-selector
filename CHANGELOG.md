@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Include `updateSalesChannel` mutation and not rely on the mutation in `binding-selector app` and be able to remove it from peerDependencies.
+
 ### Added
 
 - Add README with instruction about the app.
-- Translation configuration file.
+- Crowdin.yml in .vtexignore
 
 ## [1.0.3] - 2022-01-26
 

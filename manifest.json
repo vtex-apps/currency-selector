@@ -27,6 +27,13 @@
       }
     },
     {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "portal.vtexcommercestable.com.br",
+        "path": "/api/checkout/pub/*"
+      }
+    },
+    {
       "name": "vbase-read-write"
     }
   ],
@@ -45,10 +52,8 @@
     "vtex.css-handles": "1.x",
     "vtex.order-manager": "0.x",
     "vtex.session-client": "1.x",
-    "vtex.tenant-graphql": "0.x"
-  },
-  "peerDependencies": {
-    "vtex.binding-selector": "2.x"
+    "vtex.tenant-graphql": "0.x",
+    "vtex.checkout-graphql": "0.x"
   },
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }

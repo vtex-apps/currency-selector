@@ -1,3 +1,4 @@
+import type { OrderForm as CheckoutOrderForm } from 'vtex.checkout-graphql'
 import { UserInputError } from '@vtex/api'
 
 export const SalesChannel = {
@@ -121,6 +122,26 @@ const salesChannelCustom = async (
   )
 }
 
+export const updateSalesChannel = async (
+  _: unknown,
+  args: {
+    orderFormId: string
+    salesChannel: string
+  },
+  ctx: Context
+): Promise<CheckoutOrderForm> => {
+  const { clients } = ctx
+  const { orderFormId } = args
+  const { checkout } = clients
+  const orderForm = await checkout.getOrderForm(orderFormId)
+
+  if (!orderForm.items.length) {
+    return orderForm
+  }
+
+  return checkout.addItems(orderFormId, orderForm.items, args.salesChannel)
+}
+
 export const queries = {
   salesChannel,
   salesChannelCustomData,
@@ -129,4 +150,5 @@ export const queries = {
 
 export const mutations = {
   updateSalesChannelCustom,
+  updateSalesChannel,
 }
