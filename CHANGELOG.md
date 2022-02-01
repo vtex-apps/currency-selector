@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.0] - 2022-02-01
+
 ### Changed
 
 - Include `updateSalesChannel` mutation and not rely on the mutation in `binding-selector app` and be able to remove it from peerDependencies.

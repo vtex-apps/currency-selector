@@ -1,7 +1,7 @@
 {
   "name": "currency-selector",
   "vendor": "vtex",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "title": "Currency Selector",
   "description": "Currency selector",
   "credentialType": "absolute",
@@ -43,7 +43,9 @@
       "url": "https://support.vtex.com/hc/requests"
     },
     "type": "free",
-    "availableCountries": ["*"]
+    "availableCountries": [
+      "*"
+    ]
   },
   "dependencies": {
     "vtex.styleguide": "9.x",
