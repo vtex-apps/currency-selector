@@ -1,7 +1,7 @@
 import type { InstanceOptions, IOContext } from '@vtex/api'
 import { JanusClient } from '@vtex/api'
 
-export class Channel extends JanusClient {
+export class SalesChannel extends JanusClient {
   constructor(context: IOContext, options?: InstanceOptions) {
     super(context, {
       ...options,
