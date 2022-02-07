@@ -14,10 +14,10 @@ const CONFIG_PATH = 'configs'
 
 const salesChannel = async (_root: unknown, _: unknown, ctx: Context) => {
   const {
-    clients: { Channel },
+    clients: { salesChannel: salesChannelClient },
   } = ctx
 
-  const salesChannelResponse = await Channel.getSalesChannel()
+  const salesChannelResponse = await salesChannelClient.getSalesChannel()
 
   return salesChannelResponse
 }
