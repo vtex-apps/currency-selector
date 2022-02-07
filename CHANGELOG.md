@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Node app memory
+
+### Added
+
+- Cache strategy for clients
+
 ## [1.1.0] - 2022-02-01
 
 ### Changed
